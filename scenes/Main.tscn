@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/Main.gd" type="Script" id=1]
+[ext_resource path="res://assets/test_bg.png" type="Texture" id=2]
+[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=3]
+
+[node name="Main" type="Node"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_horizontal_guides_": [  ]
+}
+
+[node name="Terrain" type="Node" parent="."]
+
+[node name="Stripes" type="Sprite" parent="Terrain"]
+position = Vector2( 645.408, 399.79 )
+scale = Vector2( 1.2624, 1.14387 )
+texture = ExtResource( 2 )
+
+[node name="Stripes2" type="Sprite" parent="Terrain"]
+position = Vector2( 645.408, 1159.38 )
+scale = Vector2( 1.262, 1.144 )
+texture = ExtResource( 2 )
+
+[node name="Stripes3" type="Sprite" parent="Terrain"]
+position = Vector2( 640, -381.025 )
+scale = Vector2( 1.2624, 1.14387 )
+texture = ExtResource( 2 )
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 640, 385 )
+forward_speed = 1000
