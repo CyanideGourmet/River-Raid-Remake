@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="River Raid: Remake"
+config/name="River Raid: Remake - local"
 config/icon="res://icon.png"
 
 [display]

@@ -1,7 +1,7 @@
 extends Area2D
 
 export var movement_speed = 400
-export var forward_speed = 400
+export var forward_speed = 5
 var screen_size
 
 func _ready():
