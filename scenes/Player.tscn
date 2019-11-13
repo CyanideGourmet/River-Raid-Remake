@@ -4,9 +4,13 @@
 [ext_resource path="res://icon.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8.76588, 30.2562 )
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
