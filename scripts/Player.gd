@@ -5,13 +5,16 @@ export var forward_speed = 400
 export var max_forward_speed = 800
 export var min_forward_speed = 150
 export var acceleration_speed = 20
+export var fuel_decrease_rate = 0.1
 
 var camera_pos
 var ammo = 1
 var Bullet = preload("res://scenes/Bullet.tscn")
+var fuel = 100
 
 func _ready():
 	camera_pos = $Camera.position
+	$Label.text = str(fuel)
 
 func get_input():
 	var velocity = Vector2()
@@ -31,6 +34,12 @@ func get_input():
 	return velocity
 
 func _physics_process(delta):
+	if fuel <= 0:
+		movement_speed = 0
+		forward_speed = 0
+		max_forward_speed = 0
+		min_forward_speed = 0
+		acceleration_speed = 0
 	var velocity = get_input() + Vector2(0, -1)
 	if velocity.length() > 0:
 		velocity = velocity.normalized()
@@ -38,6 +47,9 @@ func _physics_process(delta):
 		velocity.y *= forward_speed
 	position += velocity * delta
 	position.x = clamp(position.x, camera_pos.x, camera_pos.x + 1280)
+	fuel -= fuel_decrease_rate
+	fuel = clamp(fuel, 0, 100)
+	$Label.text = str(fuel)
 
 func _on_bullet_freed():
 	ammo += 1

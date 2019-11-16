@@ -8,9 +8,7 @@ extents = Vector2( 8.76588, 30.2562 )
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_group_": true
-}
+fuel_decrease_rate = 0.5
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
@@ -25,3 +23,10 @@ drag_margin_left = 1.0
 drag_margin_top = 0.0
 drag_margin_right = 1.0
 drag_margin_bottom = 0.0
+
+[node name="Label" type="Label" parent="."]
+margin_left = -640.0
+margin_top = -681.0
+margin_right = -575.0
+margin_bottom = -649.0
+text = "100"
