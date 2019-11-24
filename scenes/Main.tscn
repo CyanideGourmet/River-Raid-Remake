@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/MapSlice.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/MapSlice.gd" type="Script" id=2]
-[ext_resource path="res://scenes/MapSlice2.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scripts/MapSlice2.gd" type="Script" id=4]
-[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scripts/MapSlice2.gd" type="Script" id=3]
+[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=4]
 
 [node name="Main" type="Node"]
 __meta__ = {
@@ -15,11 +14,12 @@ __meta__ = {
 position = Vector2( 640, -2893 )
 script = ExtResource( 2 )
 
-[node name="MapSlice2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 640, -9785 )
-script = ExtResource( 4 )
+[node name="MapSlice2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 640, -9788 )
+script = ExtResource( 3 )
 
-[node name="Player" parent="." instance=ExtResource( 5 )]
+[node name="Player" parent="." instance=ExtResource( 4 )]
 position = Vector2( 640, 385 )
+fuel_decrease_rate = 0.0
 [connection signal="body_exited" from="MapSlice" to="MapSlice" method="_on_MapSlice_body_exited"]
 [connection signal="body_exited" from="MapSlice2" to="MapSlice2" method="_on_MapSlice2_body_exited"]

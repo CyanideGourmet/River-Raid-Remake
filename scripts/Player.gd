@@ -41,10 +41,8 @@ func _physics_process(delta):
 		min_forward_speed = 0
 		acceleration_speed = 0
 	var velocity = get_input() + Vector2(0, -1)
-	if velocity.length() > 0:
-		velocity = velocity.normalized()
-		velocity.x *= movement_speed
-		velocity.y *= forward_speed
+	velocity.x *= movement_speed
+	velocity.y *= forward_speed
 	position += velocity * delta
 	position.x = clamp(position.x, camera_pos.x, camera_pos.x + 1280)
 	fuel -= fuel_decrease_rate
