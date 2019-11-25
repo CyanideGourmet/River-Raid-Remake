@@ -1,16 +1,18 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://assets/Images/Sprites/statek.png" type="Texture" id=2]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8.76588, 30.2562 )
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 12.6184
+height = 63.4663
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 1 )
 fuel_decrease_rate = 0.5
 
 [node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -25,8 +27,8 @@ drag_margin_right = 1.0
 drag_margin_bottom = 0.0
 
 [node name="Label" type="Label" parent="."]
-margin_left = -640.0
-margin_top = -681.0
-margin_right = -575.0
-margin_bottom = -649.0
+margin_left = -959.0
+margin_top = -838.0
+margin_right = -915.0
+margin_bottom = -820.0
 text = "100"

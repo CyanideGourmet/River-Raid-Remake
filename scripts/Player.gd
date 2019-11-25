@@ -44,7 +44,7 @@ func _physics_process(delta):
 	velocity.x *= movement_speed
 	velocity.y *= forward_speed
 	position += velocity * delta
-	position.x = clamp(position.x, camera_pos.x, camera_pos.x + 1280)
+	position.x = clamp(position.x, camera_pos.x, camera_pos.x + $Camera.get_viewport_rect().size.x)
 	fuel -= fuel_decrease_rate
 	fuel = clamp(fuel, 0, 100)
 	$Label.text = str(fuel)

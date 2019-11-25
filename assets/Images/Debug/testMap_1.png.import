@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/BgTest_2.png-a1bda50778fa03e14f07666cecb5f001.stex"
+path="res://.import/testMap_1.png-d3c3df8df9655457dd32a75524983c0f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/BgTest_2.png"
-dest_files=[ "res://.import/BgTest_2.png-a1bda50778fa03e14f07666cecb5f001.stex" ]
+source_file="res://assets/Images/Debug/testMap_1.png"
+dest_files=[ "res://.import/testMap_1.png-d3c3df8df9655457dd32a75524983c0f.stex" ]
 
 [params]
 

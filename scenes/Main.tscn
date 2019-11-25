@@ -11,15 +11,12 @@ __meta__ = {
 }
 
 [node name="MapSlice" parent="." instance=ExtResource( 1 )]
-position = Vector2( 640, -2893 )
+position = Vector2( 0, 8704 )
 script = ExtResource( 2 )
 
 [node name="MapSlice2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 640, -9788 )
 script = ExtResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 4 )]
-position = Vector2( 640, 385 )
+position = Vector2( 960, 17168 )
 fuel_decrease_rate = 0.0
-[connection signal="body_exited" from="MapSlice" to="MapSlice" method="_on_MapSlice_body_exited"]
-[connection signal="body_exited" from="MapSlice2" to="MapSlice2" method="_on_MapSlice2_body_exited"]

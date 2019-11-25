@@ -1,16 +1,11 @@
-extends Area2D
+extends TileMap
 
-export var level_size = 6895
+export var level_size = 8704
 
 func _ready():
-	$Sectors.connect("_crashed", self, "_on_crashed")
+	$Area.connect("body_exited", self, "_on_MapSlice2_body_exited")
 
 func _on_MapSlice2_body_exited(body):
+	yield(get_tree().create_timer(1), "timeout")
 	if body == get_parent().find_node("Player"):
 		position.y -= 2 * level_size
-
-func _on_crashed(body):
-	print("a")
-	var player_node = get_parent().find_node("Player")
-	if body == player_node:
-		player_node.fuel = 0
