@@ -1,9 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scenes/MapSlice.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scripts/MapSlice.gd" type="Script" id=2]
-[ext_resource path="res://scripts/MapSlice2.gd" type="Script" id=3]
-[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=2]
 
 [node name="Main" type="Node"]
 __meta__ = {
@@ -12,11 +10,11 @@ __meta__ = {
 
 [node name="MapSlice" parent="." instance=ExtResource( 1 )]
 position = Vector2( 0, 8704 )
-script = ExtResource( 2 )
+level_size = 8704
 
 [node name="MapSlice2" parent="." instance=ExtResource( 1 )]
-script = ExtResource( 3 )
+level_size = 8704
 
-[node name="Player" parent="." instance=ExtResource( 4 )]
+[node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 960, 17168 )
 fuel_decrease_rate = 0.0
