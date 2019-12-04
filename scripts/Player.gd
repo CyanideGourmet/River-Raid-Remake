@@ -35,11 +35,6 @@ func get_input():
 			acceleration_dir = 1
 		else:
 			acceleration_dir = 0
-	if Input.is_action_just_pressed("ui_select") and ammo > 0:
-		var bullet = Bullet.instance()
-		add_child(bullet)
-		bullet.connect("bullet_freed", self, "_on_bullet_freed")
-		ammo -= 1
 	return velocity
 
 func _physics_process(delta):
@@ -50,11 +45,19 @@ func _physics_process(delta):
 		min_forward_speed = 0
 		acceleration_speed = 0
 	var velocity = get_input() + Vector2(0, -1)
+	if Input.is_action_just_pressed("ui_select") and ammo > 0:
+		var bullet = Bullet.instance()
+		add_child(bullet)
+		bullet.connect("bullet_freed", self, "_on_bullet_freed")
+		ammo -= 1
 	forward_speed += acceleration_speed * acceleration_dir
 	forward_speed = clamp(forward_speed, min_forward_speed, max_forward_speed)
 	velocity.x *= movement_speed
 	velocity.y *= forward_speed
-	position += velocity * delta
+	var collision = move_and_collide(velocity * delta)
+	if collision:
+		if collision.collider.is_in_group("terrain"):
+			position = collision.collider.position + Vector2(960, 8500)
 	position.x = clamp(position.x, camera_pos.x, camera_pos.x + $Camera.get_viewport_rect().size.x)
 	fuel -= fuel_decrease_rate
 	fuel = clamp(fuel, 0, 100)

@@ -7,6 +7,7 @@ var start_end_height = [20, 252]
 var max_width = 0
 var copy_offset
 var step_memory = []
+var randomization_safelock = [0, 0]
 
 func _ready():
 	$Area.connect("body_exited", self, "_on_MapSlice_body_exited")
@@ -20,7 +21,7 @@ func _on_MapSlice_body_exited(body):
 
 func _random_int(x, y):
 	randomize()
-	return randi()%(y+x+1)+x
+	return(randi()%(y+1-x)+x)
 
 func _choose_dir(last, n):
 	var x
@@ -34,9 +35,7 @@ func _choose_dir(last, n):
 	elif last[0] == 2:
 		x = _random_int(0, 1)
 		x *= 2
-	if n > 25 and x == 1:
-		x = 0
-	if n < 2 and x == 2:
+	if (n > 25 and x == 1) or (n < 2 and x == 2) or (randomization_safelock[0] > 3 or randomization_safelock[1] > 3):
 		x = 0
 	step_memory.append(x)
 	return x
@@ -77,33 +76,27 @@ func _template():
 			map_array[n][m][0] = 3
 			last[1] = last[0]
 			last[0] = 0
+			randomization_safelock = [0, 0]
 		elif x == 1:
 			map_array[n][m][1] = 2
 			n += 1
 			map_array[n][m][0] = 4
 			last[1] = last[0]
 			last[0] = 1
+			randomization_safelock[0] += 1
+			randomization_safelock[1] = 0
 		elif x == 2:
 			map_array[n][m][1] = 4
 			n -= 1
 			map_array[n][m][0] = 2
 			last[1] = last[0]
 			last[0] = 2
+			randomization_safelock[0] = 0
+			randomization_safelock[1] += 1
 		max_width = max(max_width, n)
 	map_array[n][m][1] = 1
 	start_end_width[1] = n
 	copy_offset = 59-max_width
-
-func _randomize_param():
-	var is_island = _random_int(0, 1)
-	var pass_width = 0
-	var island_start = 0
-	var island_end = 0
-	if is_island:
-		pass_width = 8
-		island_start = _random_int(39, 79)
-		island_end = _random_int(120, 160)
-	return [pass_width, island_start, island_end]
 
 func _right_side_copy():
 	var n = start_end_width[0]
@@ -121,21 +114,39 @@ func _right_side_copy():
 	map_array[n+copy_offset][m][2] = 1
 
 func _island():
-	var island_params = _randomize_param()
+	var island_params = [10, _random_int(39, 79), _random_int(192, 232)]
+	var start_n
+	var end_n
 	if island_params[0]:
 		var n = start_end_width[0]
 		var m = start_end_height[0] 
 		for i in step_memory:
-			if m >= island_params[1] and m <= island_params[2]:
+			if m > island_params[1] and m < island_params[2]:
 				map_array[n+island_params[0]][m] = map_array[n+copy_offset][m].duplicate()
 				map_array[n+copy_offset-island_params[0]][m] = map_array[n][m].duplicate()
+			elif m == island_params[1]:
+				map_array[n+island_params[0]][m] = map_array[n+copy_offset][m].duplicate()
+				map_array[n+copy_offset-island_params[0]][m] = map_array[n][m].duplicate()
+				if map_array[n][m][0] == 3:
+					start_n = [n+island_params[0], n+copy_offset-island_params[0]]
+			elif m == island_params[2]:
+				map_array[n+island_params[0]][m] = map_array[n+copy_offset][m].duplicate()
+				map_array[n+copy_offset-island_params[0]][m] = map_array[n][m].duplicate()
+				if map_array[n][m][1] == 1:
+					end_n = [n+island_params[0], n+copy_offset-island_params[0]]
 			if i == 0:
 				m += 1
 			elif i == 1:
 				n += 1
 			elif i == 2:
 				n -= 1
-
+		map_array[start_n[0]][island_params[1]-1] = [2, 1, 1]
+		map_array[start_n[1]][island_params[1]-1] = [4, 1, 0] 
+		map_array[end_n[0]][island_params[2]+1] = [3, 2, 1]
+		map_array[end_n[1]][island_params[2]+1] = [3, 4, 0]
+		for i in range(start_n[1]-start_n[0]-1):
+			map_array[start_n[0]+1+i][island_params[1]-1] = [4, 2, 0]
+			map_array[end_n[0]+1+i][island_params[2]+1] = [2, 4, 0]
 
 func _place_tiles():
 	var x
@@ -143,30 +154,30 @@ func _place_tiles():
 		for j in range(272):
 			x = map_array[i][j]
 			if x == [2, 1, 1]:
-				$TileMap.set_cell(i, j, 4)
+				set_cell(i, j, 4)
 			elif x == [2, 1, 0]:
-				$TileMap.set_cell(i, j, 3, true)
+				set_cell(i, j, 3, true)
 			elif x == [4, 1, 1]:
-				$TileMap.set_cell(i, j, 3)
+				set_cell(i, j, 3)
 			elif x == [4, 1, 0]:
-				$TileMap.set_cell(i, j, 4, true)
+				set_cell(i, j, 4, true)
 			elif x == [3, 1, 1]:
-				$TileMap.set_cell(i, j, 2, false, false, true)
+				set_cell(i, j, 2, false, false, true)
 			elif x == [3, 1, 0]:
-				$TileMap.set_cell(i, j, 2, true, false, true)
+				set_cell(i, j, 2, true, false, true)
 			elif x == [2, 4, 0] or x == [4, 2, 1]:
-				$TileMap.set_cell(i, j, 2, false, true)
+				set_cell(i, j, 2, false, true)
 			elif x == [2, 4, 1] or x == [4, 2, 0]:
-				$TileMap.set_cell(i, j, 2)
+				set_cell(i, j, 2)
 			elif x == [3, 4, 0]:
-				$TileMap.set_cell(i, j, 4, true, true)
+				set_cell(i, j, 4, true, true)
 			elif x == [3, 4, 1]:
-				$TileMap.set_cell(i, j, 3, false, true)
+				set_cell(i, j, 3, false, true)
 			elif x == [3, 2, 0]:
-				$TileMap.set_cell(i, j, 3, true, true)
+				set_cell(i, j, 3, true, true)
 			elif x == [3, 2, 1]:
-				$TileMap.set_cell(i, j, 4, false, true)
+				set_cell(i, j, 4, false, true)
 			elif x == [1, 1, 0]:
-				$TileMap.set_cell(i, j, 1)
+				set_cell(i, j, 1)
 			else:
-				$TileMap.set_cell(i, j, -1)
+				set_cell(i, j, -1)
