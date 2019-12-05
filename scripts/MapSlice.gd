@@ -8,6 +8,7 @@ var max_width = 0
 var copy_offset
 var step_memory = []
 var randomization_safelock = [0, 0]
+var island_params
 
 func _ready():
 	$Area.connect("body_exited", self, "_on_MapSlice_body_exited")
@@ -51,14 +52,10 @@ func _generate():
 	_template()
 	_right_side_copy()
 	_island()
+	_join_up()
+	_join_down()
+	_fill()
 	_place_tiles()
-    #PRINT
-	for i in range(272):
-		var a = []
-		for j in range(60):
-			a.append(map_array[j][i][0])
-		#print(a)
-	print("\n\n")
 
 func _template():
 	var last = [0, 0]
@@ -94,7 +91,6 @@ func _template():
 			randomization_safelock[0] = 0
 			randomization_safelock[1] += 1
 		max_width = max(max_width, n)
-	map_array[n][m][1] = 1
 	start_end_width[1] = n
 	copy_offset = 59-max_width
 
@@ -114,7 +110,7 @@ func _right_side_copy():
 	map_array[n+copy_offset][m][2] = 1
 
 func _island():
-	var island_params = [10, _random_int(39, 79), _random_int(192, 232)]
+	island_params = [10, _random_int(39, 79), _random_int(192, 232)]
 	var start_n
 	var end_n
 	if island_params[0]:
@@ -147,6 +143,90 @@ func _island():
 		for i in range(start_n[1]-start_n[0]-1):
 			map_array[start_n[0]+1+i][island_params[1]-1] = [4, 2, 0]
 			map_array[end_n[0]+1+i][island_params[2]+1] = [2, 4, 0]
+
+func _join_up():
+	var m = [start_end_height[0]-1, start_end_height[0]-1]
+	var n = [start_end_width[0], start_end_width[0]+copy_offset]
+	while m[0] > 25-n[0]:
+		map_array[n[0]][m[0]] = [3, 1, 0]
+		m[0] -= 1
+	while m[1] > n[1]-35:
+		map_array[n[1]][m[1]] = [3, 1, 1]
+		m[1] -= 1
+	var x = 0
+	while m[0] >= 0:
+		if x == 0:
+			map_array[n[0]][m[0]] = [2, 1, 0]
+			n[0] += 1
+			x = 1
+		if x == 1:
+			map_array[n[0]][m[0]] = [3, 4, 0]
+			m[0] -= 1
+			x = 0
+	x = 0 
+	while m[1] >= 0:
+		if x == 0:
+			map_array[n[1]][m[1]] = [4, 1, 1]
+			n[1] -= 1
+			x = 1
+		if x == 1:
+			map_array[n[1]][m[1]] = [3, 2, 1]
+			m[1] -= 1
+			x = 0
+
+func _join_down():
+	var m = [start_end_height[1]+1, start_end_height[1]+1]
+	var n = [start_end_width[1], start_end_width[1]+copy_offset]
+	while 272 - m[0] > max(25-n[0], 3):
+		map_array[n[0]][m[0]] = [3, 1, 0]
+		m[0] += 1
+	while 272 - m[1] > max(n[1]-35, 3):
+		map_array[n[1]][m[1]] = [3, 1, 1]
+		m[1] += 1
+	var x = 0
+	while m[0] < 272:
+		if x == 0:
+			map_array[n[0]][m[0]] = [3, 2, 0]
+			n[0] += 1
+			x = 1
+		if x == 1:
+			map_array[n[0]][m[0]] = [4, 1, 0]
+			m[0] += 1
+			x = 0
+	x = 0 
+	while m[1] < 272:
+		if x == 0:
+			map_array[n[1]][m[1]] = [3, 4, 1]
+			n[1] -= 1
+			x = 1
+		if x == 1:
+			map_array[n[1]][m[1]] = [2, 1, 1]
+			m[1] += 1
+			x = 0
+
+func _fill():
+	var n = 0
+	for i in range(island_params[2]-island_params[1]+1):
+		var m = island_params[1]+i
+		while map_array[n][m] == [0, 0, 0]:
+			map_array[n][m] = [1, 1, 0]
+			n += 1
+		while map_array[n][m] != [0, 0, 0]:
+			n += 1
+		n += island_params[0]
+		while map_array[n][m] == [0, 0, 0]:
+			map_array[n][m] = [1, 1, 0]
+			n += 1
+		n = 0
+	n = [0, -1]
+	for i in range(272):
+		while map_array[n[0]][i] == [0, 0, 0]:
+			map_array[n[0]][i] = [1, 1, 0]
+			n[0] += 1
+		while map_array[n[1]][i] == [0, 0, 0]:
+			map_array[n[1]][i] = [1, 1, 0]
+			n[1] -= 1
+		n = [0, -1] 
 
 func _place_tiles():
 	var x
