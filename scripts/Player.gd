@@ -13,6 +13,7 @@ var Bullet = preload("res://scenes/Bullet.tscn")
 var fuel = 100
 var acceleration_dir = 0
 var forward_speed = def_forward_speed
+var full_stop = 1
 
 func _ready():
 	camera_pos = $Camera.position
@@ -44,7 +45,7 @@ func _physics_process(delta):
 		max_forward_speed = 0
 		min_forward_speed = 0
 		acceleration_speed = 0
-	var velocity = get_input() + Vector2(0, -1)
+	var velocity = (get_input() + Vector2(0, -1))*full_stop
 	if Input.is_action_just_pressed("ui_select") and ammo > 0:
 		var bullet = Bullet.instance()
 		add_child(bullet)
@@ -57,11 +58,17 @@ func _physics_process(delta):
 	var collision = move_and_collide(velocity * delta)
 	if collision:
 		if collision.collider.is_in_group("terrain"):
-			position = collision.collider.position + Vector2(960, 8500)
+			_dead(collision.collider)
 	position.x = clamp(position.x, camera_pos.x, camera_pos.x + $Camera.get_viewport_rect().size.x)
 	fuel -= fuel_decrease_rate
 	fuel = clamp(fuel, 0, 100)
 	$Label.text = str(fuel)
+
+func _dead(node):
+	position = node.position + Vector2(960, 8500)
+	full_stop = 0
+	yield(get_tree().create_timer(1), "timeout")
+	full_stop = 1
 
 func _on_bullet_freed():
 	ammo += 1

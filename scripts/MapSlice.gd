@@ -9,9 +9,12 @@ var copy_offset
 var step_memory = []
 var randomization_safelock = [0, 0]
 var island_params
+var thread
+var tiles = {[0, 0, 0]: 0, [1, 1, 0]: [1, 0, 0, 0], [2, 1, 0]: [3, 1, 0, 0], [2, 1, 1]: [4, 0, 0, 0], [2, 4, 0]: [2, 0, 1, 0], [2, 4, 1]: [2, 0, 0, 0], [3, 1, 0]: [2, 1, 0, 1], [3, 1, 1]: [2, 0, 0, 1], [3, 2, 0]: [3, 1, 1, 0], [3, 2, 1]: [4, 0, 1, 0], [3, 4, 0]: [4, 1, 1, 0], [3, 4, 1]: [3, 0, 1, 0], [4, 1, 0]: [4, 1, 0, 0], [4, 1, 1]: [3, 0, 0, 0], [4, 2, 0]: [2, 0, 0, 0], [4, 2, 1]: [2, 0, 1, 0]}
 
 func _ready():
 	$Area.connect("body_exited", self, "_on_MapSlice_body_exited")
+	thread = Thread.new()
 	_generate()
 
 func _on_MapSlice_body_exited(body):
@@ -45,6 +48,8 @@ func _generate():
 	step_memory = []
 	max_width = 0
 	map_array = []
+	var timers = []
+	var time = Timer.new()
 	for i in range(60):
 		map_array.append([])
 		for j in range(272):
@@ -229,35 +234,10 @@ func _fill():
 		n = [0, -1] 
 
 func _place_tiles():
-	var x
+	clear()
 	for i in range(60):
 		for j in range(272):
-			x = map_array[i][j]
-			if x == [2, 1, 1]:
-				set_cell(i, j, 4)
-			elif x == [2, 1, 0]:
-				set_cell(i, j, 3, true)
-			elif x == [4, 1, 1]:
-				set_cell(i, j, 3)
-			elif x == [4, 1, 0]:
-				set_cell(i, j, 4, true)
-			elif x == [3, 1, 1]:
-				set_cell(i, j, 2, false, false, true)
-			elif x == [3, 1, 0]:
-				set_cell(i, j, 2, true, false, true)
-			elif x == [2, 4, 0] or x == [4, 2, 1]:
-				set_cell(i, j, 2, false, true)
-			elif x == [2, 4, 1] or x == [4, 2, 0]:
-				set_cell(i, j, 2)
-			elif x == [3, 4, 0]:
-				set_cell(i, j, 4, true, true)
-			elif x == [3, 4, 1]:
-				set_cell(i, j, 3, false, true)
-			elif x == [3, 2, 0]:
-				set_cell(i, j, 3, true, true)
-			elif x == [3, 2, 1]:
-				set_cell(i, j, 4, false, true)
-			elif x == [1, 1, 0]:
-				set_cell(i, j, 1)
-			else:
-				set_cell(i, j, -1)
+			var x = map_array[i][j]
+			x = tiles[x]
+			if x:
+				set_cell(i, j, x[0], x[1], x[2], x[3])
