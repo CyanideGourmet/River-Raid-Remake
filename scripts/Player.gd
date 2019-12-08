@@ -8,16 +8,21 @@ export var acceleration_speed = 20
 export var fuel_decrease_rate = 0.1
 
 var camera_pos
+var UI
 var ammo = 1
 var Bullet = preload("res://scenes/Bullet.tscn")
 var fuel = 100
+var fuel_refill_rate = fuel_decrease_rate * 2
 var acceleration_dir = 0
 var forward_speed = def_forward_speed
 var full_stop = 1
+var current_mapslice
+var refill = 0
 
 func _ready():
 	camera_pos = $Camera.position
-	$Label.text = str(fuel)
+	UI = get_parent().get_node("UI").get_node("Fuel")
+	UI.text = str(fuel)
 
 func get_input():
 	var velocity = Vector2()
@@ -40,11 +45,7 @@ func get_input():
 
 func _physics_process(delta):
 	if fuel <= 0:
-		movement_speed = 0
-		forward_speed = 0
-		max_forward_speed = 0
-		min_forward_speed = 0
-		acceleration_speed = 0
+		_dead()
 	var velocity = (get_input() + Vector2(0, -1))*full_stop
 	if Input.is_action_just_pressed("ui_select") and ammo > 0:
 		var bullet = Bullet.instance()
@@ -58,17 +59,24 @@ func _physics_process(delta):
 	var collision = move_and_collide(velocity * delta)
 	if collision:
 		if collision.collider.is_in_group("terrain"):
-			_dead(collision.collider)
+			_dead()
 	position.x = clamp(position.x, camera_pos.x, camera_pos.x + $Camera.get_viewport_rect().size.x)
-	fuel -= fuel_decrease_rate
+	fuel += -fuel_decrease_rate + fuel_refill_rate * refill
 	fuel = clamp(fuel, 0, 100)
-	$Label.text = str(fuel)
+	UI.text = str(fuel)
 
-func _dead(node):
-	position = node.position + Vector2(960, 8500)
+func _dead():
+	position = current_mapslice.position + Vector2(960, 8500)
 	full_stop = 0
 	yield(get_tree().create_timer(1), "timeout")
 	full_stop = 1
+	fuel = 100
 
 func _on_bullet_freed():
 	ammo += 1
+
+func _fuel():
+	refill = (refill + 1)%2
+
+func _current_mapslice_changed(node):
+	current_mapslice = node

@@ -18,6 +18,7 @@ func _physics_process(delta):
 		if collision.collider.is_in_group("terrain"):
 			emit_signal("bullet_freed")
 			queue_free()
+
 func _on_Bullet_body_entered(body):
 	emit_signal("bullet_freed")
 	queue_free()

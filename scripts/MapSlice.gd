@@ -1,27 +1,46 @@
 extends TileMap
 
 export var level_size = 8704
+export var min_fuel_number = 1
+export var max_fuel_number = 4
+export var min_generate_start_n = 3
+export var max_generate_start_n = 5
+export var min_generate_start_m = 10
+export var max_generate_start_m = 20
+
+signal current_mapslice_changed
+
+var player_node
+var Fuel = preload("res://scenes/Fuel.tscn")
 var map_array = []
+var instantiated_nodes_coordinates = []
 var start_end_width = [0, 0]
-var start_end_height = [20, 252]
+var start_end_height = [0, 272]
+var min_width = 60
 var max_width = 0
 var copy_offset
 var step_memory = []
 var randomization_safelock = [0, 0]
 var island_params
-var thread
 var tiles = {[0, 0, 0]: 0, [1, 1, 0]: [1, 0, 0, 0], [2, 1, 0]: [3, 1, 0, 0], [2, 1, 1]: [4, 0, 0, 0], [2, 4, 0]: [2, 0, 1, 0], [2, 4, 1]: [2, 0, 0, 0], [3, 1, 0]: [2, 1, 0, 1], [3, 1, 1]: [2, 0, 0, 1], [3, 2, 0]: [3, 1, 1, 0], [3, 2, 1]: [4, 0, 1, 0], [3, 4, 0]: [4, 1, 1, 0], [3, 4, 1]: [3, 0, 1, 0], [4, 1, 0]: [4, 1, 0, 0], [4, 1, 1]: [3, 0, 0, 0], [4, 2, 0]: [2, 0, 0, 0], [4, 2, 1]: [2, 0, 1, 0]}
 
 func _ready():
+	player_node = get_parent().find_node("Player")
+	$Area.connect("body_entered", self, "_on_Mapslice_body_entered")
 	$Area.connect("body_exited", self, "_on_MapSlice_body_exited")
-	thread = Thread.new()
+	connect("current_mapslice_changed", player_node, "_current_mapslice_changed")
 	_generate()
+
+func _on_Mapslice_body_entered(body):
+	if body == player_node:
+		emit_signal("current_mapslice_changed", self)
 
 func _on_MapSlice_body_exited(body):
 	yield(get_tree().create_timer(1), "timeout")
-	if body == get_parent().find_node("Player"):
+	if body == player_node:
 		position.y -= 2 * level_size
 		_generate()
+		_clear_entities()
 
 func _random_int(x, y):
 	randomize()
@@ -61,16 +80,19 @@ func _generate():
 	_join_down()
 	_fill()
 	_place_tiles()
+	_instantiated_nodes_coordinates()
+	_place_nodes()
 
 func _template():
 	var last = [0, 0]
-	var n = _random_int(5, 12)
-	var m = 20
+	var n = _random_int(min_generate_start_n, max_generate_start_n)
+	var m = _random_int(min_generate_start_m, max_generate_start_m)
 	var x
 	start_end_width[0] = n
+	start_end_height = [m, 272-m]
 	max_width = n
 	map_array[n][m][0] = 3
-	while(m <= 252):
+	while(m <= start_end_height[1]):
 		x = _choose_dir(last, n)
 		if x == 0:
 			map_array[n][m][1] = 1
@@ -95,6 +117,7 @@ func _template():
 			last[0] = 2
 			randomization_safelock[0] = 0
 			randomization_safelock[1] += 1
+		min_width = min(min_width, n)
 		max_width = max(max_width, n)
 	start_end_width[1] = n
 	copy_offset = 59-max_width
@@ -241,3 +264,29 @@ func _place_tiles():
 			x = tiles[x]
 			if x:
 				set_cell(i, j, x[0], x[1], x[2], x[3])
+
+func _instantiated_nodes_coordinates():
+	instantiated_nodes_coordinates = []
+	var fuel_number = _random_int(min_fuel_number, max_fuel_number)
+	var a
+	while fuel_number > 0:
+		var coordinates = [0, _random_int(20, 251)]
+		while(map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]):
+			coordinates[0] += 1
+		coordinates[0] += island_params[0]/2
+		instantiated_nodes_coordinates.append(coordinates)
+		fuel_number -= 1
+	print(instantiated_nodes_coordinates)
+
+func _place_nodes():
+	for i in instantiated_nodes_coordinates:
+		var x = Fuel.instance()
+		add_child(x)
+		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
+		x.scale = Vector2(2, 2)
+
+func _clear_entities():
+	var children = get_children()
+	for i in children:
+		if i == find_node("Fuel"):
+			i.queue_free()

@@ -1,0 +1,8 @@
+[gd_scene format=2]
+
+[node name="UI" type="CanvasLayer"]
+
+[node name="Fuel" type="Label" parent="."]
+margin_top = 18.0
+margin_right = 102.0
+margin_bottom = 32.0
