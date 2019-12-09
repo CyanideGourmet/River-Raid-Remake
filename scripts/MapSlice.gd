@@ -1,8 +1,8 @@
 extends TileMap
 
 export var level_size = 8704
-export var min_fuel_number = 1
-export var max_fuel_number = 4
+export var min_fuel_number = 4
+export var max_fuel_number = 10
 export var min_generate_start_n = 3
 export var max_generate_start_n = 5
 export var min_generate_start_m = 10
@@ -23,6 +23,7 @@ var step_memory = []
 var randomization_safelock = [0, 0]
 var island_params
 var tiles = {[0, 0, 0]: 0, [1, 1, 0]: [1, 0, 0, 0], [2, 1, 0]: [3, 1, 0, 0], [2, 1, 1]: [4, 0, 0, 0], [2, 4, 0]: [2, 0, 1, 0], [2, 4, 1]: [2, 0, 0, 0], [3, 1, 0]: [2, 1, 0, 1], [3, 1, 1]: [2, 0, 0, 1], [3, 2, 0]: [3, 1, 1, 0], [3, 2, 1]: [4, 0, 1, 0], [3, 4, 0]: [4, 1, 1, 0], [3, 4, 1]: [3, 0, 1, 0], [4, 1, 0]: [4, 1, 0, 0], [4, 1, 1]: [3, 0, 0, 0], [4, 2, 0]: [2, 0, 0, 0], [4, 2, 1]: [2, 0, 1, 0]}
+var entities = []
 
 func _ready():
 	player_node = get_parent().find_node("Player")
@@ -39,8 +40,12 @@ func _on_MapSlice_body_exited(body):
 	yield(get_tree().create_timer(1), "timeout")
 	if body == player_node:
 		position.y -= 2 * level_size
-		_generate()
 		_clear_entities()
+		_generate()
+
+func _node_destroyed(body):
+	for i in entities:
+		i.erase(body)
 
 func _random_int(x, y):
 	randomize()
@@ -81,7 +86,7 @@ func _generate():
 	_fill()
 	_place_tiles()
 	_instantiated_nodes_coordinates()
-	_place_nodes()
+	_place_entities()
 
 func _template():
 	var last = [0, 0]
@@ -274,19 +279,23 @@ func _instantiated_nodes_coordinates():
 		while(map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]):
 			coordinates[0] += 1
 		coordinates[0] += island_params[0]/2
+		coordinates[0] += (copy_offset-island_params[0])*_random_int(0, 1)
 		instantiated_nodes_coordinates.append(coordinates)
 		fuel_number -= 1
 	print(instantiated_nodes_coordinates)
 
-func _place_nodes():
+func _place_entities():
+	var fuel_entities = []
 	for i in instantiated_nodes_coordinates:
 		var x = Fuel.instance()
 		add_child(x)
 		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
 		x.scale = Vector2(2, 2)
+		fuel_entities.append(x)
+	entities.append(fuel_entities)
 
 func _clear_entities():
-	var children = get_children()
-	for i in children:
-		if i == find_node("Fuel"):
-			i.queue_free()
+	for i in entities:
+		for j in i:
+			j.queue_free()
+	entities = []

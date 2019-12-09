@@ -19,6 +19,8 @@ var full_stop = 1
 var current_mapslice
 var refill = 0
 
+signal free_the_bullet
+
 func _ready():
 	camera_pos = $Camera.position
 	UI = get_parent().get_node("UI").get_node("Fuel")
@@ -51,6 +53,7 @@ func _physics_process(delta):
 		var bullet = Bullet.instance()
 		add_child(bullet)
 		bullet.connect("bullet_freed", self, "_on_bullet_freed")
+		connect("free_the_bullet", bullet, "_death")
 		ammo -= 1
 	forward_speed += acceleration_speed * acceleration_dir
 	forward_speed = clamp(forward_speed, min_forward_speed, max_forward_speed)
@@ -76,7 +79,14 @@ func _on_bullet_freed():
 	ammo += 1
 
 func _fuel():
-	refill = (refill + 1)%2
+	if refill == 0:
+		refill = 1
+	else:
+		refill = 0
 
 func _current_mapslice_changed(node):
 	current_mapslice = node
+
+func _hit_a_node(node):
+	if node.is_in_group("enemy"):
+		emit_signal("free_the_bullet")

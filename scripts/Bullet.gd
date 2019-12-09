@@ -11,14 +11,12 @@ func _ready():
 
 func _physics_process(delta):
 	if abs(position.y) - abs(starting_position.y) > bullet_distance:
-		emit_signal("bullet_freed")
-		queue_free()
+		_death()
 	var collision = move_and_collide(Vector2(0, -velocity) * delta)
 	if collision:
-		if collision.collider.is_in_group("terrain"):
-			emit_signal("bullet_freed")
-			queue_free()
+		if collision.collider.is_in_group("terrain") or collision.collider.is_in_group("enemy"):
+			_death()
 
-func _on_Bullet_body_entered(body):
+func _death():
 	emit_signal("bullet_freed")
 	queue_free()
