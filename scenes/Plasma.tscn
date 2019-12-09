@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/Images/Sprites/plasma tilestet.png" type="Texture" id=1]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Plasma"
+length = 1.3
+loop = true
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28, 0.32, 0.36, 0.4, 0.44, 0.48, 0.52, 0.56, 0.6, 0.64, 0.68, 0.72, 0.76, 0.8, 0.84, 0.88, 0.92, 0.96, 1, 1.04, 1.08, 1.12, 1.16 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7.01108e-005 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 6, 7, 8, 9, 10, 11, 12, 8, 7, 6, 5, 4, 3, 2, 1, 0, 15 ]
+}
+
+[node name="Plasma" type="Node2D"]
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 971.449, 557.86 )
+texture = ExtResource( 1 )
+centered = false
+offset = Vector2( 0, -10 )
+flip_h = true
+flip_v = true
+vframes = 4
+hframes = 4
+frame = 15
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
+autoplay = "Plasma"
+anims/Plasma = SubResource( 1 )
