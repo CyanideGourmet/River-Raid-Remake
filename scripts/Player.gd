@@ -58,14 +58,13 @@ func _process(delta):
 		bullet.connect("bullet_freed", self, "_on_bullet_freed")
 		connect("free_the_bullet", bullet, "_death")
 		ammo -= 1
-	forward_speed = clamp(forward_speed, min_forward_speed, max_forward_speed)
-	position.x = clamp(position.x, camera_pos.x, camera_pos.x + $Camera.get_viewport_rect().size.x)
 	fuel = clamp(fuel, 0, 100)
 	UI.text = str(fuel)
 
 func _physics_process(delta):
 	velocity = (sideways_velocity + Vector2(0, -1))*full_stop
 	forward_speed += acceleration_speed * acceleration_dir
+	forward_speed = clamp(forward_speed, min_forward_speed, max_forward_speed)	
 	velocity.x *= movement_speed
 	velocity.y *= forward_speed
 	var collision = move_and_collide(velocity * delta)
@@ -73,6 +72,7 @@ func _physics_process(delta):
 		if collision.collider.is_in_group("terrain"):
 			_dead()
 	fuel += -fuel_decrease_rate + fuel_refill_rate * refill
+	position.x = clamp(position.x, camera_pos.x, camera_pos.x + $Camera.get_viewport_rect().size.x)
 
 func _dead():
 	position = current_mapslice.position + Vector2(960, 8500)
