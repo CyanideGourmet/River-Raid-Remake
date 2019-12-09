@@ -25,7 +25,7 @@ position = Vector2( 369.473, 294.736 )
 texture = ExtResource( 1 )
 vframes = 2
 hframes = 4
-frame = 7
+frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BlowSprite"]
 autoplay = "Blow"
