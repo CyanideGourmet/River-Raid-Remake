@@ -282,7 +282,6 @@ func _instantiated_nodes_coordinates():
 		coordinates[0] += (copy_offset-island_params[0])*_random_int(0, 1)
 		instantiated_nodes_coordinates.append(coordinates)
 		fuel_number -= 1
-	print(instantiated_nodes_coordinates)
 
 func _place_entities():
 	var fuel_entities = []
