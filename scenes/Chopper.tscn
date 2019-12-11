@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scripts/Chopper.gd" type="Script" id=1]
+[ext_resource path="res://assets/Images/Sprites/body czop.png" type="Texture" id=2]
+[ext_resource path="res://assets/Images/Sprites/smiglo kopia 2.png" type="Texture" id=3]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 61.7572
+height = 496.73
+
+[node name="Chopper" type="KinematicBody2D" groups=[
+"enemy",
+]]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource( 1 )
+
+[node name="Body" type="Sprite" parent="."]
+rotation = -1.5708
+texture = ExtResource( 2 )
+
+[node name="Rotor" type="Sprite" parent="Body"]
+texture = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Body/Rotor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = -1.5708
+shape = SubResource( 1 )

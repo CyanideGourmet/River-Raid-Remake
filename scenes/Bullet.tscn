@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scripts/Bullet.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Shot.tscn" type="PackedScene" id=2]
-[ext_resource path="res://assets/Images/Debug/bullet.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 2.27345, 15.9956 )
@@ -10,8 +9,8 @@ extents = Vector2( 2.27345, 15.9956 )
 [node name="Bullet" type="KinematicBody2D" groups=[
 "PlayerBullet",
 ]]
-collision_layer = 2
-collision_mask = 2
+collision_layer = 0
+collision_mask = 0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
@@ -22,11 +21,5 @@ velocity = 800
 position = Vector2( -0.05, -0.38 )
 scale = Vector2( 0.07, 0.07 )
 
-[node name="Sprite" type="Sprite" parent="."]
-visible = false
-texture = ExtResource( 3 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=[
-"PlayerBullet",
-]]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )

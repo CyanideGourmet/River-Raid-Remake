@@ -16,6 +16,8 @@ position = Vector2( 0, 8704 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 960, 17168 )
+collision_layer = 5
+collision_mask = 5
 max_forward_speed = 1000
 min_forward_speed = 0
 fuel_decrease_rate = 0.1

@@ -16,10 +16,10 @@ var fuel = 100
 var acceleration_dir = 0
 var forward_speed = def_forward_speed
 var full_stop = 1
+var forward_slowdown = 0
 var current_mapslice
 var refill = 0
-var velocity
-var sideways_velocity = Vector2(0, 0)
+var input = Vector2(0, 0)
 
 signal free_the_bullet
 
@@ -27,49 +27,60 @@ func _ready():
 	camera_pos = $Camera.position
 	UI = get_parent().get_node("UI").get_node("Fuel")
 	UI.text = str(fuel)
+	set_collision_mask_bit(0, 1)
+	set_collision_mask_bit(1, 1)
+	set_collision_mask_bit(2, 1)
 
-func get_input():
-	var velocity = Vector2(0, 0)
-	if Input.is_action_pressed("ui_left"):
-		velocity.x -= 1
-	if Input.is_action_pressed("ui_right"):
-		velocity.x += 1
-	if Input.is_action_pressed("ui_up"):
-		acceleration_dir = 1
-	elif Input.is_action_pressed("ui_down"):
-		acceleration_dir = -1
-	else:
+func _input(event):
+	if event.is_pressed():
+		if event.is_action("ui_left"):
+			input.x = -1
+		elif event.is_action("ui_right"):
+			input.x = 1
+		elif event.is_action("ui_up"):
+			forward_slowdown = 0
+			acceleration_dir = 1
+		elif event.is_action("ui_down"):
+			forward_slowdown = 0
+			acceleration_dir = -1
+		elif event.is_action("ui_accept"):
+			fuel_decrease_rate -= 0.1
+			fuel_decrease_rate = abs(fuel_decrease_rate)
+	elif event.is_action_released("ui_left") or event.is_action_released("ui_right"):
+		input.x = 0
+	if event.is_action_released("ui_up") or event.is_action_released("ui_down"):
+		forward_slowdown = 1
 		if forward_speed > def_forward_speed:
 			acceleration_dir = -1
-		elif forward_speed < def_forward_speed:
-			acceleration_dir = 1
 		else:
-			acceleration_dir = 0
-	return velocity
-
-func _process(delta):
-	sideways_velocity = get_input()
-	if fuel <= 0:
-		_dead()
-	if Input.is_action_just_pressed("ui_select") and ammo > 0:
+			acceleration_dir = 1
+	if event.is_action_pressed("ui_select") and ammo > 0:
 		var bullet = Bullet.instance()
 		bullet.scale = Vector2(4, 4)
 		add_child(bullet)
 		bullet.connect("bullet_freed", self, "_on_bullet_freed")
 		connect("free_the_bullet", bullet, "_death")
 		ammo -= 1
+
+func _process(delta):
+	if forward_slowdown == 1:
+		if forward_speed == def_forward_speed and acceleration_dir != 0:
+			acceleration_dir = 0
+			forward_slowdown = 0
+	if fuel <= 0:
+		_dead()
 	fuel = clamp(fuel, 0, 100)
 	UI.text = str(fuel)
 
 func _physics_process(delta):
-	velocity = (sideways_velocity + Vector2(0, -1))*full_stop
+	var velocity = (input + Vector2(0, -1))*full_stop
 	forward_speed += acceleration_speed * acceleration_dir
 	forward_speed = clamp(forward_speed, min_forward_speed, max_forward_speed)	
 	velocity.x *= movement_speed
 	velocity.y *= forward_speed
 	var collision = move_and_collide(velocity * delta)
 	if collision:
-		if collision.collider.is_in_group("terrain"):
+		if collision.collider.is_in_group("terrain") or collision.collider.is_in_group("enemy"):
 			_dead()
 	fuel += -fuel_decrease_rate + fuel_refill_rate * refill
 	position.x = clamp(position.x, camera_pos.x, camera_pos.x + $Camera.get_viewport_rect().size.x)
@@ -95,5 +106,5 @@ func _current_mapslice_changed(node):
 	current_mapslice = node
 
 func _hit_a_node(node):
-	if node.is_in_group("enemy"):
+	if node.is_in_group("enemy") or node.is_in_group("fuel"):
 		emit_signal("free_the_bullet")
