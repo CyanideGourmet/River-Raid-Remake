@@ -10,6 +10,7 @@ func _ready():
 	set_collision_mask_bit(3, 1)
 	set_collision_mask_bit(4, 1)
 	set_collision_mask_bit(5, 1)
+	set_collision_layer_bit(-4, 1)
 	starting_position = position
 
 func _process(delta):
@@ -19,8 +20,9 @@ func _process(delta):
 func _physics_process(delta):
 	var collision = move_and_collide(Vector2(0, -velocity) * delta)
 	if collision:
-		if collision.collider.is_in_group("terrain") or collision.collider.is_in_group("enemy"):
-			_death()
+		if collision.collider.is_in_group("enemy"):
+			collision.collider._death()
+		_death()
 
 func _death():
 	emit_signal("bullet_freed")

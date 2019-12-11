@@ -21,10 +21,10 @@ var start_end_width = [0, 0]
 var start_end_height = [0, 272]
 var min_width = 60
 var max_width = 0
-var copy_offset
+var copy_offset = 30
 var step_memory = []
 var randomization_safelock = [0, 0]
-var island_params
+var island_params = [10, 39, 232]
 var tiles = {[0, 0, 0]: 0, [1, 1, 0]: [1, 0, 0, 0], [2, 1, 0]: [3, 1, 0, 0], [2, 1, 1]: [4, 0, 0, 0], [2, 4, 0]: [2, 0, 1, 0], [2, 4, 1]: [2, 0, 0, 0], [3, 1, 0]: [2, 1, 0, 1], [3, 1, 1]: [2, 0, 0, 1], [3, 2, 0]: [3, 1, 1, 0], [3, 2, 1]: [4, 0, 1, 0], [3, 4, 0]: [4, 1, 1, 0], [3, 4, 1]: [3, 0, 1, 0], [4, 1, 0]: [4, 1, 0, 0], [4, 1, 1]: [3, 0, 0, 0], [4, 2, 0]: [2, 0, 0, 0], [4, 2, 1]: [2, 0, 1, 0]}
 var entities = []
 
@@ -293,7 +293,6 @@ func _instantiated_nodes_coordinates():
 	instantiated_nodes_coordinates.append(fuel_coords)
 	while chopper_number > 0:
 		var coordinates = [_random_int(0, 1)*59, _random_int(50, 221)]
-		print(coordinates)
 		chopper_coords.append(coordinates)
 		chopper_number -= 1
 	instantiated_nodes_coordinates.append(chopper_coords)

@@ -1,12 +1,17 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/Chopper.gd" type="Script" id=1]
 [ext_resource path="res://assets/Images/Sprites/body czop.png" type="Texture" id=2]
 [ext_resource path="res://assets/Images/Sprites/smiglo kopia 2.png" type="Texture" id=3]
+[ext_resource path="res://assets/Images/Sprites/Rotor.anim" type="Animation" id=4]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 61.7572
 height = 496.73
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 4320.0
+height = 7680.0
 
 [node name="Chopper" type="KinematicBody2D" groups=[
 "enemy",
@@ -20,10 +25,22 @@ rotation = -1.5708
 texture = ExtResource( 2 )
 
 [node name="Rotor" type="Sprite" parent="Body"]
+rotation = 0.319228
 texture = ExtResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Body/Rotor"]
+autoplay = "Rotor"
+anims/Rotor = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = -1.5708
 shape = SubResource( 1 )
+
+[node name="PlayerDetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionArea"]
+rotation = 1.5708
+shape = SubResource( 2 )
+[connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_PlayerDetectionArea_body_entered"]
