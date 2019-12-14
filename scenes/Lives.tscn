@@ -1,0 +1,99 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/Images/Sprites/Godot_White.png" type="Texture" id=1]
+[ext_resource path="res://assets/Images/Sprites/statek.png" type="Texture" id=2]
+
+[node name="Lives" type="CanvasLayer"]
+
+[node name="LivesSkin" type="Sprite" parent="."]
+modulate = Color( 0.211765, 0.337255, 0.403922, 1 )
+show_behind_parent = true
+scale = Vector2( 8, 2 )
+z_as_relative = false
+texture = ExtResource( 1 )
+centered = false
+
+[node name="LivesGroup" type="Node" parent="."]
+editor/display_folded = true
+
+[node name="Live1" type="Sprite" parent="LivesGroup"]
+modulate = Color( 1, 0, 0, 1 )
+show_behind_parent = true
+position = Vector2( 116.432, 51.9039 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Live2" type="Sprite" parent="LivesGroup"]
+modulate = Color( 1, 0.25098, 0, 1 )
+show_behind_parent = true
+position = Vector2( 148.432, 51.9039 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Live3" type="Sprite" parent="LivesGroup"]
+modulate = Color( 1, 0.501961, 0, 1 )
+show_behind_parent = true
+position = Vector2( 180.432, 51.9039 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Live4" type="Sprite" parent="LivesGroup"]
+modulate = Color( 1, 0.752941, 0, 1 )
+show_behind_parent = true
+position = Vector2( 212.432, 51.9039 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Live5" type="Sprite" parent="LivesGroup"]
+modulate = Color( 1, 1, 0, 1 )
+show_behind_parent = true
+position = Vector2( 244.432, 51.9039 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Live6" type="Sprite" parent="LivesGroup"]
+self_modulate = Color( 0.752941, 1, 0, 1 )
+position = Vector2( 276.432, 51.9039 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Live7" type="Sprite" parent="LivesGroup"]
+modulate = Color( 0.501961, 1, 0, 1 )
+show_behind_parent = true
+position = Vector2( 308.432, 51.9039 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Live8" type="Sprite" parent="LivesGroup"]
+modulate = Color( 0.25098, 1, 0, 1 )
+show_behind_parent = true
+position = Vector2( 340.432, 51.9039 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Live9" type="Sprite" parent="LivesGroup"]
+modulate = Color( 0, 1, 0, 1 )
+show_behind_parent = true
+position = Vector2( 372.432, 51.9039 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="LivesLabel" type="Label" parent="."]
+margin_left = 198.0
+margin_top = 11.9999
+margin_right = 258.0
+margin_bottom = 25.9999
+rect_scale = Vector2( 2, 2 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "VESSELS"
+align = 1
+valign = 2

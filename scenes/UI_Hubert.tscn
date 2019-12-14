@@ -1,255 +1,27 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/Images/Sprites/Godot_White.png" type="Texture" id=1]
-[ext_resource path="res://assets/Images/Sprites/statek.png" type="Texture" id=2]
+[ext_resource path="res://scenes/FuelIndicator.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Lives.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/Scores.tscn" type="PackedScene" id=4]
 
-[node name="UI_Root" type="Node2D"]
+[node name="UI_Root" type="CanvasLayer"]
 
-[node name="LowerPanel" type="Node2D" parent="."]
-position = Vector2( 0, 890 )
-
-[node name="LowerBar" type="Sprite" parent="LowerPanel"]
+[node name="LowerBarSkin" type="Sprite" parent="."]
 modulate = Color( 0.298039, 0.392157, 0.439216, 1 )
+position = Vector2( 0, 890 )
 scale = Vector2( 30, 4 )
 texture = ExtResource( 1 )
 centered = false
 
-[node name="FuelIndicator" type="Node2D" parent="LowerPanel"]
-position = Vector2( 200, 48 )
+[node name="FuelIndicator" parent="." instance=ExtResource( 2 )]
+offset = Vector2( 32, 895 )
+transform = Transform2D( 1, 0, 0, 1, 32, 895 )
 
-[node name="FuelGraphics" type="Node2D" parent="LowerPanel/FuelIndicator"]
-position = Vector2( 55, 0 )
+[node name="Lives" parent="." instance=ExtResource( 3 )]
+offset = Vector2( 690, 895 )
+transform = Transform2D( 1, 0, 0, 1, 690, 895 )
 
-[node name="FuelSkin" type="Sprite" parent="LowerPanel/FuelIndicator/FuelGraphics"]
-modulate = Color( 0.211765, 0.337255, 0.403922, 1 )
-position = Vector2( -151, 40 )
-scale = Vector2( 8, 2 )
-texture = ExtResource( 1 )
-centered = false
-offset = Vector2( 0, -42 )
-
-[node name="FuelGauge" type="Sprite" parent="LowerPanel/FuelIndicator/FuelGraphics"]
-modulate = Color( 0, 0, 0, 1 )
-scale = Vector2( 3, 0.75 )
-texture = ExtResource( 1 )
-centered = false
-
-[node name="FuelLevelZero" type="Node2D" parent="LowerPanel/FuelIndicator/FuelGraphics"]
-editor/display_folded = true
-position = Vector2( 2, 2 )
-
-[node name="FuelPointer" type="Node2D" parent="LowerPanel/FuelIndicator/FuelGraphics/FuelLevelZero"]
-
-[node name="FuelPointerSkin" type="Sprite" parent="LowerPanel/FuelIndicator/FuelGraphics/FuelLevelZero/FuelPointer"]
-modulate = Color( 1, 0.796078, 0, 1 )
-scale = Vector2( 0.2, 0.69 )
-texture = ExtResource( 1 )
-centered = false
-
-[node name="E!" type="Label" parent="LowerPanel/FuelIndicator/FuelGraphics"]
-margin_left = -36.0
-margin_right = -28.0
-rect_scale = Vector2( 4, 4 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "E"
-align = 2
-valign = 1
-
-[node name="F" type="Label" parent="LowerPanel/FuelIndicator/FuelGraphics"]
-anchor_right = 1.0
-margin_left = 196.0
-margin_right = 204.0
-rect_scale = Vector2( 4, 4 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "F"
-align = 2
-valign = 1
-
-[node name="FuelLabel" type="Label" parent="LowerPanel/FuelIndicator"]
-margin_left = 96.0
-margin_top = -40.0
-margin_right = 154.0
-margin_bottom = -26.0
-rect_scale = Vector2( 2, 2 )
-custom_colors/font_color = Color( 1, 0, 0, 1 )
-text = "REACTOR"
-align = 1
-valign = 2
-
-[node name="Lives" type="Node2D" parent="LowerPanel"]
-editor/display_folded = true
-position = Vector2( 840, 48 )
-
-[node name="LivesGraphics" type="Node2D" parent="LowerPanel/Lives"]
-scale = Vector2( 0.25, 0.25 )
-
-[node name="LivesSkin" type="Sprite" parent="LowerPanel/Lives/LivesGraphics"]
-modulate = Color( 0.211765, 0.337255, 0.403922, 1 )
-show_behind_parent = true
-position = Vector2( -480, 160 )
-scale = Vector2( 32, 8 )
-z_as_relative = false
-texture = ExtResource( 1 )
-centered = false
-offset = Vector2( 0, -42 )
-
-[node name="Sprite" type="Sprite" parent="LowerPanel/Lives/LivesGraphics"]
-modulate = Color( 1, 0, 0, 1 )
-show_behind_parent = true
-texture = ExtResource( 2 )
-centered = false
-
-[node name="Sprite2" type="Sprite" parent="LowerPanel/Lives/LivesGraphics"]
-modulate = Color( 1, 0.25098, 0, 1 )
-show_behind_parent = true
-position = Vector2( 128, 0 )
-texture = ExtResource( 2 )
-centered = false
-
-[node name="Sprite3" type="Sprite" parent="LowerPanel/Lives/LivesGraphics"]
-modulate = Color( 1, 0.501961, 0, 1 )
-show_behind_parent = true
-position = Vector2( 256, 0 )
-texture = ExtResource( 2 )
-centered = false
-
-[node name="Sprite4" type="Sprite" parent="LowerPanel/Lives/LivesGraphics"]
-modulate = Color( 1, 0.752941, 0, 1 )
-show_behind_parent = true
-position = Vector2( 384, 0 )
-texture = ExtResource( 2 )
-centered = false
-
-[node name="Sprite5" type="Sprite" parent="LowerPanel/Lives/LivesGraphics"]
-modulate = Color( 1, 1, 0, 1 )
-show_behind_parent = true
-position = Vector2( 512, 0 )
-texture = ExtResource( 2 )
-centered = false
-
-[node name="Sprite6" type="Sprite" parent="LowerPanel/Lives/LivesGraphics"]
-self_modulate = Color( 0.752941, 1, 0, 1 )
-position = Vector2( 640, 0 )
-texture = ExtResource( 2 )
-centered = false
-
-[node name="Sprite7" type="Sprite" parent="LowerPanel/Lives/LivesGraphics"]
-modulate = Color( 0.501961, 1, 0, 1 )
-show_behind_parent = true
-position = Vector2( 768, 0 )
-texture = ExtResource( 2 )
-centered = false
-
-[node name="Sprite8" type="Sprite" parent="LowerPanel/Lives/LivesGraphics"]
-modulate = Color( 0.25098, 1, 0, 1 )
-show_behind_parent = true
-position = Vector2( 896, 0 )
-texture = ExtResource( 2 )
-centered = false
-
-[node name="Sprite9" type="Sprite" parent="LowerPanel/Lives/LivesGraphics"]
-modulate = Color( 0, 1, 0, 1 )
-show_behind_parent = true
-position = Vector2( 1024, 0 )
-texture = ExtResource( 2 )
-centered = false
-
-[node name="LivesLabel" type="Label" parent="LowerPanel/Lives"]
-margin_left = 72.0
-margin_top = -40.0
-margin_right = 132.0
-margin_bottom = -26.0
-rect_scale = Vector2( 2, 2 )
-custom_colors/font_color = Color( 1, 0, 0, 1 )
-text = "VESSELS"
-align = 1
-valign = 2
-
-[node name="Scores" type="Node2D" parent="LowerPanel"]
-editor/display_folded = true
-position = Vector2( 1550, 48 )
-
-[node name="LivesSkin2" type="Sprite" parent="LowerPanel/Scores"]
-modulate = Color( 0.211765, 0.337255, 0.403922, 1 )
-show_behind_parent = true
-position = Vector2( -240, 40 )
-scale = Vector2( 8, 2 )
-z_as_relative = false
-texture = ExtResource( 1 )
-centered = false
-offset = Vector2( 0, -42 )
-
-[node name="LivesLabel2" type="Label" parent="LowerPanel/Scores"]
-margin_left = -90.0
-margin_top = -40.0
-margin_right = 4.0
-margin_bottom = -26.0
-rect_scale = Vector2( 2, 2 )
-custom_colors/font_color = Color( 1, 0, 0, 1 )
-text = "PURGE STATUS"
-align = 1
-valign = 2
-
-[node name="Dam" type="Node2D" parent="LowerPanel/Scores"]
-editor/display_folded = true
-scale = Vector2( 0.4, 0.4 )
-
-[node name="Label" type="Label" parent="LowerPanel/Scores/Dam"]
-margin_left = -270.0
-margin_right = -165.0
-margin_bottom = 14.0
-rect_scale = Vector2( 4, 4 )
-text = "DAM:"
-valign = 1
-
-[node name="Amount2" type="Label" parent="LowerPanel/Scores/Dam"]
-margin_right = 88.0
-margin_bottom = 14.0
-rect_scale = Vector2( 4, 4 )
-text = "999999999"
-align = 2
-valign = 1
-
-[node name="Score" type="Node2D" parent="LowerPanel/Scores"]
-editor/display_folded = true
-position = Vector2( 0, 25 )
-scale = Vector2( 0.4, 0.4 )
-
-[node name="Label" type="Label" parent="LowerPanel/Scores/Score"]
-margin_left = -270.0
-margin_right = -165.0
-margin_bottom = 14.0
-rect_scale = Vector2( 4, 4 )
-text = "SCORE:"
-valign = 1
-
-[node name="Amount2" type="Label" parent="LowerPanel/Scores/Score"]
-margin_right = 88.0
-margin_bottom = 14.0
-rect_scale = Vector2( 4, 4 )
-text = "999999999"
-align = 2
-valign = 1
-
-[node name="HiScore" type="Node2D" parent="LowerPanel/Scores"]
-editor/display_folded = true
-position = Vector2( 0, 50 )
-scale = Vector2( 0.4, 0.4 )
-
-[node name="Label" type="Label" parent="LowerPanel/Scores/HiScore"]
-modulate = Color( 0, 0, 0, 1 )
-margin_left = -270.0
-margin_right = -205.0
-margin_bottom = 14.0
-rect_scale = Vector2( 4, 4 )
-text = "HI-SCORE:"
-valign = 1
-
-[node name="Amount2" type="Label" parent="LowerPanel/Scores/HiScore"]
-modulate = Color( 0, 0, 0, 1 )
-margin_right = 88.0
-margin_bottom = 14.0
-rect_scale = Vector2( 4, 4 )
-text = "999999999"
-align = 2
-valign = 1
+[node name="Scores" parent="." instance=ExtResource( 4 )]
+offset = Vector2( 1360, 895 )
+transform = Transform2D( 1, 0, 0, 1, 1360, 895 )
