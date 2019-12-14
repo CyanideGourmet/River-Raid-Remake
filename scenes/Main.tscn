@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scenes/MapSlice.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/UI.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scenes/UI_Hubert.tscn" type="PackedScene" id=4]
 
 [node name="Main" type="Node"]
 __meta__ = {
@@ -17,13 +16,10 @@ position = Vector2( 0, 8704 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 960, 17168 )
+collision_layer = 5
 collision_mask = 5
-movement_speed = 700
-def_forward_speed = 400
-min_forward_speed = 200
-acceleration_speed = 50
+max_forward_speed = 1000
+min_forward_speed = 0
 fuel_decrease_rate = 0.1
 
 [node name="UI" parent="." instance=ExtResource( 3 )]
-
-[node name="UI_Root" parent="UI" instance=ExtResource( 4 )]

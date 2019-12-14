@@ -25,7 +25,13 @@ window/size/width=1920
 window/size/height=1080
 window/vsync/use_vsync=false
 
+[physics]
+
+2d/cell_size=32
+
 [rendering]
 
+quality/2d/gles2_use_nvidia_rect_flicker_workaround=true
 quality/2d/use_pixel_snap=true
+threads/thread_model=2
 environment/default_environment="res://default_env.tres"
