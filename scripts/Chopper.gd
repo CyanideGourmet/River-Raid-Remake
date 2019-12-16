@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 export var movement_speed = 400
+export var point_value = 1000
 
 var player_node
 var direction = 0
