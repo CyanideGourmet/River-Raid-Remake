@@ -10,6 +10,8 @@ export var fuel_refill_rate = 0.2
 
 var camera_pos
 var UI
+var Fuel_t
+var Points_t
 var ammo = 1
 var Bullet = preload("res://scenes/Bullet.tscn")
 var fuel = 100
@@ -20,13 +22,16 @@ var forward_slowdown = 0
 var current_mapslice
 var refill = 0
 var input = Vector2(0, 0)
+var points = 0
 
 signal free_the_bullet
 
 func _ready():
 	camera_pos = $Camera.position
-	UI = get_parent().get_node("UI").get_node("Fuel")
-	UI.text = str(fuel)
+	UI = get_parent().get_node("UI")
+	Fuel_t = UI.find_node("Fuel")
+	Points_t = UI.find_node("Points")
+	Fuel_t.text = str(fuel)
 	set_collision_mask_bit(0, 1)
 	set_collision_mask_bit(1, 1)
 	set_collision_mask_bit(2, 1)
@@ -70,7 +75,7 @@ func _process(delta):
 	if fuel <= 0:
 		_dead()
 	fuel = clamp(fuel, 0, 100)
-	UI.text = str(fuel)
+	Fuel_t.text = str(fuel)
 
 func _physics_process(delta):
 	var velocity = (input + Vector2(0, -1))*full_stop
@@ -106,5 +111,9 @@ func _current_mapslice_changed(node):
 	current_mapslice = node
 
 func _hit_a_node(node):
-	if node.is_in_group("enemy") or node.is_in_group("fuel"):
+	if node.is_in_group("enemy"):
+		points += node.point_value
+		Points_t.text = "Points: " + str(points)
+		emit_signal("free_the_bullet")
+	elif node.is_in_group("fuel"):
 		emit_signal("free_the_bullet")
