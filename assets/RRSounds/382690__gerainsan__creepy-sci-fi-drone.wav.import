@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/382690__gerainsan__creepy-sci-fi-drone.wav-0d060ec8eec909d084b0531be00c3cc3.sample"
+
+[deps]
+
+source_file="res://assets/RRSounds/382690__gerainsan__creepy-sci-fi-drone.wav"
+dest_files=[ "res://.import/382690__gerainsan__creepy-sci-fi-drone.wav-0d060ec8eec909d084b0531be00c3cc3.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

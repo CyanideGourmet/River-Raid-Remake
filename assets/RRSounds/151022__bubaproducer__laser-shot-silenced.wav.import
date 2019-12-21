@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/151022__bubaproducer__laser-shot-silenced.wav-2d04fe975b31898775a403e4c9c4e9b3.sample"
+
+[deps]
+
+source_file="res://assets/RRSounds/151022__bubaproducer__laser-shot-silenced.wav"
+dest_files=[ "res://.import/151022__bubaproducer__laser-shot-silenced.wav-2d04fe975b31898775a403e4c9c4e9b3.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,89 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/Images/Sprites/Godot_White.png" type="Texture" id=1]
+
+[node name="Scores" type="CanvasLayer"]
+
+[node name="LivesSkin2" type="Sprite" parent="."]
+modulate = Color( 0.211765, 0.337255, 0.403922, 1 )
+show_behind_parent = true
+scale = Vector2( 8, 2 )
+z_as_relative = false
+texture = ExtResource( 1 )
+centered = false
+
+[node name="LivesLabel2" type="Label" parent="."]
+margin_left = 168.442
+margin_top = 9.52189
+margin_right = 262.442
+margin_bottom = 23.5219
+rect_scale = Vector2( 2, 2 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "PURGE STATUS"
+align = 1
+valign = 2
+
+[node name="Dam" type="Node2D" parent="."]
+editor/display_folded = true
+position = Vector2( 242.193, 44.8792 )
+scale = Vector2( 0.4, 0.4 )
+
+[node name="Label" type="Label" parent="Dam"]
+margin_left = -270.0
+margin_right = -165.0
+margin_bottom = 14.0
+rect_scale = Vector2( 4, 4 )
+text = "DAM:"
+valign = 1
+
+[node name="Amount2" type="Label" parent="Dam"]
+margin_right = 88.0
+margin_bottom = 14.0
+rect_scale = Vector2( 4, 4 )
+text = "999999999"
+align = 2
+valign = 1
+
+[node name="Score" type="Node2D" parent="."]
+editor/display_folded = true
+position = Vector2( 242.193, 69.8792 )
+scale = Vector2( 0.4, 0.4 )
+
+[node name="Label" type="Label" parent="Score"]
+margin_left = -270.0
+margin_right = -165.0
+margin_bottom = 14.0
+rect_scale = Vector2( 4, 4 )
+text = "SCORE:"
+valign = 1
+
+[node name="Amount2" type="Label" parent="Score"]
+margin_right = 88.0
+margin_bottom = 14.0
+rect_scale = Vector2( 4, 4 )
+text = "999999999"
+align = 2
+valign = 1
+
+[node name="HiScore" type="Node2D" parent="."]
+editor/display_folded = true
+position = Vector2( 242.193, 94.8792 )
+scale = Vector2( 0.4, 0.4 )
+
+[node name="Label" type="Label" parent="HiScore"]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = -270.0
+margin_right = -205.0
+margin_bottom = 14.0
+rect_scale = Vector2( 4, 4 )
+text = "HI-SCORE:"
+valign = 1
+
+[node name="Amount2" type="Label" parent="HiScore"]
+modulate = Color( 0, 0, 0, 1 )
+margin_right = 88.0
+margin_bottom = 14.0
+rect_scale = Vector2( 4, 4 )
+text = "999999999"
+align = 2
+valign = 1

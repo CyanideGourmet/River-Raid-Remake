@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/SpaceShipEngine.ogg-b6cd32471221cb9917b1ef5d2e6fa48c.oggstr"
+
+[deps]
+
+source_file="res://assets/RRSounds/SpaceShipEngine.ogg"
+dest_files=[ "res://.import/SpaceShipEngine.ogg-b6cd32471221cb9917b1ef5d2e6fa48c.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
