@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
-export var movement_speed = 400
-export var point_value = 1000
+export var movement_speed = 200
+export var point_value = 60
 
 var player_node
 var direction = 0
@@ -12,10 +12,14 @@ signal left_the_screen
 
 func _ready():
 	$Body/Rotor/AnimationPlayer.play()
+	#player
 	set_collision_layer_bit(1, 1)
 	$PlayerDetectionArea.set_collision_layer_bit(1, 1)
+	#bullet
 	set_collision_layer_bit(4, 1)
 	set_collision_mask_bit(-4, 1)
+	#terrain
+	set_collision_mask_bit(6, 1)
 	player_node = get_parent().get_parent().find_node("Player")
 	connect("destroyed", player_node, "_hit_a_node")
 	connect("destroyed", get_parent(), "_node_destroyed")
@@ -31,6 +35,9 @@ func _physics_process(delta):
 	if collision:
 		if collision.collider.is_in_group("PlayerBullet"):
 			_death()
+		elif collision.collider.is_in_group("terrain"):
+			direction *= -1
+			$Body.flip_v = !$Body.flip_v
 
 func _collided(node):
 	if node.is_in_group("PlayerBullet"):

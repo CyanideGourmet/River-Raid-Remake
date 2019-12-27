@@ -7,10 +7,13 @@ var starting_position
 signal bullet_freed
 
 func _ready():
+	#terrain
 	set_collision_mask_bit(3, 1)
-	set_collision_mask_bit(4, 1)
-	set_collision_mask_bit(5, 1)
 	set_collision_layer_bit(-4, 1)
+	#chopper
+	set_collision_mask_bit(4, 1)
+	#fuel
+	set_collision_mask_bit(5, 1)
 	starting_position = position
 
 func _process(delta):

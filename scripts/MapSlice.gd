@@ -29,9 +29,13 @@ var tiles = {[0, 0, 0]: 0, [1, 1, 0]: [1, 0, 0, 0], [2, 1, 0]: [3, 1, 0, 0], [2,
 var entities = []
 
 func _ready():
+	#player
 	set_collision_layer_bit(0, 1)
-	set_collision_layer_bit(3, 1)
 	$Area.set_collision_layer_bit(0, 1)
+	#bullet
+	set_collision_layer_bit(3, 1)
+	#chopper
+	set_collision_layer_bit(6, 1)
 	player_node = get_parent().find_node("Player")
 	$Area.connect("body_entered", self, "_on_Mapslice_body_entered")
 	$Area.connect("body_exited", self, "_on_MapSlice_body_exited")
@@ -92,6 +96,10 @@ func _generate():
 	_fill()
 	_place_tiles()
 	_instantiated_nodes_coordinates()
+	_place_entities()
+
+func _reset():
+	_clear_entities()
 	_place_entities()
 
 func _template():
@@ -293,6 +301,13 @@ func _instantiated_nodes_coordinates():
 	instantiated_nodes_coordinates.append(fuel_coords)
 	while chopper_number > 0:
 		var coordinates = [_random_int(0, 1)*59, _random_int(50, 221)]
+		var k = 0
+		if coordinates[0] == 0:
+			k = 1
+		else:
+			k = -1
+		while map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]:
+			coordinates[0] += k
 		chopper_coords.append(coordinates)
 		chopper_number -= 1
 	instantiated_nodes_coordinates.append(chopper_coords)
@@ -320,7 +335,7 @@ func _choppers():
 		var x = Chopper.instance()
 		add_child(x)
 		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
-		x.scale = Vector2(0.25, 0.25)
+		x.scale = Vector2(0.125, 0.125)
 		x.direction = -1
 		if i[0] == 0:
 			x.rotation = 135

@@ -10,8 +10,8 @@ radius = 61.7572
 height = 496.73
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 4320.0
-height = 7680.0
+radius = 8640.0
+height = 15360.0
 
 [node name="Chopper" type="KinematicBody2D" groups=[
 "enemy",
