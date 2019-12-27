@@ -25,6 +25,7 @@ var input = Vector2(0, 0)
 var points = 0
 
 signal free_the_bullet
+signal player_died
 
 func _ready():
 	camera_pos = $Camera.position
@@ -32,9 +33,13 @@ func _ready():
 	Fuel_t = UI.find_node("Fuel")
 	Points_t = UI.find_node("Points")
 	Fuel_t.text = str(fuel)
+	#terrain
 	set_collision_mask_bit(0, 1)
+	#chopper
 	set_collision_mask_bit(1, 1)
+	#fuel
 	set_collision_mask_bit(2, 1)
+	connect("player_died", current_mapslice, "_reset")
 
 func _input(event):
 	if event.is_pressed():
@@ -91,6 +96,7 @@ func _physics_process(delta):
 	position.x = clamp(position.x, camera_pos.x, camera_pos.x + $Camera.get_viewport_rect().size.x)
 
 func _dead():
+	emit_signal("player_died")
 	position = current_mapslice.position + Vector2(960, 8500)
 	full_stop = 0
 	yield(get_tree().create_timer(1), "timeout")
@@ -109,6 +115,7 @@ func _fuel():
 
 func _current_mapslice_changed(node):
 	current_mapslice = node
+	connect("player_died", current_mapslice, "_reset")
 
 func _hit_a_node(node):
 	if node.is_in_group("enemy"):
