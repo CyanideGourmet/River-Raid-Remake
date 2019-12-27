@@ -3,10 +3,10 @@ extends TileMap
 export var level_size = 8704
 export var min_fuel_number = 4
 export var max_fuel_number = 10
-export var min_chopper_number = 5
-export var max_chopper_number = 15
-export var min_plane_number = 5
-export var max_plane_number = 15
+export var min_chopper_number = 3
+export var max_chopper_number = 8
+export var min_plane_number = 3
+export var max_plane_number = 8
 export var min_generate_start_n = 3
 export var max_generate_start_n = 5
 export var min_generate_start_m = 10
@@ -18,6 +18,7 @@ var player_node
 var FuelScene = preload("res://scenes/Fuel.tscn")
 var ChopperScene = preload("res://scenes/Chopper.tscn")
 var PlaneScene = preload("res://scenes/Plane.tscn")
+var RoadScene = preload("res://scenes/Road.tscn")
 var map_array = []
 var instantiated_nodes_coordinates = []
 var start_end_width = [0, 0]
@@ -38,14 +39,9 @@ func _ready():
 	#bullet
 	set_collision_layer_bit(-100, 1)
 	player_node = get_parent().find_node("Player")
-	$Area.connect("body_entered", self, "_on_Mapslice_body_entered")
 	$Area.connect("body_exited", self, "_on_MapSlice_body_exited")
 	connect("current_mapslice_changed", player_node, "_current_mapslice_changed")
 	_generate()
-
-func _on_Mapslice_body_entered(body):
-	if body == player_node:
-		emit_signal("current_mapslice_changed", self)
 
 func _on_MapSlice_body_exited(body):
 	yield(get_tree().create_timer(1), "timeout")
@@ -98,6 +94,9 @@ func _generate():
 	_place_tiles()
 	_instantiated_nodes_coordinates()
 	_place_entities()
+	var Road = RoadScene.instance()
+	add_child(Road)
+	Road.position = Vector2(0, 8640)
 
 func _reset():
 	_clear_entities()
@@ -202,7 +201,7 @@ func _join_up():
 		map_array[n[1]][m[1]] = [3, 1, 1]
 		m[1] -= 1
 	var x = 0
-	while m[0] >= 0:
+	while m[0] >= 1:
 		if x == 0:
 			map_array[n[0]][m[0]] = [2, 1, 0]
 			n[0] += 1
@@ -212,7 +211,7 @@ func _join_up():
 			m[0] -= 1
 			x = 0
 	x = 0 
-	while m[1] >= 0:
+	while m[1] >= 1:
 		if x == 0:
 			map_array[n[1]][m[1]] = [4, 1, 1]
 			n[1] -= 1
@@ -267,12 +266,12 @@ func _fill():
 			n += 1
 		n = 0
 	n = [0, -1]
-	for i in range(272):
-		while map_array[n[0]][i] == [0, 0, 0]:
-			map_array[n[0]][i] = [1, 1, 0]
+	for i in range(271):
+		while map_array[n[0]][i+1] == [0, 0, 0]:
+			map_array[n[0]][i+1] = [1, 1, 0]
 			n[0] += 1
-		while map_array[n[1]][i] == [0, 0, 0]:
-			map_array[n[1]][i] = [1, 1, 0]
+		while map_array[n[1]][i+1] == [0, 0, 0]:
+			map_array[n[1]][i+1] = [1, 1, 0]
 			n[1] -= 1
 		n = [0, -1] 
 

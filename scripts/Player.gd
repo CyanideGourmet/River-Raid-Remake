@@ -29,6 +29,7 @@ signal player_died
 
 func _ready():
 	camera_pos = $Camera.position
+	current_mapslice = get_parent().find_node("MapSlice")
 	UI = get_parent().get_node("UI")
 	Fuel_t = UI.find_node("Fuel")
 	Points_t = UI.find_node("Points")
@@ -41,6 +42,8 @@ func _ready():
 	set_collision_mask_bit(2, 1)
 	#plane
 	set_collision_mask_bit(3, 1)
+	#bridge
+	set_collision_mask_bit(10, 1)
 	connect("player_died", current_mapslice, "_reset")
 
 func _input(event):
@@ -116,6 +119,7 @@ func _fuel():
 		refill = 0
 
 func _current_mapslice_changed(node):
+	print("a")
 	current_mapslice = node
 	connect("player_died", current_mapslice, "_reset")
 

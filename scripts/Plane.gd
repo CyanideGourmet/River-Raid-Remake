@@ -32,10 +32,6 @@ func _physics_process(delta):
 		if collision.collider.is_in_group("PlayerBullet"):
 			_death()
 
-func _collided(node):
-	if node.is_in_group("PlayerBullet"):
-		_death()
-
 func _death():
 	#death animation
 	emit_signal("destroyed", self)

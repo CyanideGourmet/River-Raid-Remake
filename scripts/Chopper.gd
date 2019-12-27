@@ -32,15 +32,11 @@ func _physics_process(delta):
 	var velocity = Vector2(direction, 0) * movement_speed * full_stop
 	var collision = move_and_collide(velocity*delta)
 	if collision:
-		if collision.collider.is_in_group("PlayerBullet"):
-			_death()
-		elif collision.collider.is_in_group("terrain"):
+		if collision.collider.is_in_group("terrain"):
 			direction *= -1
 			$Body.flip_v = !$Body.flip_v
-
-func _collided(node):
-	if node.is_in_group("PlayerBullet"):
-		_death()
+		elif collision.collision.is_in_group("PlayerBullet"):
+			_death()
 
 func _death():
 	#death animation
