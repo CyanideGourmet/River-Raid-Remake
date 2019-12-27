@@ -5,8 +5,10 @@ signal destroyed
 var player_node
 
 func _ready():
+	#player
 	set_collision_layer_bit(2, 1)
-	set_collision_layer_bit(5, 1)
+	#bullet
+	set_collision_layer_bit(-2, 1)
 	player_node = get_parent().get_parent().find_node("Player")
 	connect("body_entered", self, "_fuel")
 	connect("body_exited", self, "_fuel")
