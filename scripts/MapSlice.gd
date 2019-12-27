@@ -5,6 +5,8 @@ export var min_fuel_number = 4
 export var max_fuel_number = 10
 export var min_chopper_number = 5
 export var max_chopper_number = 15
+export var min_plane_number = 5
+export var max_plane_number = 15
 export var min_generate_start_n = 3
 export var max_generate_start_n = 5
 export var min_generate_start_m = 10
@@ -13,8 +15,9 @@ export var max_generate_start_m = 20
 signal current_mapslice_changed
 
 var player_node
-var Fuel = preload("res://scenes/Fuel.tscn")
-var Chopper = preload("res://scenes/Chopper.tscn")
+var FuelScene = preload("res://scenes/Fuel.tscn")
+var ChopperScene = preload("res://scenes/Chopper.tscn")
+var PlaneScene = preload("res://scenes/Plane.tscn")
 var map_array = []
 var instantiated_nodes_coordinates = []
 var start_end_width = [0, 0]
@@ -29,13 +32,11 @@ var tiles = {[0, 0, 0]: 0, [1, 1, 0]: [1, 0, 0, 0], [2, 1, 0]: [3, 1, 0, 0], [2,
 var entities = []
 
 func _ready():
-	#player
+	#player/chopper
 	set_collision_layer_bit(0, 1)
 	$Area.set_collision_layer_bit(0, 1)
 	#bullet
-	set_collision_layer_bit(3, 1)
-	#chopper
-	set_collision_layer_bit(6, 1)
+	set_collision_layer_bit(-100, 1)
 	player_node = get_parent().find_node("Player")
 	$Area.connect("body_entered", self, "_on_Mapslice_body_entered")
 	$Area.connect("body_exited", self, "_on_MapSlice_body_exited")
@@ -157,7 +158,7 @@ func _right_side_copy():
 	map_array[n+copy_offset][m][2] = 1
 
 func _island():
-	island_params = [10, _random_int(39, 79), _random_int(192, 232)]
+	island_params = [12, _random_int(39, 79), _random_int(192, 232)]
 	var start_n
 	var end_n
 	if island_params[0]:
@@ -288,8 +289,10 @@ func _instantiated_nodes_coordinates():
 	instantiated_nodes_coordinates = []
 	var fuel_number = _random_int(min_fuel_number, max_fuel_number)
 	var chopper_number = _random_int(min_chopper_number, max_chopper_number)
+	var plane_number = _random_int(min_plane_number, max_plane_number)
 	var fuel_coords = []
 	var chopper_coords = []
+	var plane_coords = []
 	while fuel_number > 0:
 		var coordinates = [0, _random_int(20, 251)]
 		while(map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]):
@@ -311,6 +314,11 @@ func _instantiated_nodes_coordinates():
 		chopper_coords.append(coordinates)
 		chopper_number -= 1
 	instantiated_nodes_coordinates.append(chopper_coords)
+	while plane_number > 0:
+		var coordinates = [_random_int(0, 1)*59, _random_int(50, 221)]
+		plane_coords.append(coordinates)
+		plane_number -= 1
+	instantiated_nodes_coordinates.append(plane_coords)
 
 func _place_entities():
 	_fuel_entities()
@@ -319,7 +327,7 @@ func _place_entities():
 func _fuel_entities():
 	var fuel_entities = []
 	for i in instantiated_nodes_coordinates[0]:
-		var x = Fuel.instance()
+		var x = FuelScene.instance()
 		add_child(x)
 		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
 		x.scale = Vector2(2, 2)
@@ -328,20 +336,34 @@ func _fuel_entities():
 
 func _enemies():
 	_choppers()
+	_planes()
 
 func _choppers():
 	var chopper_entities = []
 	for i in instantiated_nodes_coordinates[1]:
-		var x = Chopper.instance()
+		var x = ChopperScene.instance()
 		add_child(x)
 		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
-		x.scale = Vector2(0.125, 0.125)
 		x.direction = -1
 		if i[0] == 0:
 			x.rotation = 135
 			x.direction = 1
 		chopper_entities.append(x)
 	entities.append(chopper_entities)
+
+func _planes():
+	var plane_entities = []
+	for i in instantiated_nodes_coordinates[2]:
+		var x = PlaneScene.instance()
+		add_child(x)
+		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
+		x.direction = -1
+		if i[0] == 0:
+			var x_body = x.get_node("Body")
+			x_body.flip_v = !x_body.flip_v
+			x.direction = 1
+		plane_entities.append(x)
+	entities.append(plane_entities)
 
 func _clear_entities():
 	for i in entities:

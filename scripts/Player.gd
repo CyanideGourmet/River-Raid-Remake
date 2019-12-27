@@ -39,6 +39,8 @@ func _ready():
 	set_collision_mask_bit(1, 1)
 	#fuel
 	set_collision_mask_bit(2, 1)
+	#plane
+	set_collision_mask_bit(3, 1)
 	connect("player_died", current_mapslice, "_reset")
 
 func _input(event):
