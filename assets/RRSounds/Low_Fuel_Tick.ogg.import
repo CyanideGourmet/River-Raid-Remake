@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Low_Fuel_Tick.ogg-833c9f3fc570fbc72c084f6a7165b457.oggstr"
+
+[deps]
+
+source_file="res://assets/RRSounds/Low_Fuel_Tick.ogg"
+dest_files=[ "res://.import/Low_Fuel_Tick.ogg-833c9f3fc570fbc72c084f6a7165b457.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
