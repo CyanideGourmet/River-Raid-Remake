@@ -16,7 +16,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
-velocity = 2000
+velocity = 800
 
 [node name="Shot" parent="." instance=ExtResource( 2 )]
 position = Vector2( -0.05, -0.38 )
