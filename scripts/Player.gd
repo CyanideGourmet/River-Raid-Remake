@@ -119,7 +119,7 @@ func _fuel():
 		refill = 0
 
 func _current_mapslice_changed(node):
-	print("a")
+	disconnect("player_died", current_mapslice, "_reset")
 	current_mapslice = node
 	connect("player_died", current_mapslice, "_reset")
 
