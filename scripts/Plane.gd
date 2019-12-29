@@ -6,6 +6,7 @@ export var point_value = 100
 var player_node
 var direction = 0
 var full_stop = 0
+var explosion = preload("res://scenes/JetExplosion.tscn")
 
 signal destroyed
 signal left_the_screen
@@ -33,6 +34,13 @@ func _physics_process(delta):
 			_death()
 
 func _death():
+	if (explosion):
+		print("Jet exploded")
+		var explosionInstance = explosion.instance()
+		get_parent().get_parent().get_parent().add_child(explosionInstance)
+		explosionInstance._init_explosion(movement_speed * direction, global_position)
+	else:
+		print("NO EXPLOSION!")
 	#death animation
 	emit_signal("destroyed", self)
 	queue_free()

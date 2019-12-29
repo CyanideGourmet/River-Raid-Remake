@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://scenes/EnemyShotExplosion.gd" type="Script" id=1]
+[ext_resource path="res://assets/RRSounds/EnemyExplosion.ogg" type="AudioStream" id=2]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0.0425532, 0.136525, 0.258865, 0.414894, 0.95 )
+colors = PoolColorArray( 1, 0.996078, 0.87451, 1, 0.713726, 0.439216, 0.109804, 0.752941, 0.87451, 0.188235, 0.054902, 0.501961, 0.227451, 0.215686, 0.203922, 0.0784314, 0.0705882, 0.0666667, 0.0666667, 0 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 0.1777 ), 0.0, 0.43893, 0, 0, Vector2( 0.578123, 0.9895 ), 2.957, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, -10, 0 )
+initial_velocity = 150.0
+initial_velocity_random = 0.8
+angular_velocity = 170.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 30.0
+damping_random = 0.95
+scale = 60.0
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
+
+[node name="JetExplosion" type="KinematicBody2D"]
+scale = Vector2( 0.15, 0.15 )
+script = ExtResource( 1 )
+damping = 0.045
+identifier = "Jet"
+
+[node name="ExplosionSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 2 )
+volume_db = 3.0
+pitch_scale = 1.05
+autoplay = true
+max_distance = 10000.0
+
+[node name="Explosion" type="Particles2D" parent="."]
+amount = 300
+lifetime = 10.0
+speed_scale = 4.0
+explosiveness = 0.7
+randomness = 0.73
+local_coords = false
+process_material = SubResource( 5 )
