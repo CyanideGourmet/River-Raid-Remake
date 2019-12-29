@@ -1,0 +1,62 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://scenes/EnemyShotExplosion.gd" type="Script" id=1]
+[ext_resource path="res://assets/RRSounds/bridge_explosion.ogg" type="AudioStream" id=2]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.0302491, 0.0765125, 0.15, 0.996441 )
+colors = PoolColorArray( 1, 0.996078, 0.87451, 1, 0.914063, 0.504285, 0.107117, 0.752941, 0.835938, 0.543839, 0.0881653, 0.501961, 0.0705882, 0.0666667, 0.0666667, 0.12549, 0, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 0.137 ), 0.0, 1.7878, 0, 0, Vector2( 0.878172, 1 ), 0.518511, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+emission_shape = 2
+emission_box_extents = Vector3( 150, 1000, 1 )
+flag_disable_z = true
+spread = 60.0
+flatness = 1.0
+gravity = Vector3( 125, 0, 0 )
+initial_velocity = 1000.0
+initial_velocity_random = 0.7
+angular_velocity = 30.0
+angular_velocity_random = 0.7
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 1000.0
+damping_random = 0.75
+scale = 500.0
+scale_random = 0.3
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
+
+[node name="BridgeExplosion" type="KinematicBody2D"]
+scale = Vector2( 0.3, 0.3 )
+script = ExtResource( 1 )
+lifetime = 10
+damping = 0.0
+identifier = "Bridge"
+
+[node name="ExplosionSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 2 )
+volume_db = 9.0
+pitch_scale = 0.9
+autoplay = true
+max_distance = 10000.0
+attenuation = 0.101532
+
+[node name="Explosion" type="Particles2D" parent="."]
+position = Vector2( 0, 150 )
+rotation = -1.5708
+amount = 1000
+lifetime = 10.0
+speed_scale = 5.0
+explosiveness = 0.95
+randomness = 1.0
+process_material = SubResource( 5 )

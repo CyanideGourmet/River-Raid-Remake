@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/UI_Hubert.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/MapSlice.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/UI.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/MusicPlayer.tscn" type="PackedScene" id=5]
 
 [node name="Main" type="Node"]
 __meta__ = {
@@ -14,19 +15,34 @@ __meta__ = {
 
 [node name="MapSlice" parent="." instance=ExtResource( 2 )]
 position = Vector2( 0, 8704 )
+min_fuel_number = 3
+max_fuel_number = 8
+min_chopper_number = 10
+max_chopper_number = 20
+min_plane_number = 5
+max_plane_number = 10
 
 [node name="MapSlice2" parent="." instance=ExtResource( 2 )]
+min_fuel_number = 3
+max_fuel_number = 8
+min_chopper_number = 10
+max_chopper_number = 20
+min_plane_number = 5
+max_plane_number = 10
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 960, 17168 )
 collision_layer = 5
 collision_mask = 5
-movement_speed = 700
+movement_speed = 500
 def_forward_speed = 400
 max_forward_speed = 1000
 min_forward_speed = 200
 acceleration_speed = 50
-fuel_decrease_rate = 0.05
-fuel_refill_rate = 2.0
+fuel_decrease_rate = 0.04
+fuel_refill_rate = 1.5
 
 [node name="UI" parent="." instance=ExtResource( 4 )]
+
+[node name="MusicPlayer" parent="." instance=ExtResource( 5 )]
+maxVolume = -9.0

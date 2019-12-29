@@ -9,7 +9,6 @@ export var fuel_decrease_rate = 0.1
 export var fuel_refill_rate = 0.2
 export var low_fuel_threshold = 30
 
-
 var camera_pos
 var UI
 var Fuel_t
@@ -31,13 +30,14 @@ var isLowOnFuel = false
 var current_pitch_scale = 1
 
 var points = 0
-
-
+var cam
 signal free_the_bullet
 signal player_died
 
 func _ready():
-	camera_pos = $Camera.position
+	#cam = $ViewportContainer/Viewport/Camera
+	cam = $Camera
+	camera_pos = cam.position
 
 	UI = get_parent().get_node("UI").get_node("Fuel")
 	low_fuel_tick_sound = get_node("LowFuelSound") as AudioStreamPlayer2D
@@ -57,6 +57,7 @@ func _ready():
 	set_collision_mask_bit(2, 1)
 
 	$LowFuelSound.stop()
+	$RefillSound.stop()
 	#$EngineSound.stop()
 	
 
@@ -65,7 +66,7 @@ func _ready():
 	#bridge
 	set_collision_mask_bit(10, 1)
 	connect("player_died", current_mapslice, "_reset")
-
+	
 
 func _input(event):
 	if event.is_pressed():
@@ -94,11 +95,13 @@ func _input(event):
 		else:
 			acceleration_dir = 1
 	if event.is_action_pressed("ui_select") and ammo > 0:
+		$Pew.play(0.0)
 		var bullet = Bullet.instance()
 		bullet.scale = Vector2(4, 4)
 		add_child(bullet)
 		bullet.connect("bullet_freed", self, "_on_bullet_freed")
 		connect("free_the_bullet", bullet, "_death")
+		
 		ammo -= 1
 
 func _process(delta):
@@ -142,7 +145,9 @@ func _physics_process(delta):
 		if collision.collider.is_in_group("terrain") or collision.collider.is_in_group("enemy"):
 			_dead()
 	fuel += -fuel_decrease_rate + fuel_refill_rate * refill
-	position.x = clamp(position.x, camera_pos.x, camera_pos.x + $Camera.get_viewport_rect().size.x)
+	if (refill > 0):
+		$RefillSound.pitch_scale = lerp(1, 10, fuel * 0.01)
+	position.x = clamp(position.x, camera_pos.x, camera_pos.x + cam.get_viewport_rect().size.x)
 
 func _dead():
 
@@ -165,8 +170,11 @@ func _on_bullet_freed():
 func _fuel():
 	if refill == 0:
 		refill = 1
+		$RefillSound.play(0)
+		
 	else:
 		refill = 0
+		$RefillSound.stop()
 
 func _current_mapslice_changed(node):
 	print("a")

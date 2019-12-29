@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/SpaceShipEnergyCharge.ogg-f483038bc1652f815b8506f4addbd4a7.oggstr"
+
+[deps]
+
+source_file="res://assets/RRSounds/SpaceShipEnergyCharge.ogg"
+dest_files=[ "res://.import/SpaceShipEnergyCharge.ogg-f483038bc1652f815b8506f4addbd4a7.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
