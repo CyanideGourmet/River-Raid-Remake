@@ -45,4 +45,5 @@ fuel_refill_rate = 1.2
 [node name="UI" parent="." instance=ExtResource( 4 )]
 
 [node name="MusicPlayer" parent="." instance=ExtResource( 5 )]
-maxVolume = -9.0
+maxVolume = -20.0
+minVolume = -60.0

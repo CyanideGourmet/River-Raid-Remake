@@ -3,8 +3,9 @@
 [ext_resource path="res://scripts/Bullet.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Shot.tscn" type="PackedScene" id=2]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 2.27345, 15.9956 )
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 2.0
+height = 3.0
 
 [node name="Bullet" type="KinematicBody2D" groups=[
 "PlayerBullet",
@@ -15,11 +16,12 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
-velocity = 800
+velocity = 950
 
 [node name="Shot" parent="." instance=ExtResource( 2 )]
 position = Vector2( -0.05, -0.38 )
 scale = Vector2( 0.07, 0.07 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -13 )
 shape = SubResource( 1 )
