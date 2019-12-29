@@ -34,15 +34,15 @@ max_plane_number = 10
 position = Vector2( 960, 17168 )
 collision_layer = 5
 collision_mask = 5
-movement_speed = 700
+movement_speed = 500
 def_forward_speed = 400
 max_forward_speed = 1000
 min_forward_speed = 200
 acceleration_speed = 50
-fuel_decrease_rate = 0.05
-fuel_refill_rate = 2.0
+fuel_decrease_rate = 0.04
+fuel_refill_rate = 1.5
 
 [node name="UI" parent="." instance=ExtResource( 4 )]
 
 [node name="MusicPlayer" parent="." instance=ExtResource( 5 )]
-maxVolume = -18.0
+maxVolume = -9.0
