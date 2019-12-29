@@ -42,6 +42,8 @@ func _ready():
 	set_collision_mask_bit(2, 1)
 	#plane
 	set_collision_mask_bit(3, 1)
+	#heavy
+	set_collision_mask_bit(4, 1)
 	#bridge
 	set_collision_mask_bit(10, 1)
 	connect("player_died", current_mapslice, "_reset")
@@ -95,7 +97,10 @@ func _physics_process(delta):
 	velocity.y *= forward_speed
 	var collision = move_and_collide(velocity * delta)
 	if collision:
-		if collision.collider.is_in_group("terrain") or collision.collider.is_in_group("enemy"):
+		if collision.collider.is_in_group("terrain"):
+			_dead()
+		elif collision.collider.is_in_group("enemy"):
+			collision.collider._death()
 			_dead()
 	fuel += -fuel_decrease_rate + fuel_refill_rate * refill
 	position.x = clamp(position.x, camera_pos.x, camera_pos.x + $Camera.get_viewport_rect().size.x)

@@ -7,6 +7,8 @@ export var min_chopper_number = 3
 export var max_chopper_number = 8
 export var min_plane_number = 3
 export var max_plane_number = 8
+export var min_heavy_number = 1
+export var max_heavy_number = 3
 export var min_generate_start_n = 3
 export var max_generate_start_n = 5
 export var min_generate_start_m = 10
@@ -18,6 +20,7 @@ var player_node
 var FuelScene = preload("res://scenes/Fuel.tscn")
 var ChopperScene = preload("res://scenes/Chopper.tscn")
 var PlaneScene = preload("res://scenes/Plane.tscn")
+var HeavyScene = preload("res://scenes/Heavy.tscn")
 var RoadScene = preload("res://scenes/Road.tscn")
 var map_array = []
 var instantiated_nodes_coordinates = []
@@ -289,9 +292,11 @@ func _instantiated_nodes_coordinates():
 	var fuel_number = _random_int(min_fuel_number, max_fuel_number)
 	var chopper_number = _random_int(min_chopper_number, max_chopper_number)
 	var plane_number = _random_int(min_plane_number, max_plane_number)
+	var heavy_number = _random_int(min_heavy_number, max_heavy_number)
 	var fuel_coords = []
 	var chopper_coords = []
 	var plane_coords = []
+	var heavy_coords = []
 	while fuel_number > 0:
 		var coordinates = [0, _random_int(20, 251)]
 		while(map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]):
@@ -318,6 +323,19 @@ func _instantiated_nodes_coordinates():
 		plane_coords.append(coordinates)
 		plane_number -= 1
 	instantiated_nodes_coordinates.append(plane_coords)
+	while heavy_number > 0:
+		var coordinates = [_random_int(0, 1)*59, _random_int(50, 221)]
+		var k = 0
+		if coordinates[0] == 0:
+			k = 1
+		else:
+			k = -1
+		while map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]:
+			coordinates[0] += k
+		coordinates[0] += k
+		heavy_coords.append(coordinates)
+		heavy_number -= 1
+	instantiated_nodes_coordinates.append(heavy_coords)
 
 func _place_entities():
 	_fuel_entities()
@@ -336,6 +354,7 @@ func _fuel_entities():
 func _enemies():
 	_choppers()
 	_planes()
+	_heavies()
 
 func _choppers():
 	var chopper_entities = []
@@ -345,7 +364,8 @@ func _choppers():
 		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
 		x.direction = -1
 		if i[0] == 0:
-			x.rotation = 135
+			var x_body = x.get_node("Body")
+			x_body.flip_v = !x_body.flip_v
 			x.direction = 1
 		chopper_entities.append(x)
 	entities.append(chopper_entities)
@@ -363,6 +383,20 @@ func _planes():
 			x.direction = 1
 		plane_entities.append(x)
 	entities.append(plane_entities)
+
+func _heavies():
+	var heavy_entities = []
+	for i in instantiated_nodes_coordinates[3]:
+		var x = HeavyScene.instance()
+		add_child(x)
+		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
+		x.direction = -1
+		if i[0] == 0:
+			var x_body = x.get_node("Body")
+			x_body.flip_v = !x_body.flip_v
+			x.direction = 1
+		heavy_entities.append(x)
+	entities.append(heavy_entities)
 
 func _clear_entities():
 	for i in entities:

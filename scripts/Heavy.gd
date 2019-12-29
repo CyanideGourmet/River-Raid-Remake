@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-export var movement_speed = 200
+export var movement_speed = 100
 export var point_value = 60
 
 var player_node
@@ -11,12 +11,14 @@ signal destroyed
 signal left_the_screen
 
 func _ready():
-	$Body/Rotor/AnimationPlayer.play()
+	var rotors = get_node("Body/Rotors").get_children()
+	for i in rotors:
+		i.get_children()[0].play("Rotor")
 	#player
-	set_collision_layer_bit(1, 1)
-	$PlayerDetectionArea.set_collision_layer_bit(1, 1)
+	set_collision_layer_bit(4, 1)
+	$PlayerDetectionArea.set_collision_layer_bit(4, 1)
 	#bullet
-	set_collision_layer_bit(-1, 1)
+	set_collision_layer_bit(-4, 1)
 	#terrain
 	set_collision_mask_bit(0, 1)
 	player_node = get_parent().get_parent().find_node("Player")
