@@ -46,8 +46,12 @@ func _ready():
 	set_collision_mask_bit(4, 1)
 	#ship
 	set_collision_mask_bit(5, 1)
+	#shooter
+	set_collision_mask_bit(6, 1)
 	#bridge
 	set_collision_mask_bit(10, 1)
+	#enemybullet
+	set_collision_layer_bit(-20, 1)
 	connect("player_died", current_mapslice, "_reset")
 
 func _input(event):

@@ -36,7 +36,7 @@ func _physics_process(delta):
 	if collision:
 		if collision.collider.is_in_group("terrain"):
 			direction *= -1
-			$Body.flip_v = !$Body.flip_v
+			rotation_degrees += 180
 		elif collision.collider.is_in_group("PlayerBullet"):
 			_death()
 

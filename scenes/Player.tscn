@@ -7,7 +7,9 @@
 radius = 5.12219
 height = 39.9848
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=[
+"player",
+]]
 collision_layer = 0
 collision_mask = 0
 script = ExtResource( 1 )

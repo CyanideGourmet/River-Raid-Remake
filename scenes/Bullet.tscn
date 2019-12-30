@@ -1,10 +1,22 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/Bullet.gd" type="Script" id=1]
-[ext_resource path="res://scenes/Shot.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/Images/Sprites/shot0.png" type="Texture" id=2]
+[ext_resource path="res://assets/Images/Sprites/shot1.png" type="Texture" id=3]
+[ext_resource path="res://assets/Images/Sprites/shot2.png" type="Texture" id=4]
+[ext_resource path="res://assets/Images/Sprites/shot3.png" type="Texture" id=5]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 2.27345, 15.9956 )
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "default",
+"speed": 15.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 1.81939
+height = 12.99
 
 [node name="Bullet" type="KinematicBody2D" groups=[
 "PlayerBullet",
@@ -17,9 +29,13 @@ __meta__ = {
 }
 velocity = 800
 
-[node name="Shot" parent="." instance=ExtResource( 2 )]
-position = Vector2( -0.05, -0.38 )
-scale = Vector2( 0.07, 0.07 )
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0.21, 0 )
+scale = Vector2( 0.08, 0.08 )
+frames = SubResource( 2 )
+frame = 1
+playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+position = Vector2( 0, -10.25 )
+shape = SubResource( 3 )
