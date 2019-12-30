@@ -3,7 +3,6 @@
 [ext_resource path="res://assets/Images/Sprites/shot.png" type="Texture" id=1]
 [ext_resource path="res://assets/Shot_Test_Anim.anim" type="Animation" id=2]
 
-
 [node name="Shot" type="Node2D"]
 
 [node name="Sprite" type="Sprite" parent="."]

@@ -1,24 +1,24 @@
 extends KinematicBody2D
 
-export var movement_speed = 200
+export var movement_speed = 100
 export var point_value = 60
 
 var player_node
 var direction = 0
 var full_stop = 0
-var explosion = preload("res://scenes/EnemyShotExplosion.tscn")
 
 signal destroyed
 signal left_the_screen
 
 func _ready():
-	$Body/Rotor/AnimationPlayer.play()
-	
+	var rotors = get_node("Body/Rotors").get_children()
+	for i in rotors:
+		i.get_children()[0].play("Rotor")
 	#player
-	set_collision_layer_bit(1, 1)
-	$PlayerDetectionArea.set_collision_layer_bit(1, 1)
+	set_collision_layer_bit(4, 1)
+	$PlayerDetectionArea.set_collision_layer_bit(4, 1)
 	#bullet
-	set_collision_layer_bit(-1, 1)
+	set_collision_layer_bit(-4, 1)
 	#terrain
 	set_collision_mask_bit(0, 1)
 	player_node = get_parent().get_parent().find_node("Player")
@@ -33,21 +33,14 @@ func _process(delta):
 func _physics_process(delta):
 	var velocity = Vector2(direction, 0) * movement_speed * full_stop
 	var collision = move_and_collide(velocity*delta)
-	if collision && collision.collider:
+	if collision:
 		if collision.collider.is_in_group("terrain"):
 			direction *= -1
-			$Body.flip_v = !$Body.flip_v
-		if collision.collider.is_in_group("PlayerBullet"):	
+			rotation_degrees += 180
+		elif collision.collider.is_in_group("PlayerBullet"):
 			_death()
 
 func _death():
-	if (explosion):
-		print("Chopper exploded")
-		var explosionInstance = explosion.instance()
-		get_parent().get_parent().get_parent().add_child(explosionInstance)
-		explosionInstance._set_position(global_position)
-	else:
-		print("NO EXPLOSION!")
 	#death animation
 	emit_signal("destroyed", self)
 	queue_free()

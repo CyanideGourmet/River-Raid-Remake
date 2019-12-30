@@ -3,10 +3,16 @@ extends TileMap
 export var level_size = 8704
 export var min_fuel_number = 4
 export var max_fuel_number = 10
-export var min_chopper_number = 3
-export var max_chopper_number = 8
+export var min_chopper_number = 1
+export var max_chopper_number = 5
 export var min_plane_number = 3
 export var max_plane_number = 8
+export var min_heavy_number = 1
+export var max_heavy_number = 3
+export var min_ship_number = 1
+export var max_ship_number = 5
+export var min_shooter_number = 1
+export var max_shooter_number = 4
 export var min_generate_start_n = 3
 export var max_generate_start_n = 5
 export var min_generate_start_m = 10
@@ -18,6 +24,9 @@ var player_node
 var FuelScene = preload("res://scenes/Fuel.tscn")
 var ChopperScene = preload("res://scenes/Chopper.tscn")
 var PlaneScene = preload("res://scenes/Plane.tscn")
+var HeavyScene = preload("res://scenes/Heavy.tscn")
+var ShipScene = preload("res://scenes/Ship.tscn")
+var ShooterScene = preload("res://scenes/Shooter.tscn")
 var RoadScene = preload("res://scenes/Road.tscn")
 var map_array = []
 var instantiated_nodes_coordinates = []
@@ -289,9 +298,15 @@ func _instantiated_nodes_coordinates():
 	var fuel_number = _random_int(min_fuel_number, max_fuel_number)
 	var chopper_number = _random_int(min_chopper_number, max_chopper_number)
 	var plane_number = _random_int(min_plane_number, max_plane_number)
+	var heavy_number = _random_int(min_heavy_number, max_heavy_number)
+	var ship_number = _random_int(min_ship_number, max_ship_number)
+	var shooter_number = _random_int(min_shooter_number, max_shooter_number)
 	var fuel_coords = []
 	var chopper_coords = []
 	var plane_coords = []
+	var heavy_coords = []
+	var ship_coords = []
+	var shooter_coords = []
 	while fuel_number > 0:
 		var coordinates = [0, _random_int(20, 251)]
 		while(map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]):
@@ -308,8 +323,10 @@ func _instantiated_nodes_coordinates():
 			k = 1
 		else:
 			k = -1
+		coordinates.append(k)
 		while map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]:
 			coordinates[0] += k
+		coordinates[0] += 2*k
 		chopper_coords.append(coordinates)
 		chopper_number -= 1
 	instantiated_nodes_coordinates.append(chopper_coords)
@@ -318,6 +335,47 @@ func _instantiated_nodes_coordinates():
 		plane_coords.append(coordinates)
 		plane_number -= 1
 	instantiated_nodes_coordinates.append(plane_coords)
+	while heavy_number > 0:
+		var coordinates = [_random_int(0, 1)*59, _random_int(50, 221)]
+		var k = 0
+		if coordinates[0] == 0:
+			k = 1
+		else:
+			k = -1
+		coordinates.append(k)
+		while map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]:
+			coordinates[0] += k
+		coordinates[0] += 2*k
+		heavy_coords.append(coordinates)
+		heavy_number -= 1
+	instantiated_nodes_coordinates.append(heavy_coords)
+	while ship_number > 0:
+		var coordinates = [_random_int(0, 1)*59, _random_int(50, 221)]
+		var k = 0
+		if coordinates[0] == 0:
+			k = 1
+		else:
+			k = -1
+		coordinates.append(k)
+		while map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]:
+			coordinates[0] += k
+		coordinates[0] += 2*k
+		ship_coords.append(coordinates)
+		ship_number -= 1
+	instantiated_nodes_coordinates.append(ship_coords)
+	while shooter_number > 0:
+		var coordinates = [_random_int(0, 1)*59, _random_int(50, 221)]
+		var k = 0
+		if coordinates[0] == 0:
+			k = 1
+		else:
+			k = -1
+		coordinates.append(k)
+		while map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]:
+			coordinates[0] += k
+		shooter_coords.append(coordinates)
+		shooter_number -= 1
+	instantiated_nodes_coordinates.append(shooter_coords)
 
 func _place_entities():
 	_fuel_entities()
@@ -336,6 +394,9 @@ func _fuel_entities():
 func _enemies():
 	_choppers()
 	_planes()
+	_heavies()
+	_ships()
+	_shooters()
 
 func _choppers():
 	var chopper_entities = []
@@ -344,8 +405,8 @@ func _choppers():
 		add_child(x)
 		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
 		x.direction = -1
-		if i[0] == 0:
-			x.rotation = 135
+		if i[2] > 0:
+			x.rotation_degrees += 180
 			x.direction = 1
 		chopper_entities.append(x)
 	entities.append(chopper_entities)
@@ -358,11 +419,48 @@ func _planes():
 		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
 		x.direction = -1
 		if i[0] == 0:
-			var x_body = x.get_node("Body")
-			x_body.flip_v = !x_body.flip_v
+			x.rotation_degrees += 180
 			x.direction = 1
 		plane_entities.append(x)
 	entities.append(plane_entities)
+
+func _heavies():
+	var heavy_entities = []
+	for i in instantiated_nodes_coordinates[3]:
+		var x = HeavyScene.instance()
+		add_child(x)
+		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
+		x.direction = -1
+		if i[2] > 0:
+			x.rotation_degrees += 180
+			x.direction = 1
+		heavy_entities.append(x)
+	entities.append(heavy_entities)
+
+func _ships():
+	var ship_entities = []
+	for i in instantiated_nodes_coordinates[4]:
+		var x = ShipScene.instance()
+		add_child(x)
+		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
+		x.direction = -1
+		if i[2] > 0:
+			var x_body = x.get_node("Body")
+			x_body.flip_v = !x_body.flip_v
+			x.direction = 1
+		ship_entities.append(x)
+	entities.append(ship_entities)
+
+func _shooters():
+	var shooter_entities = []
+	for i in instantiated_nodes_coordinates[5]:
+		var x = ShooterScene.instance()
+		add_child(x)
+		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
+		if i[2] > 0:
+			x.rotation_degrees += 180
+		shooter_entities.append(x)
+	entities.append(shooter_entities)
 
 func _clear_entities():
 	for i in entities:

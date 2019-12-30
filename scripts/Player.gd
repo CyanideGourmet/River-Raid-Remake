@@ -63,8 +63,16 @@ func _ready():
 
 	#plane
 	set_collision_mask_bit(3, 1)
+	#heavy
+	set_collision_mask_bit(4, 1)
+	#ship
+	set_collision_mask_bit(5, 1)
+	#shooter
+	set_collision_mask_bit(6, 1)
 	#bridge
 	set_collision_mask_bit(10, 1)
+	#enemybullet
+	set_collision_layer_bit(-20, 1)
 	connect("player_died", current_mapslice, "_reset")
 	
 
@@ -142,7 +150,10 @@ func _physics_process(delta):
 	
 	var collision = move_and_collide(velocity * delta)
 	if collision:
-		if collision.collider.is_in_group("terrain") or collision.collider.is_in_group("enemy"):
+		if collision.collider.is_in_group("terrain"):
+			_dead()
+		elif collision.collider.is_in_group("enemy"):
+			collision.collider._death()
 			_dead()
 	fuel += -fuel_decrease_rate + fuel_refill_rate * refill
 	if (refill > 0):
@@ -177,7 +188,7 @@ func _fuel():
 		$RefillSound.stop()
 
 func _current_mapslice_changed(node):
-	print("a")
+	disconnect("player_died", current_mapslice, "_reset")
 	current_mapslice = node
 	connect("player_died", current_mapslice, "_reset")
 

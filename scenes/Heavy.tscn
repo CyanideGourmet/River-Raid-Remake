@@ -1,0 +1,131 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://scripts/Heavy.gd" type="Script" id=1]
+[ext_resource path="res://assets/Images/Sprites/2x chopper body.png" type="Texture" id=2]
+[ext_resource path="res://assets/Images/Sprites/smiglo.png" type="Texture" id=3]
+[ext_resource path="res://assets/Images/Sprites/Rotor.anim" type="Animation" id=4]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Chopper_Rotor_Big"
+length = 0.08
+loop = true
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.02, 0.04, 0.06, 0.08 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 15.0, 30.0, 45.0, 60.0 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Chopper_Rotor_Big"
+length = 0.08
+loop = true
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.02, 0.04, 0.06, 0.08 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 15.0, 30.0, 45.0, 60.0 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Chopper_Rotor_Big"
+length = 0.08
+loop = true
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.02, 0.04, 0.06, 0.08 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 15.0, 30.0, 45.0, 60.0 ]
+}
+
+[sub_resource type="CapsuleShape2D" id=4]
+radius = 48.9232
+height = 316.948
+
+[sub_resource type="CapsuleShape2D" id=5]
+radius = 6480.0
+height = 15360.0
+
+[node name="Heavy" type="KinematicBody2D" groups=[
+"enemy",
+]]
+scale = Vector2( 0.2, 0.2 )
+collision_layer = 0
+collision_mask = 0
+script = ExtResource( 1 )
+
+[node name="Body" type="Sprite" parent="."]
+rotation = -1.5708
+texture = ExtResource( 2 )
+
+[node name="Rotors" type="Node2D" parent="Body"]
+
+[node name="Rotor0" type="Sprite" parent="Body/Rotors"]
+position = Vector2( 157.65, 119.49 )
+rotation = 0.186627
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Body/Rotors/Rotor0"]
+anims/Rotor = ExtResource( 4 )
+
+[node name="Rotor1" type="Sprite" parent="Body/Rotors"]
+position = Vector2( -154.31, 119.49 )
+rotation = 0.383893
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Body/Rotors/Rotor1"]
+anims/Rotor = SubResource( 1 )
+
+[node name="Rotor2" type="Sprite" parent="Body/Rotors"]
+position = Vector2( -153.18, -68.93 )
+rotation = 0.483206
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Body/Rotors/Rotor2"]
+anims/Rotor = SubResource( 2 )
+
+[node name="Rotor3" type="Sprite" parent="Body/Rotors"]
+position = Vector2( 157.65, -69.8 )
+rotation = 0.962752
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Body/Rotors/Rotor3"]
+anims/Rotor = SubResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource( 4 )
+
+[node name="PlayerDetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionArea"]
+rotation = 1.5708
+shape = SubResource( 5 )
+[connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_PlayerDetectionArea_body_entered"]
