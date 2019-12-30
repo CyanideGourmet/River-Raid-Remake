@@ -44,6 +44,8 @@ func _ready():
 	set_collision_mask_bit(3, 1)
 	#heavy
 	set_collision_mask_bit(4, 1)
+	#ship
+	set_collision_mask_bit(5, 1)
 	#bridge
 	set_collision_mask_bit(10, 1)
 	connect("player_died", current_mapslice, "_reset")

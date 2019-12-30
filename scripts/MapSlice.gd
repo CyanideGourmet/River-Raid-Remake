@@ -9,6 +9,8 @@ export var min_plane_number = 3
 export var max_plane_number = 8
 export var min_heavy_number = 1
 export var max_heavy_number = 3
+export var min_ship_number = 3
+export var max_ship_number = 8
 export var min_generate_start_n = 3
 export var max_generate_start_n = 5
 export var min_generate_start_m = 10
@@ -21,6 +23,7 @@ var FuelScene = preload("res://scenes/Fuel.tscn")
 var ChopperScene = preload("res://scenes/Chopper.tscn")
 var PlaneScene = preload("res://scenes/Plane.tscn")
 var HeavyScene = preload("res://scenes/Heavy.tscn")
+var ShipScene = preload("res://scenes/Ship.tscn")
 var RoadScene = preload("res://scenes/Road.tscn")
 var map_array = []
 var instantiated_nodes_coordinates = []
@@ -293,10 +296,12 @@ func _instantiated_nodes_coordinates():
 	var chopper_number = _random_int(min_chopper_number, max_chopper_number)
 	var plane_number = _random_int(min_plane_number, max_plane_number)
 	var heavy_number = _random_int(min_heavy_number, max_heavy_number)
+	var ship_number = _random_int(min_ship_number, max_ship_number)
 	var fuel_coords = []
 	var chopper_coords = []
 	var plane_coords = []
 	var heavy_coords = []
+	var ship_coords = []
 	while fuel_number > 0:
 		var coordinates = [0, _random_int(20, 251)]
 		while(map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]):
@@ -336,6 +341,19 @@ func _instantiated_nodes_coordinates():
 		heavy_coords.append(coordinates)
 		heavy_number -= 1
 	instantiated_nodes_coordinates.append(heavy_coords)
+	while ship_number > 0:
+		var coordinates = [_random_int(0, 1)*59, _random_int(50, 221)]
+		var k = 0
+		if coordinates[0] == 0:
+			k = 1
+		else:
+			k = -1
+		while map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]:
+			coordinates[0] += k
+		coordinates[0] += k
+		ship_coords.append(coordinates)
+		ship_number -= 1
+	instantiated_nodes_coordinates.append(ship_coords)
 
 func _place_entities():
 	_fuel_entities()
@@ -355,6 +373,7 @@ func _enemies():
 	_choppers()
 	_planes()
 	_heavies()
+	_ships()
 
 func _choppers():
 	var chopper_entities = []
@@ -397,6 +416,20 @@ func _heavies():
 			x.direction = 1
 		heavy_entities.append(x)
 	entities.append(heavy_entities)
+
+func _ships():
+	var ship_entities = []
+	for i in instantiated_nodes_coordinates[4]:
+		var x = ShipScene.instance()
+		add_child(x)
+		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
+		x.direction = -1
+		if i[0] == 0:
+			var x_body = x.get_node("Body")
+			x_body.flip_v = !x_body.flip_v
+			x.direction = 1
+		ship_entities.append(x)
+	entities.append(ship_entities)
 
 func _clear_entities():
 	for i in entities:
