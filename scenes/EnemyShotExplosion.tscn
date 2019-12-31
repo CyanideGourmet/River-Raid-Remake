@@ -3,20 +3,20 @@
 [ext_resource path="res://scenes/EnemyShotExplosion.gd" type="Script" id=1]
 [ext_resource path="res://assets/RRSounds/EnemyExplosion.ogg" type="AudioStream" id=2]
 
-[sub_resource type="Gradient" id=11]
+[sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0.0441558, 0.192208, 0.290909, 0.392208, 0.996441 )
-colors = PoolColorArray( 1, 0.996078, 0.87451, 1, 0.914063, 0.504285, 0.107117, 0.752941, 0.835938, 0.543839, 0.0881653, 0.501961, 0.0705882, 0.0666667, 0.0666667, 0.501961, 0, 0, 0, 0 )
+colors = PoolColorArray( 0.953125, 0.944399, 0.897278, 1, 0.914063, 0.504285, 0.107117, 0.752941, 0.835938, 0.543839, 0.0881653, 0.501961, 0.0705882, 0.0666667, 0.0666667, 0.501961, 0, 0, 0, 0 )
 
-[sub_resource type="GradientTexture" id=8]
-gradient = SubResource( 11 )
+[sub_resource type="GradientTexture" id=5]
+gradient = SubResource( 1 )
 
-[sub_resource type="Curve" id=9]
-_data = [ Vector2( 0, 0.3064 ), 0.0, 2.38619, 0, 0, Vector2( 0.99426, 0.9752 ), 0.378816, 0.0, 0, 0 ]
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0.255341, 0.1491 ), 0.0, 1.97827, 0, 0, Vector2( 0.999203, 0.9477 ), 0.754751, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=10]
-curve = SubResource( 9 )
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
 
-[sub_resource type="ParticlesMaterial" id=12]
+[sub_resource type="ParticlesMaterial" id=6]
 flag_disable_z = true
 spread = 180.0
 flatness = 1.0
@@ -30,8 +30,8 @@ orbit_velocity_random = 0.0
 damping = 1000.0
 damping_random = 0.75
 scale = 250.0
-scale_curve = SubResource( 10 )
-color_ramp = SubResource( 8 )
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 5 )
 
 [node name="EnemyShotExplosion" type="KinematicBody2D"]
 scale = Vector2( 0.2, 0.2 )
@@ -51,4 +51,4 @@ lifetime = 5.0
 speed_scale = 3.0
 explosiveness = 0.85
 randomness = 1.0
-process_material = SubResource( 12 )
+process_material = SubResource( 6 )

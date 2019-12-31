@@ -28,6 +28,7 @@ max_ship_number = 10
 
 [node name="River" type="Sprite" parent="MapSlice"]
 modulate = Color( 0.760784, 0.376471, 0.67451, 1 )
+light_mask = 888815
 z_index = -10
 texture = ExtResource( 3 )
 centered = false

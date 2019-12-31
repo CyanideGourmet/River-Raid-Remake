@@ -7,7 +7,7 @@ var player_node
 var direction = 0
 var full_stop = 0
 
-var explosion = preload("res://scenes/EnemyShotExplosion.tscn")
+var explosion = preload("res://scenes/ShipExplosion.tscn")
 
 signal destroyed
 signal left_the_screen
@@ -44,7 +44,8 @@ func _death():
 	if (explosion):
 		var explosionInstance = explosion.instance()
 		get_parent().get_parent().get_parent().add_child(explosionInstance)
-		explosionInstance._set_position(global_position)
+		explosionInstance._init_explosion(0, global_position)
+		explosionInstance.scale = Vector2(-direction, 1)
 	emit_signal("destroyed", self)
 	queue_free()
 

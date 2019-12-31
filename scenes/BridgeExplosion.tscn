@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://scenes/EnemyShotExplosion.gd" type="Script" id=1]
 [ext_resource path="res://assets/RRSounds/bridge_explosion.ogg" type="AudioStream" id=2]
@@ -51,7 +51,7 @@ _data = [ Vector2( 0.136719, 0.159 ), 0.0, 1.54821, 0, 0, Vector2( 1, 1 ), 0.274
 [sub_resource type="CurveTexture" id=9]
 curve = SubResource( 8 )
 
-[sub_resource type="ParticlesMaterial" id=12]
+[sub_resource type="ParticlesMaterial" id=10]
 flag_disable_z = true
 spread = 35.0
 gravity = Vector3( 0, -3, 0 )
@@ -68,6 +68,22 @@ scale_curve = SubResource( 9 )
 color_ramp = SubResource( 7 )
 
 [sub_resource type="CircleShape2D" id=11]
+
+[sub_resource type="ParticlesMaterial" id=12]
+flag_disable_z = true
+spread = 35.0
+gravity = Vector3( 0, -3, 0 )
+initial_velocity = 10.0
+initial_velocity_random = 1.0
+angular_velocity = 2.8026e-044
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 10.0
+damping_random = 1.0
+scale = 150.0
+scale_random = 1.0
+scale_curve = SubResource( 9 )
+color_ramp = SubResource( 7 )
 
 [sub_resource type="ParticlesMaterial" id=13]
 flag_disable_z = true
@@ -101,7 +117,7 @@ scale_random = 1.0
 scale_curve = SubResource( 9 )
 color_ramp = SubResource( 7 )
 
-[sub_resource type="ParticlesMaterial" id=15]
+[sub_resource type="ParticlesMaterial" id=22]
 flag_disable_z = true
 spread = 35.0
 gravity = Vector3( 0, -3, 0 )
@@ -117,10 +133,39 @@ scale_random = 1.0
 scale_curve = SubResource( 9 )
 color_ramp = SubResource( 7 )
 
+[sub_resource type="Gradient" id=15]
+colors = PoolColorArray( 0.996078, 1, 0.752941, 0.980392, 0.637207, 0.34735, 0.0945854, 0 )
+
+[sub_resource type="GradientTexture" id=16]
+gradient = SubResource( 15 )
+
+[sub_resource type="Curve" id=17]
+_data = [ Vector2( 0, 0.3064 ), 0.0, 2.38619, 0, 0, Vector2( 0.99426, 0.9752 ), 0.378816, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=18]
+curve = SubResource( 17 )
+
+[sub_resource type="ParticlesMaterial" id=21]
+emission_shape = 2
+emission_box_extents = Vector3( 50, 0.1, 0.1 )
+flag_disable_z = true
+spread = 0.0
+gravity = Vector3( 0, 0, 0 )
+angular_velocity = 50.0
+angular_velocity_random = 1.0
+orbit_velocity = -2.0
+orbit_velocity_random = 0.0
+scale = 15.0
+scale_curve = SubResource( 18 )
+color_ramp = SubResource( 16 )
+
+[sub_resource type="CircleShape2D" id=20]
+
 [node name="BridgeExplosion" type="KinematicBody2D"]
 position = Vector2( 1000, 800 )
 scale = Vector2( 0.3, 0.3 )
 script = ExtResource( 1 )
+one_shot_delay = 1.75
 damping = 0.0
 identifier = "Bridge"
 
@@ -143,6 +188,7 @@ randomness = 1.0
 process_material = SubResource( 5 )
 
 [node name="ExplosionChunk" type="RigidBody2D" parent="."]
+editor/display_folded = true
 position = Vector2( 143.56, 0 )
 gravity_scale = 2.0
 linear_damp = 1.5
@@ -157,7 +203,7 @@ explosiveness = 0.2
 randomness = 1.0
 local_coords = false
 draw_order = 1
-process_material = SubResource( 12 )
+process_material = SubResource( 10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk"]
 visible = false
@@ -169,113 +215,8 @@ visible = false
 modulate = Color( 1, 1, 1, 0.160784 )
 texture = ExtResource( 4 )
 
-[node name="ExplosionChunk5" type="RigidBody2D" parent="."]
-position = Vector2( 50, 0 )
-linear_damp = 1.5
-script = ExtResource( 3 )
-initial_velocity = Vector2( 100, -1500 )
-
-[node name="Particles2D" type="Particles2D" parent="ExplosionChunk5"]
-amount = 100
-lifetime = 14.0
-speed_scale = 8.0
-explosiveness = 0.2
-randomness = 1.0
-local_coords = false
-draw_order = 1
-process_material = SubResource( 12 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk5"]
-visible = false
-shape = SubResource( 11 )
-disabled = true
-
-[node name="Sprite" type="Sprite" parent="ExplosionChunk5"]
-visible = false
-modulate = Color( 1, 1, 1, 0.160784 )
-texture = ExtResource( 4 )
-
-[node name="ExplosionChunk6" type="RigidBody2D" parent="."]
-position = Vector2( -50, 0 )
-linear_damp = 1.5
-script = ExtResource( 3 )
-initial_velocity = Vector2( -150, -1500 )
-
-[node name="Particles2D" type="Particles2D" parent="ExplosionChunk6"]
-amount = 100
-lifetime = 14.0
-speed_scale = 8.0
-explosiveness = 0.2
-randomness = 1.0
-local_coords = false
-draw_order = 1
-process_material = SubResource( 12 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk6"]
-visible = false
-shape = SubResource( 11 )
-disabled = true
-
-[node name="Sprite" type="Sprite" parent="ExplosionChunk6"]
-visible = false
-modulate = Color( 1, 1, 1, 0.160784 )
-texture = ExtResource( 4 )
-
-[node name="ExplosionChunk7" type="RigidBody2D" parent="."]
-position = Vector2( -400, 0 )
-gravity_scale = 2.0
-linear_damp = 1.5
-script = ExtResource( 3 )
-initial_velocity = Vector2( -850, -750 )
-
-[node name="Particles2D" type="Particles2D" parent="ExplosionChunk7"]
-amount = 100
-lifetime = 14.0
-speed_scale = 8.0
-explosiveness = 0.2
-randomness = 1.0
-local_coords = false
-draw_order = 1
-process_material = SubResource( 12 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk7"]
-visible = false
-shape = SubResource( 11 )
-disabled = true
-
-[node name="Sprite" type="Sprite" parent="ExplosionChunk7"]
-visible = false
-modulate = Color( 1, 1, 1, 0.160784 )
-texture = ExtResource( 4 )
-
-[node name="ExplosionChunk8" type="RigidBody2D" parent="."]
-position = Vector2( 470, 0 )
-gravity_scale = 2.0
-linear_damp = 1.5
-script = ExtResource( 3 )
-initial_velocity = Vector2( 1000, -600 )
-
-[node name="Particles2D" type="Particles2D" parent="ExplosionChunk8"]
-amount = 100
-lifetime = 14.0
-speed_scale = 8.0
-explosiveness = 0.2
-randomness = 1.0
-local_coords = false
-draw_order = 1
-process_material = SubResource( 12 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk8"]
-visible = false
-shape = SubResource( 11 )
-disabled = true
-
-[node name="Sprite" type="Sprite" parent="ExplosionChunk8"]
-visible = false
-modulate = Color( 1, 1, 1, 0.160784 )
-texture = ExtResource( 4 )
-
 [node name="ExplosionChunk2" type="RigidBody2D" parent="."]
+editor/display_folded = true
 position = Vector2( -378.18, 0 )
 gravity_scale = 2.0
 linear_damp = 1.5
@@ -290,7 +231,7 @@ explosiveness = 0.2
 randomness = 1.0
 local_coords = false
 draw_order = 1
-process_material = SubResource( 13 )
+process_material = SubResource( 12 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk2"]
 visible = false
@@ -303,6 +244,7 @@ modulate = Color( 1, 1, 1, 0.160784 )
 texture = ExtResource( 4 )
 
 [node name="ExplosionChunk3" type="RigidBody2D" parent="."]
+editor/display_folded = true
 position = Vector2( 500, 0 )
 gravity_scale = 2.5
 linear_damp = 1.5
@@ -317,7 +259,7 @@ explosiveness = 0.2
 randomness = 1.0
 local_coords = false
 draw_order = 1
-process_material = SubResource( 14 )
+process_material = SubResource( 13 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk3"]
 visible = false
@@ -330,6 +272,7 @@ modulate = Color( 1, 1, 1, 0.160784 )
 texture = ExtResource( 4 )
 
 [node name="ExplosionChunk4" type="RigidBody2D" parent="."]
+editor/display_folded = true
 position = Vector2( -650, 0 )
 gravity_scale = 2.5
 linear_damp = 1.5
@@ -344,7 +287,7 @@ explosiveness = 0.2
 randomness = 1.0
 local_coords = false
 draw_order = 1
-process_material = SubResource( 15 )
+process_material = SubResource( 14 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk4"]
 visible = false
@@ -355,3 +298,360 @@ disabled = true
 visible = false
 modulate = Color( 1, 1, 1, 0.160784 )
 texture = ExtResource( 4 )
+
+[node name="ExplosionChunk5" type="RigidBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( 50, 0 )
+linear_damp = 1.5
+script = ExtResource( 3 )
+initial_velocity = Vector2( 100, -1500 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk5"]
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 10 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk5"]
+visible = false
+shape = SubResource( 11 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk5"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 4 )
+
+[node name="ExplosionChunk6" type="RigidBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( -50, 0 )
+linear_damp = 1.5
+script = ExtResource( 3 )
+initial_velocity = Vector2( -150, -1500 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk6"]
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 10 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk6"]
+visible = false
+shape = SubResource( 11 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk6"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 4 )
+
+[node name="ExplosionChunk7" type="RigidBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( -400, 0 )
+gravity_scale = 2.0
+linear_damp = 1.5
+script = ExtResource( 3 )
+initial_velocity = Vector2( -850, -750 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk7"]
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 10 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk7"]
+visible = false
+shape = SubResource( 11 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk7"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 4 )
+
+[node name="ExplosionChunk8" type="RigidBody2D" parent="."]
+position = Vector2( 470, 0 )
+linear_damp = 1.5
+script = ExtResource( 3 )
+initial_velocity = Vector2( 1000, -600 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk8"]
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 10 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk8"]
+visible = false
+shape = SubResource( 11 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk8"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 4 )
+
+[node name="RotorChunk" type="RigidBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( 470, 0 )
+gravity_scale = 5.0
+linear_damp = 1.0
+angular_velocity = 15.0
+angular_damp = 0.2
+script = ExtResource( 3 )
+initial_velocity = Vector2( 600, -1000 )
+
+[node name="Rotor_Smoke" type="Particles2D" parent="RotorChunk"]
+modulate = Color( 0, 0, 0, 1 )
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 22 )
+
+[node name="Rotor_Fire" type="Particles2D" parent="RotorChunk"]
+scale = Vector2( 0.75, 0.75 )
+amount = 60
+lifetime = 0.2
+randomness = 1.0
+draw_order = 1
+process_material = SubResource( 21 )
+
+[node name="Sprite" type="Sprite" parent="RotorChunk"]
+visible = false
+modulate = Color( 1, 1, 1, 0.392157 )
+scale = Vector2( 5, 0.5 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RotorChunk"]
+visible = false
+scale = Vector2( 2, 2 )
+shape = SubResource( 20 )
+disabled = true
+
+[node name="RotorChunk5" type="RigidBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( -470, 0 )
+scale = Vector2( -1, 1 )
+gravity_scale = 5.0
+linear_damp = 1.0
+angular_velocity = 15.0
+angular_damp = 0.2
+script = ExtResource( 3 )
+initial_velocity = Vector2( 600, -1000 )
+
+[node name="Rotor_Smoke" type="Particles2D" parent="RotorChunk5"]
+modulate = Color( 0, 0, 0, 1 )
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 22 )
+
+[node name="Rotor_Fire" type="Particles2D" parent="RotorChunk5"]
+scale = Vector2( 0.75, 0.75 )
+amount = 60
+lifetime = 0.2
+randomness = 1.0
+draw_order = 1
+process_material = SubResource( 21 )
+
+[node name="Sprite" type="Sprite" parent="RotorChunk5"]
+visible = false
+modulate = Color( 1, 1, 1, 0.392157 )
+scale = Vector2( 5, 0.5 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RotorChunk5"]
+visible = false
+scale = Vector2( 2, 2 )
+shape = SubResource( 20 )
+disabled = true
+
+[node name="RotorChunk2" type="RigidBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( 607.89, 0 )
+gravity_scale = 5.0
+linear_damp = 1.0
+angular_velocity = 15.0
+angular_damp = 0.2
+script = ExtResource( 3 )
+initial_velocity = Vector2( 1000, -600 )
+
+[node name="Rotor_Smoke" type="Particles2D" parent="RotorChunk2"]
+modulate = Color( 0, 0, 0, 1 )
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 22 )
+
+[node name="Rotor_Fire" type="Particles2D" parent="RotorChunk2"]
+scale = Vector2( 0.75, 0.75 )
+amount = 60
+lifetime = 0.2
+randomness = 1.0
+draw_order = 1
+process_material = SubResource( 21 )
+
+[node name="Sprite" type="Sprite" parent="RotorChunk2"]
+visible = false
+modulate = Color( 1, 1, 1, 0.392157 )
+scale = Vector2( 5, 0.5 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RotorChunk2"]
+visible = false
+scale = Vector2( 2, 2 )
+shape = SubResource( 20 )
+disabled = true
+
+[node name="RotorChunk4" type="RigidBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( -607.89, 0 )
+scale = Vector2( -1, 1 )
+gravity_scale = 5.0
+linear_damp = 1.0
+angular_velocity = 15.0
+angular_damp = 0.2
+script = ExtResource( 3 )
+initial_velocity = Vector2( -1000, -600 )
+
+[node name="Rotor_Smoke" type="Particles2D" parent="RotorChunk4"]
+modulate = Color( 0, 0, 0, 1 )
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 22 )
+
+[node name="Rotor_Fire" type="Particles2D" parent="RotorChunk4"]
+scale = Vector2( 0.75, 0.75 )
+amount = 60
+lifetime = 0.2
+randomness = 1.0
+draw_order = 1
+process_material = SubResource( 21 )
+
+[node name="Sprite" type="Sprite" parent="RotorChunk4"]
+visible = false
+modulate = Color( 1, 1, 1, 0.392157 )
+scale = Vector2( 5, 0.5 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RotorChunk4"]
+visible = false
+scale = Vector2( 2, 2 )
+shape = SubResource( 20 )
+disabled = true
+
+[node name="RotorChunk3" type="RigidBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( 342.91, 0 )
+gravity_scale = 5.0
+linear_damp = 1.0
+angular_velocity = 15.0
+angular_damp = 0.2
+script = ExtResource( 3 )
+initial_velocity = Vector2( -800, -800 )
+
+[node name="Rotor_Smoke" type="Particles2D" parent="RotorChunk3"]
+modulate = Color( 0, 0, 0, 1 )
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 22 )
+
+[node name="Rotor_Fire" type="Particles2D" parent="RotorChunk3"]
+scale = Vector2( 0.75, 0.75 )
+amount = 60
+lifetime = 0.2
+randomness = 1.0
+draw_order = 1
+process_material = SubResource( 21 )
+
+[node name="Sprite" type="Sprite" parent="RotorChunk3"]
+visible = false
+modulate = Color( 1, 1, 1, 0.392157 )
+scale = Vector2( 5, 0.5 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RotorChunk3"]
+visible = false
+scale = Vector2( 2, 2 )
+shape = SubResource( 20 )
+disabled = true
+
+[node name="RotorChunk6" type="RigidBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( -342.91, 0 )
+scale = Vector2( -1, 1 )
+gravity_scale = 5.0
+linear_damp = 1.0
+angular_velocity = 15.0
+angular_damp = 0.2
+script = ExtResource( 3 )
+initial_velocity = Vector2( -800, -800 )
+
+[node name="Rotor_Smoke" type="Particles2D" parent="RotorChunk6"]
+modulate = Color( 0, 0, 0, 1 )
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 22 )
+
+[node name="Rotor_Fire" type="Particles2D" parent="RotorChunk6"]
+scale = Vector2( 0.75, 0.75 )
+amount = 60
+lifetime = 0.2
+randomness = 1.0
+draw_order = 1
+process_material = SubResource( 21 )
+
+[node name="Sprite" type="Sprite" parent="RotorChunk6"]
+visible = false
+modulate = Color( 1, 1, 1, 0.392157 )
+scale = Vector2( 5, 0.5 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RotorChunk6"]
+visible = false
+scale = Vector2( 2, 2 )
+shape = SubResource( 20 )
+disabled = true
