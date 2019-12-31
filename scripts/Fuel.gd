@@ -25,12 +25,9 @@ func _fuel(body):
 func _death():
 	#death animation
 	if (explosion):
-		print("Fuel exploded")
 		var explosionInstance = explosion.instance()
 		get_parent().get_parent().get_parent().add_child(explosionInstance)
 		explosionInstance._set_position(global_position)
-	else:
-		print("NO EXPLOSION!")
 	
 	emit_signal("destroyed", self)
 	queue_free()

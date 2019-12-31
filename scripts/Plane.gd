@@ -35,7 +35,7 @@ func _physics_process(delta):
 
 func _death():
 	if (explosion):
-		print("Jet exploded")
+		#print("Jet exploded")
 		var explosionInstance = explosion.instance()
 		get_parent().get_parent().get_parent().add_child(explosionInstance)
 		explosionInstance._init_explosion(movement_speed * direction, global_position)

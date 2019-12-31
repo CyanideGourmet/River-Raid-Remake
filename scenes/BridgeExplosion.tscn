@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://scenes/EnemyShotExplosion.gd" type="Script" id=1]
 [ext_resource path="res://assets/RRSounds/bridge_explosion.ogg" type="AudioStream" id=2]
+[ext_resource path="res://scripts/ExplosionChunk.gd" type="Script" id=3]
+[ext_resource path="res://icon.png" type="Texture" id=4]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.0302491, 0.0765125, 0.15, 0.996441 )
@@ -36,16 +38,95 @@ scale_random = 0.3
 scale_curve = SubResource( 4 )
 color_ramp = SubResource( 2 )
 
+[sub_resource type="Gradient" id=6]
+offsets = PoolRealArray( 0.0285714, 0.0675325, 0.171429, 1 )
+colors = PoolColorArray( 1, 0.857723, 0.410156, 1, 1, 0.52549, 0, 0.65098, 0.0823529, 0.0745098, 0.0745098, 0.313726, 0, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=7]
+gradient = SubResource( 6 )
+
+[sub_resource type="Curve" id=8]
+_data = [ Vector2( 0.136719, 0.159 ), 0.0, 1.54821, 0, 0, Vector2( 1, 1 ), 0.274291, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=9]
+curve = SubResource( 8 )
+
+[sub_resource type="ParticlesMaterial" id=12]
+flag_disable_z = true
+spread = 35.0
+gravity = Vector3( 0, -3, 0 )
+initial_velocity = 10.0
+initial_velocity_random = 1.0
+angular_velocity = 2.8026e-044
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 10.0
+damping_random = 1.0
+scale = 150.0
+scale_random = 1.0
+scale_curve = SubResource( 9 )
+color_ramp = SubResource( 7 )
+
+[sub_resource type="CircleShape2D" id=11]
+
+[sub_resource type="ParticlesMaterial" id=13]
+flag_disable_z = true
+spread = 35.0
+gravity = Vector3( 0, -3, 0 )
+initial_velocity = 10.0
+initial_velocity_random = 1.0
+angular_velocity = 2.8026e-044
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 10.0
+damping_random = 1.0
+scale = 150.0
+scale_random = 1.0
+scale_curve = SubResource( 9 )
+color_ramp = SubResource( 7 )
+
+[sub_resource type="ParticlesMaterial" id=14]
+flag_disable_z = true
+spread = 35.0
+gravity = Vector3( 0, -3, 0 )
+initial_velocity = 10.0
+initial_velocity_random = 1.0
+angular_velocity = 2.8026e-044
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 10.0
+damping_random = 1.0
+scale = 150.0
+scale_random = 1.0
+scale_curve = SubResource( 9 )
+color_ramp = SubResource( 7 )
+
+[sub_resource type="ParticlesMaterial" id=15]
+flag_disable_z = true
+spread = 35.0
+gravity = Vector3( 0, -3, 0 )
+initial_velocity = 10.0
+initial_velocity_random = 1.0
+angular_velocity = 2.8026e-044
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 10.0
+damping_random = 1.0
+scale = 150.0
+scale_random = 1.0
+scale_curve = SubResource( 9 )
+color_ramp = SubResource( 7 )
+
 [node name="BridgeExplosion" type="KinematicBody2D"]
+position = Vector2( 1000, 800 )
 scale = Vector2( 0.3, 0.3 )
 script = ExtResource( 1 )
-lifetime = 10
 damping = 0.0
 identifier = "Bridge"
 
 [node name="ExplosionSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 2 )
-volume_db = -15.0
+volume_db = -3.0
 pitch_scale = 0.9
 autoplay = true
 max_distance = 10000.0
@@ -60,3 +141,217 @@ speed_scale = 5.0
 explosiveness = 0.95
 randomness = 1.0
 process_material = SubResource( 5 )
+
+[node name="ExplosionChunk" type="RigidBody2D" parent="."]
+position = Vector2( 143.56, 0 )
+gravity_scale = 2.0
+linear_damp = 1.5
+script = ExtResource( 3 )
+initial_velocity = Vector2( 300, -1000 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk"]
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 12 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk"]
+visible = false
+shape = SubResource( 11 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 4 )
+
+[node name="ExplosionChunk5" type="RigidBody2D" parent="."]
+position = Vector2( 50, 0 )
+linear_damp = 1.5
+script = ExtResource( 3 )
+initial_velocity = Vector2( 100, -1500 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk5"]
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 12 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk5"]
+visible = false
+shape = SubResource( 11 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk5"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 4 )
+
+[node name="ExplosionChunk6" type="RigidBody2D" parent="."]
+position = Vector2( -50, 0 )
+linear_damp = 1.5
+script = ExtResource( 3 )
+initial_velocity = Vector2( -150, -1500 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk6"]
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 12 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk6"]
+visible = false
+shape = SubResource( 11 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk6"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 4 )
+
+[node name="ExplosionChunk7" type="RigidBody2D" parent="."]
+position = Vector2( -400, 0 )
+gravity_scale = 2.0
+linear_damp = 1.5
+script = ExtResource( 3 )
+initial_velocity = Vector2( -850, -750 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk7"]
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 12 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk7"]
+visible = false
+shape = SubResource( 11 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk7"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 4 )
+
+[node name="ExplosionChunk8" type="RigidBody2D" parent="."]
+position = Vector2( 470, 0 )
+gravity_scale = 2.0
+linear_damp = 1.5
+script = ExtResource( 3 )
+initial_velocity = Vector2( 1000, -600 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk8"]
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 12 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk8"]
+visible = false
+shape = SubResource( 11 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk8"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 4 )
+
+[node name="ExplosionChunk2" type="RigidBody2D" parent="."]
+position = Vector2( -378.18, 0 )
+gravity_scale = 2.0
+linear_damp = 1.5
+script = ExtResource( 3 )
+initial_velocity = Vector2( -300, -1000 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk2"]
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 13 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk2"]
+visible = false
+shape = SubResource( 11 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk2"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 4 )
+
+[node name="ExplosionChunk3" type="RigidBody2D" parent="."]
+position = Vector2( 500, 0 )
+gravity_scale = 2.5
+linear_damp = 1.5
+script = ExtResource( 3 )
+initial_velocity = Vector2( 1000, -300 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk3"]
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk3"]
+visible = false
+shape = SubResource( 11 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk3"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 4 )
+
+[node name="ExplosionChunk4" type="RigidBody2D" parent="."]
+position = Vector2( -650, 0 )
+gravity_scale = 2.5
+linear_damp = 1.5
+script = ExtResource( 3 )
+initial_velocity = Vector2( -1200, -250 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk4"]
+amount = 100
+lifetime = 14.0
+speed_scale = 8.0
+explosiveness = 0.2
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 15 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk4"]
+visible = false
+shape = SubResource( 11 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk4"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 4 )

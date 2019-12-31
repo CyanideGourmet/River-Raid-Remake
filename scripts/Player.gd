@@ -30,7 +30,15 @@ var isLowOnFuel = false
 var current_pitch_scale = 1
 
 var points = 0
+var level = 0
 var cam
+
+var GUI
+var GUI_Dam
+var GUI_Score
+var GUI_HiScore
+var GUI_FuelIndicator
+
 signal free_the_bullet
 signal player_died
 
@@ -42,12 +50,28 @@ func _ready():
 	UI = get_parent().get_node("UI").get_node("Fuel")
 	low_fuel_tick_sound = get_node("LowFuelSound") as AudioStreamPlayer2D
 	UI.text = str(fuel)
-
+	
 	current_mapslice = get_parent().find_node("MapSlice")
 	UI = get_parent().get_node("UI")
 	Fuel_t = UI.find_node("Fuel")
 	Points_t = UI.find_node("Points")
 	Fuel_t.text = str(fuel)
+	
+	GUI = get_parent().get_node("UI_Root")
+	if GUI:
+		GUI_Score = GUI.find_node("ScoreValue")
+		GUI_Dam = GUI.find_node("DamValue")
+		GUI_HiScore = GUI.find_node("HiScoreValue")
+		GUI_FuelIndicator = GUI.find_node("FuelPointer")#GUI.find_node("FuelIndicator/FuelLevelZero/FuelPointer")
+		
+		_set_dam_score(0)
+		
+		if GUI_Score:
+			GUI_Score.text = "0"
+		
+		if GUI_HiScore:
+			GUI_HiScore.text = "0"
+		
 	#terrain
 
 	set_collision_mask_bit(0, 1)
@@ -158,6 +182,8 @@ func _physics_process(delta):
 	fuel += -fuel_decrease_rate + fuel_refill_rate * refill
 	if (refill > 0):
 		$RefillSound.pitch_scale = lerp(1, 10, fuel * 0.01)
+	if GUI_FuelIndicator:
+		GUI_FuelIndicator.position = Vector2.RIGHT * lerp(0.0, 175.0, fuel * 0.01)
 	position.x = clamp(position.x, camera_pos.x, camera_pos.x + cam.get_viewport_rect().size.x)
 
 func _dead():
@@ -166,8 +192,10 @@ func _dead():
 	current_pitch_scale = 1
 
 	emit_signal("player_died")
-
-	position = current_mapslice.position + Vector2(960, 8500)
+	
+	if current_mapslice:
+		position = current_mapslice.position + Vector2(960, 8500)
+		
 	full_stop = 0
 	yield(get_tree().create_timer(1), "timeout")
 	full_stop = 1
@@ -188,14 +216,33 @@ func _fuel():
 		$RefillSound.stop()
 
 func _current_mapslice_changed(node):
+	if !node:
+		return
+	_increment_level()
 	disconnect("player_died", current_mapslice, "_reset")
+	print ("Map slice >>> %s <<< disconnected!" % current_mapslice)
 	current_mapslice = node
 	connect("player_died", current_mapslice, "_reset")
+	print ("New map slice >>> %s <<< connected!" % current_mapslice)
+	
 
 func _hit_a_node(node):
 	if node.is_in_group("enemy"):
 		points += node.point_value
-		Points_t.text = "Points: " + str(points)
+		var pts = str(points)
+		Points_t.text = "Points: " + pts
+		if GUI_Score:
+			GUI_Score.text = pts
+			
 		emit_signal("free_the_bullet")
 	elif node.is_in_group("fuel"):
 		emit_signal("free_the_bullet")
+
+func _set_dam_score( var lvl):
+	level = lvl
+	if GUI_Dam:
+		GUI_Dam.text = str(level)
+
+func _increment_level():
+	_set_dam_score(level + 1)
+	print ("Player advanced to level %s!" % level)

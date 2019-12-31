@@ -86,4 +86,4 @@ func _set_next_track_start_time():
 	if !current_track || !current_track.stream:
 		return
 	next_track_start_time = scriptTimer + current_track.stream.get_length() * (repetitions + 1) - crossfade
-	print ("Next track will be played at: " + str(next_track_start_time))
+	#print ("Next track will be played at: " + str(next_track_start_time))

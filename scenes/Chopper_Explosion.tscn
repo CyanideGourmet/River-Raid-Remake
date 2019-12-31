@@ -1,0 +1,175 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://scenes/EnemyShotExplosion.gd" type="Script" id=1]
+[ext_resource path="res://assets/RRSounds/EnemyExplosion.ogg" type="AudioStream" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
+
+[sub_resource type="CircleShape2D" id=17]
+
+[sub_resource type="Gradient" id=33]
+offsets = PoolRealArray( 0, 0.0649351, 0.296104, 1 )
+colors = PoolColorArray( 0.99707, 0.977096, 0.829594, 0.501961, 0.887207, 0.503843, 0.100504, 0.745098, 0, 0, 0, 0.25098, 0, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=34]
+gradient = SubResource( 33 )
+
+[sub_resource type="Curve" id=35]
+_data = [ Vector2( 0.107063, 0.1491 ), 0.0, 0.728362, 0, 0, Vector2( 1, 1 ), 1.15643, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=36]
+curve = SubResource( 35 )
+
+[sub_resource type="ParticlesMaterial" id=37]
+flag_disable_z = true
+spread = 25.0
+gravity = Vector3( 0, 5, 0 )
+initial_velocity = 50.0
+angular_velocity = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 80.0
+scale_curve = SubResource( 36 )
+color_ramp = SubResource( 34 )
+
+[sub_resource type="Gradient" id=13]
+colors = PoolColorArray( 0.996078, 1, 0.752941, 0.980392, 0.637207, 0.34735, 0.0945854, 0 )
+
+[sub_resource type="GradientTexture" id=14]
+gradient = SubResource( 13 )
+
+[sub_resource type="Curve" id=9]
+_data = [ Vector2( 0, 0.3064 ), 0.0, 2.38619, 0, 0, Vector2( 0.99426, 0.9752 ), 0.378816, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=15]
+curve = SubResource( 9 )
+
+[sub_resource type="ParticlesMaterial" id=16]
+emission_shape = 2
+emission_box_extents = Vector3( 50, 0.1, 0.1 )
+flag_disable_z = true
+spread = 0.0
+gravity = Vector3( 0, 0, 0 )
+angular_velocity = 50.0
+angular_velocity_random = 1.0
+orbit_velocity = -2.75
+orbit_velocity_random = 0.0
+scale = 15.0
+scale_curve = SubResource( 15 )
+color_ramp = SubResource( 14 )
+
+[sub_resource type="Gradient" id=27]
+offsets = PoolRealArray( 0.4, 0.5, 1 )
+colors = PoolColorArray( 0, 0, 0, 0.0627451, 0, 0, 0, 0.12549, 0, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=28]
+gradient = SubResource( 27 )
+
+[sub_resource type="Curve" id=29]
+_data = [ Vector2( 0, 0.1436 ), 0.0, 0.841366, 0, 0, Vector2( 1, 1 ), 0.752085, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=30]
+curve = SubResource( 29 )
+
+[sub_resource type="Curve" id=31]
+max_value = 100.0
+_data = [ Vector2( 0, 53.41 ), 0.0, -64.272, 0, 0, Vector2( 0.403619, 0 ), -70.9608, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=32]
+curve = SubResource( 31 )
+
+[sub_resource type="ParticlesMaterial" id=26]
+emission_shape = 1
+emission_sphere_radius = 50.0
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, -15, 0 )
+angular_velocity = 0.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+tangential_accel_curve = SubResource( 32 )
+scale = 50.0
+scale_curve = SubResource( 30 )
+color_ramp = SubResource( 28 )
+
+[node name="Chopper_Explosion" type="KinematicBody2D"]
+position = Vector2( 500, 500 )
+script = ExtResource( 1 )
+lifetime = 3.0
+one_shot_delay = 0.25
+damping = 0.1
+angular_speed = 8.0
+
+[node name="ExplosionSound" type="AudioStreamPlayer2D" parent="."]
+scale = Vector2( 0.2, 0.2 )
+stream = ExtResource( 2 )
+volume_db = -10.0
+pitch_scale = 1.05
+autoplay = true
+max_distance = 10000.0
+
+[node name="Tail" type="KinematicBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tail"]
+visible = false
+shape = SubResource( 17 )
+disabled = true
+
+[node name="Tail_Fire" type="Particles2D" parent="Tail"]
+position = Vector2( -65, 0 )
+rotation = -1.5708
+amount = 30
+speed_scale = 2.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 37 )
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+gravity_scale = 0.0
+linear_damp = 0.0
+angular_velocity = 15.0
+angular_damp = 0.0
+
+[node name="Sprite" type="Sprite" parent="RigidBody2D"]
+visible = false
+modulate = Color( 1, 1, 1, 0.392157 )
+scale = Vector2( 5, 0.5 )
+texture = ExtResource( 3 )
+
+[node name="Rotor_Fire" type="Particles2D" parent="RigidBody2D"]
+amount = 60
+lifetime = 0.25
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 16 )
+
+[node name="Rotor_Fire2" type="Particles2D" parent="RigidBody2D"]
+rotation = 1.0472
+amount = 60
+lifetime = 0.25
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 16 )
+
+[node name="Rotor_Fire3" type="Particles2D" parent="RigidBody2D"]
+rotation = 2.0944
+amount = 60
+lifetime = 0.25
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 16 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+visible = false
+shape = SubResource( 17 )
+disabled = true
+
+[node name="Smoke" type="Particles2D" parent="."]
+rotation = -1.5708
+amount = 300
+lifetime = 5.0
+speed_scale = 5.0
+local_coords = false
+process_material = SubResource( 26 )

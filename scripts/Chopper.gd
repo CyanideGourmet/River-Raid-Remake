@@ -6,7 +6,7 @@ export var point_value = 60
 var player_node
 var direction = 0
 var full_stop = 0
-var explosion = preload("res://scenes/EnemyShotExplosion.tscn")
+var explosion = preload("res://scenes/Chopper_Explosion.tscn")
 
 signal destroyed
 signal left_the_screen
@@ -36,19 +36,20 @@ func _physics_process(delta):
 	if collision && collision.collider:
 		if collision.collider.is_in_group("terrain"):
 			direction *= -1
-			$Body.flip_v = !$Body.flip_v
+			#$Body.flip_v = !$Body.flip_v
+			rotation_degrees += 180.0
 		if collision.collider.is_in_group("PlayerBullet"):	
 			_death()
 
 func _death():
+	#death animation
 	if (explosion):
-		print("Chopper exploded")
 		var explosionInstance = explosion.instance()
 		get_parent().get_parent().get_parent().add_child(explosionInstance)
-		explosionInstance._set_position(global_position)
-	else:
-		print("NO EXPLOSION!")
-	#death animation
+		
+		explosionInstance._init_explosion(movement_speed * direction , global_position, direction)
+		explosionInstance.scale = Vector2 (direction, direction) #Vector2.ONE * direction
+		
 	emit_signal("destroyed", self)
 	queue_free()
 

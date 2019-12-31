@@ -7,6 +7,8 @@ var player_node
 var direction = 0
 var full_stop = 0
 
+var explosion = preload("res://scenes/EnemyShotExplosion.tscn")
+
 signal destroyed
 signal left_the_screen
 
@@ -39,6 +41,10 @@ func _physics_process(delta):
 
 func _death():
 	#death animation
+	if (explosion):
+		var explosionInstance = explosion.instance()
+		get_parent().get_parent().get_parent().add_child(explosionInstance)
+		explosionInstance._set_position(global_position)
 	emit_signal("destroyed", self)
 	queue_free()
 

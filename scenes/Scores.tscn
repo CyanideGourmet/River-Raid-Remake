@@ -24,11 +24,10 @@ align = 1
 valign = 2
 
 [node name="Dam" type="Node2D" parent="."]
-editor/display_folded = true
 position = Vector2( 242.193, 44.8792 )
 scale = Vector2( 0.4, 0.4 )
 
-[node name="Label" type="Label" parent="Dam"]
+[node name="DamLabel" type="Label" parent="Dam"]
 margin_left = -270.0
 margin_right = -165.0
 margin_bottom = 14.0
@@ -36,7 +35,7 @@ rect_scale = Vector2( 4, 4 )
 text = "DAM:"
 valign = 1
 
-[node name="Amount2" type="Label" parent="Dam"]
+[node name="DamValue" type="Label" parent="Dam"]
 margin_right = 88.0
 margin_bottom = 14.0
 rect_scale = Vector2( 4, 4 )
@@ -45,11 +44,10 @@ align = 2
 valign = 1
 
 [node name="Score" type="Node2D" parent="."]
-editor/display_folded = true
 position = Vector2( 242.193, 69.8792 )
 scale = Vector2( 0.4, 0.4 )
 
-[node name="Label" type="Label" parent="Score"]
+[node name="ScoreLabel" type="Label" parent="Score"]
 margin_left = -270.0
 margin_right = -165.0
 margin_bottom = 14.0
@@ -57,7 +55,7 @@ rect_scale = Vector2( 4, 4 )
 text = "SCORE:"
 valign = 1
 
-[node name="Amount2" type="Label" parent="Score"]
+[node name="ScoreValue" type="Label" parent="Score"]
 margin_right = 88.0
 margin_bottom = 14.0
 rect_scale = Vector2( 4, 4 )
@@ -66,11 +64,10 @@ align = 2
 valign = 1
 
 [node name="HiScore" type="Node2D" parent="."]
-editor/display_folded = true
 position = Vector2( 242.193, 94.8792 )
 scale = Vector2( 0.4, 0.4 )
 
-[node name="Label" type="Label" parent="HiScore"]
+[node name="HiScoreLabel" type="Label" parent="HiScore"]
 modulate = Color( 0, 0, 0, 1 )
 margin_left = -270.0
 margin_right = -205.0
@@ -79,7 +76,7 @@ rect_scale = Vector2( 4, 4 )
 text = "HI-SCORE:"
 valign = 1
 
-[node name="Amount2" type="Label" parent="HiScore"]
+[node name="HiScoreValue" type="Label" parent="HiScore"]
 modulate = Color( 0, 0, 0, 1 )
 margin_right = 88.0
 margin_bottom = 14.0

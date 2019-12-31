@@ -3,7 +3,6 @@
 [ext_resource path="res://assets/Images/Sprites/Godot_White.png" type="Texture" id=1]
 
 [node name="FuelIndicator" type="CanvasLayer"]
-editor/display_folded = true
 
 [node name="FuelSkin" type="Sprite" parent="."]
 modulate = Color( 0.211765, 0.337255, 0.403922, 1 )
@@ -19,7 +18,6 @@ texture = ExtResource( 1 )
 centered = false
 
 [node name="FuelLevelZero" type="Node2D" parent="."]
-editor/display_folded = true
 position = Vector2( 162.95, 58.0003 )
 
 [node name="FuelPointer" type="Node2D" parent="FuelLevelZero"]

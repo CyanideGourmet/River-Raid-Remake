@@ -15,22 +15,29 @@ func _ready():
 	set_collision_layer_bit(-10, 1)
 	#terrain
 	get_parent().get_parent().set_collision_layer_bit(0, 1)
-	#player_node = get_parent().get_parent().get_parent().get_parent().get_node("Player")
+	player_node = get_parent().get_parent().get_parent().find_node("Player")
+	#player_node = get_tree().root.find_node("Player")
+	
+		
+	connect("destroyed", player_node, "_hit_a_node")
+	connect("level_finished", player_node, "_current_mapslice_changed")
+	if !player_node:
+		print ("No player node!!!!")
+	else:
+		print ("Player node found!")
 	yield(get_tree().create_timer(1),"script_changed")
-	player_node = get_tree().root.get_node("Player")
-	if (player_node):
-		connect("destroyed", player_node, "_hit_a_node")
-		connect("level_finished", player_node, "_current_mapslice_changed")
-
+			
 func _death():
 	#death animation
 	if (explosion):
-		print("Bridge exploded")
 		var explosionInstance = explosion.instance()
 		get_parent().get_parent().get_parent().add_child(explosionInstance)
 		explosionInstance._set_position(global_position)
-	else:
-		print("NO EXPLOSION!")
-	emit_signal("level_finished", get_parent().get_parent().get_parent())
+	
+	emit_signal("level_finished", get_parent().get_parent())
 	emit_signal("destroyed", self)
+	
+	#if player_node:	
+	#	player_node._increment_level()	
+	
 	queue_free()
