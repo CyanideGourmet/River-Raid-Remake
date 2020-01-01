@@ -33,7 +33,7 @@ func _physics_process(delta):
 	var collision = move_and_collide(Vector2(0, -velocity) * delta)
 	if collision:
 		if collision.collider.is_in_group("enemy"):
-			collision.collider._death()
+			collision.collider.call_deferred("_death")
 		_death()
 
 func _death():

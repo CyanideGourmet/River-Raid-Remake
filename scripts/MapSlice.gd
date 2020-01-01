@@ -57,7 +57,7 @@ func _on_MapSlice_body_exited(body):
 	if body == player_node:
 		position.y -= 2 * level_size
 		_clear_entities()
-		_generate()
+		call_deferred("_generate")
 
 func _node_destroyed(body):
 	for i in entities:
@@ -100,7 +100,7 @@ func _generate():
 	_join_up()
 	_join_down()
 	_fill()
-	_place_tiles()
+	call_deferred("_place_tiles")
 	_instantiated_nodes_coordinates()
 	_place_entities()
 	var Road = RoadScene.instance()

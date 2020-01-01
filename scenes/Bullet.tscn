@@ -6,7 +6,7 @@
 [ext_resource path="res://assets/Images/Sprites/shot2.png" type="Texture" id=4]
 [ext_resource path="res://assets/Images/Sprites/shot3.png" type="Texture" id=5]
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ],
 "loop": true,
@@ -14,7 +14,7 @@ animations = [ {
 "speed": 15.0
 } ]
 
-[sub_resource type="CapsuleShape2D" id=3]
+[sub_resource type="CapsuleShape2D" id=2]
 radius = 1.81939
 height = 12.99
 
@@ -32,10 +32,9 @@ velocity = 800
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0.21, 0 )
 scale = Vector2( 0.08, 0.08 )
-frames = SubResource( 2 )
-frame = 1
+frames = SubResource( 1 )
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -10.25 )
-shape = SubResource( 3 )
+shape = SubResource( 2 )
