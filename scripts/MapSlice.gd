@@ -30,6 +30,7 @@ var HeavyScene = preload("res://scenes/Heavy.tscn")
 var ShipScene = preload("res://scenes/Ship.tscn")
 var ShooterScene = preload("res://scenes/Shooter.tscn")
 var TankScene = preload("res://scenes/Tank.tscn")
+var RoadTankScene = preload("res://scenes/RoadTank.tscn")
 var RoadScene = preload("res://scenes/Road.tscn")
 var map_array = []
 var instantiated_nodes_coordinates = []
@@ -43,6 +44,8 @@ var randomization_safelock = [0, 0]
 var island_params = [10, 39, 232]
 var tiles = {[0, 0, 0]: 0, [1, 1, 0]: [1, 0, 0, 0], [2, 1, 0]: [3, 1, 0, 0], [2, 1, 1]: [4, 0, 0, 0], [2, 4, 0]: [2, 0, 1, 0], [2, 4, 1]: [2, 0, 0, 0], [3, 1, 0]: [2, 1, 0, 1], [3, 1, 1]: [2, 0, 0, 1], [3, 2, 0]: [3, 1, 1, 0], [3, 2, 1]: [4, 0, 1, 0], [3, 4, 0]: [4, 1, 1, 0], [3, 4, 1]: [3, 0, 1, 0], [4, 1, 0]: [4, 1, 0, 0], [4, 1, 1]: [3, 0, 0, 0], [4, 2, 0]: [2, 0, 0, 0], [4, 2, 1]: [2, 0, 1, 0]}
 var entities = []
+var Road
+var RoadTank
 
 func _ready():
 	#player/chopper
@@ -91,8 +94,6 @@ func _generate():
 	step_memory = []
 	max_width = 0
 	map_array = []
-	var timers = []
-	var time = Timer.new()
 	for i in range(60):
 		map_array.append([])
 		for j in range(272):
@@ -106,13 +107,12 @@ func _generate():
 	call_deferred("_place_tiles")
 	_instantiated_nodes_coordinates()
 	_place_entities()
-	var Road = RoadScene.instance()
-	add_child(Road)
-	Road.position = Vector2(0, 8640)
 
 func _reset():
 	_clear_entities()
 	_place_entities()
+	RoadTank._left_the_screen()
+	Road.get_node("Body").get_node("Bridge").queue_free()
 
 func _template():
 	var last = [0, 0]
@@ -399,6 +399,15 @@ func _instantiated_nodes_coordinates():
 func _place_entities():
 	_fuel_entities()
 	_enemies()
+	Road = RoadScene.instance()
+	add_child(Road)
+	Road.position = Vector2(0, 8640)
+	RoadTank = RoadTankScene.instance()
+	add_child(RoadTank)
+	RoadTank.position = Vector2(1, 8640)
+	RoadTank.rotation_degrees += 180
+	RoadTank.direction = 1
+	entities.append([Road, RoadTank])
 
 func _fuel_entities():
 	var fuel_entities = []

@@ -48,6 +48,8 @@ func _ready():
 	set_collision_mask_bit(5, 1)
 	#shooter
 	set_collision_mask_bit(6, 1)
+	#roadtank
+	set_collision_mask_bit(7, 1)
 	#bridge
 	set_collision_mask_bit(10, 1)
 	#enemybullet
@@ -68,9 +70,6 @@ func _input(event):
 		elif event.is_action("ui_down"):
 			forward_slowdown = 0
 			acceleration_dir = -1
-		elif event.is_action("ui_accept"):
-			fuel_decrease_rate -= 0.1
-			fuel_decrease_rate = abs(fuel_decrease_rate)
 	elif event.is_action_released("ui_left") or event.is_action_released("ui_right"):
 		input.x = 0
 	if event.is_action_released("ui_up") or event.is_action_released("ui_down"):

@@ -1,9 +1,14 @@
 extends Sprite
 
-export var ranges = [300, 800, 1300]
+export var percentage_ranges = [25.0, 50.0, 75.0]
 
 var BulletScene = preload("res://scenes/TankBullet.tscn")
 var direction = -1
+var ranges = []
+
+func _ready():
+	for i in range(percentage_ranges.size()):
+		ranges.append(get_parent().copy_offset*32*(percentage_ranges[i]/100))
 
 func _random_int(x, y):
 	randomize()

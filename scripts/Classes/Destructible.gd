@@ -19,11 +19,9 @@ func _ready():
 	connect("destroyed", get_parent(), "_node_destroyed")
 	connect("left_the_screen", get_parent(), "_node_destroyed")
 
-func _process(delta):
+func _physics_process(delta):
 	if position.x < 0 or position.x > 1920:
 		_left_the_screen()
-
-func _physics_process(delta):
 	collision = move_and_collide(velocity*movement_speed*delta)
 	if collision:
 		if collision.collider.is_in_group("PlayerBullet"):
