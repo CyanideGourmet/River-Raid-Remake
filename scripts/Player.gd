@@ -5,8 +5,8 @@ export var def_forward_speed = 200
 export var max_forward_speed = 400
 export var min_forward_speed = 50
 export var acceleration_speed = 20
-export var fuel_decrease_rate = 0.1
-export var fuel_refill_rate = 0.2
+export var fuel_decrease_rate = 0.05
+export var fuel_refill_rate = 0.5
 
 var camera_pos
 var UI
@@ -83,8 +83,6 @@ func _input(event):
 		var bullet = Bullet.instance()
 		bullet.scale = Vector2(4, 4)
 		add_child(bullet)
-		bullet.connect("bullet_freed", self, "_on_bullet_freed")
-		connect("free_the_bullet", bullet, "_death")
 		ammo -= 1
 
 func _process(delta):
@@ -93,7 +91,7 @@ func _process(delta):
 			acceleration_dir = 0
 			forward_slowdown = 0
 	if fuel <= 0:
-		_dead()
+		_death()
 	fuel = clamp(fuel, 0, 100)
 	Fuel_t.text = str(fuel)
 
@@ -106,14 +104,14 @@ func _physics_process(delta):
 	var collision = move_and_collide(velocity * delta)
 	if collision:
 		if collision.collider.is_in_group("terrain"):
-			_dead()
+			_death()
 		elif collision.collider.is_in_group("enemy"):
-			collision.collider._death()
-			_dead()
+			collision.collider.call_deferred("_death")
+			_death()
 	fuel += -fuel_decrease_rate + fuel_refill_rate * refill
 	position.x = clamp(position.x, camera_pos.x, camera_pos.x + $Camera.get_viewport_rect().size.x)
 
-func _dead():
+func _death():
 	emit_signal("player_died")
 	position = current_mapslice.position + Vector2(960, 8500)
 	full_stop = 0
@@ -121,9 +119,8 @@ func _dead():
 	full_stop = 1
 	fuel = 100
 
-func _on_bullet_freed():
-	ammo += 1
-	ammo = clamp(ammo, 0, 1)
+func _reload():
+	ammo = 1
 
 func _fuel():
 	if refill == 0:
@@ -137,9 +134,6 @@ func _current_mapslice_changed(node):
 	connect("player_died", current_mapslice, "_reset")
 
 func _hit_a_node(node):
-	if node.is_in_group("enemy"):
+	if node.is_in_group("enemy") or node.is_in_group("fuel"):
 		points += node.point_value
 		Points_t.text = "Points: " + str(points)
-		emit_signal("free_the_bullet")
-	elif node.is_in_group("fuel"):
-		emit_signal("free_the_bullet")

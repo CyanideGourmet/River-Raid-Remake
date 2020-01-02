@@ -1,5 +1,7 @@
 extends Area2D
 
+export var point_value = 60
+
 signal fuel
 signal destroyed
 var player_node
@@ -20,6 +22,7 @@ func _fuel(body):
 	if body == player_node:
 		emit_signal("fuel")
 	elif body.is_in_group("PlayerBullet"):
+		body._reload()
 		_death()
 
 func _death():

@@ -4,7 +4,7 @@ export var point_value = 0
 export var movement_speed = 0
 
 var player_node
-var direction = 0
+var direction = -1
 var full_stop = 0
 var velocity = Vector2(0, 0)
 var collision
@@ -27,9 +27,10 @@ func _physics_process(delta):
 	collision = move_and_collide(velocity*movement_speed*delta)
 	if collision:
 		if collision.collider.is_in_group("PlayerBullet"):
+			collision.collider._reload()
 			_death()
 		elif collision.collider == player_node:
-			player_node.call_deferred("_dead")
+			player_node.call_deferred("_death")
 			_death()
 		elif collision.collider.is_in_group("terrain"):
 			direction *= -1

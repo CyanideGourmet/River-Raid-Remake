@@ -29,7 +29,7 @@ animations = [ {
 "frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ],
 "loop": false,
 "name": "explode",
-"speed": 10.0
+"speed": 1.0
 } ]
 
 [sub_resource type="CircleShape2D" id=4]
@@ -46,7 +46,6 @@ script = ExtResource( 1 )
 position = Vector2( 0, -28.45 )
 frames = SubResource( 1 )
 animation = "shot"
-frame = 2
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
