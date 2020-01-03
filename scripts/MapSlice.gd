@@ -13,6 +13,8 @@ export var min_ship_number = 1
 export var max_ship_number = 5
 export var min_shooter_number = 1
 export var max_shooter_number = 4
+export var min_tank_number = 0
+export var max_tank_number = 2
 export var min_generate_start_n = 3
 export var max_generate_start_n = 5
 export var min_generate_start_m = 10
@@ -27,6 +29,8 @@ var PlaneScene = preload("res://scenes/Plane.tscn")
 var HeavyScene = preload("res://scenes/Heavy.tscn")
 var ShipScene = preload("res://scenes/Ship.tscn")
 var ShooterScene = preload("res://scenes/Shooter.tscn")
+var TankScene = preload("res://scenes/Tank.tscn")
+var RoadTankScene = preload("res://scenes/RoadTank.tscn")
 var RoadScene = preload("res://scenes/Road.tscn")
 var map_array = []
 var instantiated_nodes_coordinates = []
@@ -40,6 +44,8 @@ var randomization_safelock = [0, 0]
 var island_params = [10, 39, 232]
 var tiles = {[0, 0, 0]: 0, [1, 1, 0]: [1, 0, 0, 0], [2, 1, 0]: [3, 1, 0, 0], [2, 1, 1]: [4, 0, 0, 0], [2, 4, 0]: [2, 0, 1, 0], [2, 4, 1]: [2, 0, 0, 0], [3, 1, 0]: [2, 1, 0, 1], [3, 1, 1]: [2, 0, 0, 1], [3, 2, 0]: [3, 1, 1, 0], [3, 2, 1]: [4, 0, 1, 0], [3, 4, 0]: [4, 1, 1, 0], [3, 4, 1]: [3, 0, 1, 0], [4, 1, 0]: [4, 1, 0, 0], [4, 1, 1]: [3, 0, 0, 0], [4, 2, 0]: [2, 0, 0, 0], [4, 2, 1]: [2, 0, 1, 0]}
 var entities = []
+var Road
+var RoadTank
 
 func _ready():
 	#player/chopper
@@ -57,7 +63,7 @@ func _on_MapSlice_body_exited(body):
 	if body == player_node:
 		position.y -= 2 * level_size
 		_clear_entities()
-		_generate()
+		call_deferred("_generate")
 
 func _node_destroyed(body):
 	for i in entities:
@@ -88,8 +94,6 @@ func _generate():
 	step_memory = []
 	max_width = 0
 	map_array = []
-	var timers = []
-	var time = Timer.new()
 	for i in range(60):
 		map_array.append([])
 		for j in range(272):
@@ -100,16 +104,15 @@ func _generate():
 	_join_up()
 	_join_down()
 	_fill()
-	_place_tiles()
+	call_deferred("_place_tiles")
 	_instantiated_nodes_coordinates()
 	_place_entities()
-	var Road = RoadScene.instance()
-	add_child(Road)
-	Road.position = Vector2(0, 8640)
 
 func _reset():
 	_clear_entities()
 	_place_entities()
+	RoadTank._left_the_screen()
+	Road.get_node("Body").get_node("Bridge").queue_free()
 
 func _template():
 	var last = [0, 0]
@@ -301,12 +304,14 @@ func _instantiated_nodes_coordinates():
 	var heavy_number = _random_int(min_heavy_number, max_heavy_number)
 	var ship_number = _random_int(min_ship_number, max_ship_number)
 	var shooter_number = _random_int(min_shooter_number, max_shooter_number)
+	var tank_number = _random_int(min_tank_number, max_tank_number)
 	var fuel_coords = []
 	var chopper_coords = []
 	var plane_coords = []
 	var heavy_coords = []
 	var ship_coords = []
 	var shooter_coords = []
+	var tank_coords = []
 	while fuel_number > 0:
 		var coordinates = [0, _random_int(20, 251)]
 		while(map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]):
@@ -376,10 +381,33 @@ func _instantiated_nodes_coordinates():
 		shooter_coords.append(coordinates)
 		shooter_number -= 1
 	instantiated_nodes_coordinates.append(shooter_coords)
+	while tank_number > 0:
+		var coordinates = [_random_int(0, 1)*59, _random_int(50, 221)]
+		var k = 0
+		if coordinates[0] == 0:
+			k = 1
+		else:
+			k = -1
+		coordinates.append(k)
+		while map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]:
+			coordinates[0] += k
+		coordinates[0] -= 2*k
+		tank_coords.append(coordinates)
+		tank_number -= 1
+	instantiated_nodes_coordinates.append(tank_coords)
 
 func _place_entities():
 	_fuel_entities()
 	_enemies()
+	Road = RoadScene.instance()
+	add_child(Road)
+	Road.position = Vector2(0, 8640)
+	RoadTank = RoadTankScene.instance()
+	add_child(RoadTank)
+	RoadTank.position = Vector2(1, 8640)
+	RoadTank.rotation_degrees += 180
+	RoadTank.direction = 1
+	entities.append([Road, RoadTank])
 
 func _fuel_entities():
 	var fuel_entities = []
@@ -397,6 +425,7 @@ func _enemies():
 	_heavies()
 	_ships()
 	_shooters()
+	_tanks()
 
 func _choppers():
 	var chopper_entities = []
@@ -457,10 +486,27 @@ func _shooters():
 		var x = ShooterScene.instance()
 		add_child(x)
 		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
+		x.direction = -1
 		if i[2] > 0:
 			x.rotation_degrees += 180
+			x.direction = 1
 		shooter_entities.append(x)
+		x._reload()
 	entities.append(shooter_entities)
+
+func _tanks():
+	var tank_entities = []
+	for i in instantiated_nodes_coordinates[6]:
+		var x = TankScene.instance()
+		add_child(x)
+		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
+		x.direction = -1
+		if i[2] > 0:
+			x.rotation_degrees += 180
+			x.direction = 1
+		tank_entities.append(x)
+		x._reload()
+	entities.append(tank_entities)
 
 func _clear_entities():
 	for i in entities:

@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scripts/RoadTank.gd" type="Script" id=1]
+[ext_resource path="res://assets/Images/Sprites/tank 02.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 242.588, 122.028 )
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 5436.02
+height = 18747.4
+
+[node name="RoadTank" type="KinematicBody2D"]
+scale = Vector2( 0.2, 0.2 )
+collision_layer = 0
+collision_mask = 0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_horizontal_guides_": [  ]
+}
+
+[node name="Body" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 93.45, 0 )
+shape = SubResource( 1 )
+
+[node name="PlayerDetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionArea"]
+rotation = 1.5708
+shape = SubResource( 2 )
+[connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_PlayerDetectionArea_body_entered"]

@@ -18,6 +18,7 @@ animations = [ {
 radius = 2.0
 height = 3.0
 
+
 [node name="Bullet" type="KinematicBody2D" groups=[
 "PlayerBullet",
 ]]
@@ -27,6 +28,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
+
 velocity = 2000
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -36,5 +38,7 @@ frames = SubResource( 1 )
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
 position = Vector2( 0, -13 )
+
 shape = SubResource( 2 )

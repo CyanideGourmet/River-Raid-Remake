@@ -5,6 +5,7 @@ export var def_forward_speed = 200
 export var max_forward_speed = 400
 export var min_forward_speed = 50
 export var acceleration_speed = 20
+
 export var fuel_decrease_rate = 0.1
 export var fuel_refill_rate = 0.2
 export var low_fuel_threshold = 30
@@ -93,10 +94,14 @@ func _ready():
 	set_collision_mask_bit(5, 1)
 	#shooter
 	set_collision_mask_bit(6, 1)
+	#roadtank
+	set_collision_mask_bit(7, 1)
 	#bridge
 	set_collision_mask_bit(10, 1)
 	#enemybullet
 	set_collision_layer_bit(-20, 1)
+	#explosion
+	set_collision_mask_bit(-21, 1)
 	connect("player_died", current_mapslice, "_reset")
 	
 
@@ -113,10 +118,12 @@ func _input(event):
 		elif event.is_action("ui_down"):
 			forward_slowdown = 0
 			acceleration_dir = -1
+
 			
 		elif event.is_action("ui_accept"):
 			fuel_decrease_rate -= 0.1
 			fuel_decrease_rate = abs(fuel_decrease_rate)
+
 	elif event.is_action_released("ui_left") or event.is_action_released("ui_right"):
 		input.x = 0
 	if event.is_action_released("ui_up") or event.is_action_released("ui_down"):
@@ -131,6 +138,7 @@ func _input(event):
 		var bullet = Bullet.instance()
 		bullet.scale = Vector2(4, 4)
 		add_child(bullet)
+
 		bullet.connect("bullet_freed", self, "_on_bullet_freed")
 		connect("free_the_bullet", bullet, "_death")
 		
@@ -153,8 +161,8 @@ func _process(delta):
 	
 	$EngineSound.pitch_scale = current_pitch_scale
 	if fuel <= 0:
-		_dead()
-		
+		_death()
+
 	fuel = clamp(fuel, 0, 100)
 	Fuel_t.text = str(fuel)
 
@@ -175,10 +183,10 @@ func _physics_process(delta):
 	var collision = move_and_collide(velocity * delta)
 	if collision:
 		if collision.collider.is_in_group("terrain"):
-			_dead()
+			_death()
 		elif collision.collider.is_in_group("enemy"):
-			collision.collider._death()
-			_dead()
+			collision.collider.call_deferred("_death")
+			_death()
 	fuel += -fuel_decrease_rate + fuel_refill_rate * refill
 	if (refill > 0):
 		$RefillSound.pitch_scale = lerp(1, 10, fuel * 0.01)
@@ -186,11 +194,9 @@ func _physics_process(delta):
 		GUI_FuelIndicator.position = Vector2.RIGHT * lerp(0.0, 175.0, fuel * 0.01)
 	position.x = clamp(position.x, camera_pos.x, camera_pos.x + cam.get_viewport_rect().size.x)
 
-func _dead():
-
+func _death():
 	$EngineSound.stop()
 	current_pitch_scale = 1
-
 	emit_signal("player_died")
 	
 	if current_mapslice:
@@ -202,9 +208,8 @@ func _dead():
 	fuel = 100
 	$EngineSound.play(0)
 
-func _on_bullet_freed():
-	ammo += 1
-	ammo = clamp(ammo, 0, 1)
+func _reload():
+	ammo = 1
 
 func _fuel():
 	if refill == 0:
@@ -227,8 +232,9 @@ func _current_mapslice_changed(node):
 	
 
 func _hit_a_node(node):
-	if node.is_in_group("enemy"):
+	if node.is_in_group("enemy") or node.is_in_group("fuel"):
 		points += node.point_value
+
 		var pts = str(points)
 		Points_t.text = "Points: " + pts
 		if GUI_Score:
@@ -246,3 +252,4 @@ func _set_dam_score( var lvl):
 func _increment_level():
 	_set_dam_score(level + 1)
 	print ("Player advanced to level %s!" % level)
+

@@ -1,4 +1,6 @@
 extends Area2D
+export var point_value = 60
+
 var explosion = preload("res://scenes/FuelExplosion.tscn")
 signal fuel
 signal destroyed
@@ -20,6 +22,7 @@ func _fuel(body):
 	if body == player_node:
 		emit_signal("fuel")
 	elif body.is_in_group("PlayerBullet"):
+		body._reload()
 		_death()
 
 func _death():

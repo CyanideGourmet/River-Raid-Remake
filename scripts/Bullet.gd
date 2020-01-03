@@ -1,41 +1,11 @@
-extends KinematicBody2D
-
-export var bullet_distance = 800
-export var velocity = 1000
-
-var starting_position
-signal bullet_freed
+extends "res://scripts/Classes/Ammunition.gd"
 
 func _ready():
-	#terrain
-	set_collision_mask_bit(-100, 1)
-	#chopper
-	set_collision_mask_bit(-1, 1)
-	#fuel
-	set_collision_mask_bit(-2, 1)
-	#plane
-	set_collision_mask_bit(-3, 1)
-	#heavy
-	set_collision_mask_bit(-4, 1)
-	#ship
-	set_collision_mask_bit(-5, 1)
-	#shooter
-	set_collision_mask_bit(-6, 1)
-	#bridge
-	set_collision_mask_bit(-10, 1)
-	starting_position = position
-
-func _process(delta):
-	if abs(position.y) - abs(starting_position.y) > bullet_distance:
-		_death()
-
-func _physics_process(delta):
-	var collision = move_and_collide(Vector2(0, -velocity) * delta)
-	if collision:
-		if collision.collider.is_in_group("enemy"):
-			collision.collider._death()
-		_death()
-
-func _death():
-	emit_signal("bullet_freed")
-	queue_free()
+	add_to_group("PlayerBullet")
+	collision_mask_bits = [-1,     -2,     -3,     -4,     -5,     -6,     -10,     -100]
+#                          Chopper Fuel    Plane   Heavy   Ship    Shooter Bridge   Terrain
+	_set_collision()
+	collision_group_names = ["enemy", "fuel"]
+	speed = 1000
+	bullet_range = 800
+	velocity = Vector2(0, -1)

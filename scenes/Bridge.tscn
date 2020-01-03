@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/Bridge.gd" type="Script" id=1]
 [ext_resource path="res://assets/Images/Sprites/most2.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 134.274, 56.0653 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 133.444, 93.565 )
 
 [node name="Bridge" type="StaticBody2D" groups=[
 "enemy",
@@ -21,3 +24,12 @@ texture = ExtResource( 2 )
 position = Vector2( -2.58472, 31.0164 )
 scale = Vector2( 2, 1 )
 shape = SubResource( 1 )
+
+[node name="RoadTankDetection" type="Area2D" parent="."]
+position = Vector2( 0, -20.56 )
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RoadTankDetection"]
+shape = SubResource( 2 )
+[connection signal="body_entered" from="RoadTankDetection" to="." method="_tankstate"]
