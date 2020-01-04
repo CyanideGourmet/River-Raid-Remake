@@ -1,5 +1,5 @@
 extends Area2D
-export var point_value = 60
+export var point_value = 80
 
 var explosion = preload("res://scenes/FuelExplosion.tscn")
 signal fuel
@@ -12,18 +12,22 @@ func _ready():
 	#bullet
 	set_collision_layer_bit(-2, 1)
 	player_node = get_parent().get_parent().find_node("Player")
-	connect("body_entered", self, "_fuel")
-	connect("body_exited", self, "_fuel")
+	connect("body_entered", self, "_fuel_entered")
+	connect("body_exited", self, "_fuel_exited")
 	connect("fuel", player_node, "_fuel")
 	connect("destroyed", player_node, "_hit_a_node")
 	connect("destroyed", get_parent(), "_node_destroyed")
 
-func _fuel(body):
+func _fuel_entered(body):
 	if body == player_node:
 		emit_signal("fuel")
 	elif body.is_in_group("PlayerBullet"):
 		body._reload()
 		_death()
+
+func _fuel_exited(body):
+	if body == player_node:
+		emit_signal("fuel")
 
 func _death():
 	#death animation

@@ -14,6 +14,7 @@ var camera_pos
 var UI
 var Fuel_t
 var Points_t
+var HP_t
 var ammo = 1
 var Bullet = preload("res://scenes/Bullet.tscn")
 var fuel = 100
@@ -31,6 +32,7 @@ var isLowOnFuel = false
 var current_pitch_scale = 1
 
 var points = 0
+
 var level = 0
 var cam
 
@@ -40,11 +42,14 @@ var GUI_Score
 var GUI_HiScore
 var GUI_FuelIndicator
 
+var hp = 3
+var hpgained = 0
+
+
 signal free_the_bullet
 signal player_died
 
 func _ready():
-	clear_console()
 	#cam = $ViewportContainer/Viewport/Camera
 	cam = $Camera
 	camera_pos = cam.position
@@ -57,8 +62,9 @@ func _ready():
 	UI = get_parent().get_node("UI")
 	Fuel_t = UI.find_node("Fuel")
 	Points_t = UI.find_node("Points")
+	HP_t = UI.find_node("HP")
 	Fuel_t.text = str(fuel)
-	
+
 	GUI = get_parent().get_node("UI_Root")
 	if GUI:
 		GUI_Score = GUI.find_node("ScoreValue")
@@ -74,6 +80,9 @@ func _ready():
 		if GUI_HiScore:
 			GUI_HiScore.text = "0"
 		
+
+	HP_t.text = "Lives: " + str(hp)
+
 	#terrain
 
 	set_collision_mask_bit(0, 1)
@@ -196,8 +205,15 @@ func _physics_process(delta):
 	position.x = clamp(position.x, camera_pos.x, camera_pos.x + cam.get_viewport_rect().size.x)
 
 func _death():
+
 	$EngineSound.stop()
 	current_pitch_scale = 1
+
+	if hp == 0:
+		get_tree().change_scene("res://scenes/Menu.tscn")
+	hp -= 1
+	HP_t.text = "Lives: " + str(hp)
+
 	emit_signal("player_died")
 	
 	if current_mapslice:
@@ -236,6 +252,12 @@ func _current_mapslice_changed(node):
 func _hit_a_node(node):
 	if node.is_in_group("enemy") or node.is_in_group("fuel"):
 		points += node.point_value
+		if points >= 10000*(hpgained+1):
+			hp += 1
+			hpgained += 1
+			HP_t.text = "Lives: " + str(hp)
+		Points_t.text = "Points: " + str(points)
+
 
 		var pts = str(points)
 		Points_t.text = "Points: " + pts
@@ -254,7 +276,3 @@ func _set_dam_score( var lvl):
 func _increment_level():
 	_set_dam_score(level + 1)
 	print ("Player advanced to level %s!" % level)
-
-func clear_console():
-    var escape = PoolByteArray([0x1b]).get_string_from_ascii()
-    print(escape + "[2J")
