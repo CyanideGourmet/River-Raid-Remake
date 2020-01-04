@@ -1,11 +1,11 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scenes/EnemyShotExplosion.gd" type="Script" id=1]
 [ext_resource path="res://assets/Images/Sprites/Godot_White.png" type="Texture" id=2]
 [ext_resource path="res://assets/Images/Sprites/ship.png" type="Texture" id=3]
 [ext_resource path="res://assets/RRSounds/EnemyExplosion.ogg" type="AudioStream" id=4]
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=1]
 resource_name = "Ship_Sinking_Rear"
 step = 0.05
 tracks/0/type = "value"
@@ -41,7 +41,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.15, 0.4, 1 )
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=2]
 resource_name = "Ship_Sinking_Fron"
 step = 0.05
 tracks/0/type = "value"
@@ -77,30 +77,36 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.15, 0.4, 1 )
 }
 
-[sub_resource type="Gradient" id=6]
+[sub_resource type="Gradient" id=3]
 offsets = PoolRealArray( 0, 0.0805195, 0.127273, 0.176623, 0.3, 0.9 )
 colors = PoolColorArray( 1, 1, 1, 0, 0.984375, 0.938202, 0.780579, 1, 0.913725, 0.505882, 0.105882, 0.501961, 0.835294, 0.545098, 0.0862745, 0.25098, 0.0705882, 0.0666667, 0.0666667, 0.25098, 0, 0, 0, 0 )
 
-[sub_resource type="GradientTexture" id=7]
-gradient = SubResource( 6 )
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
 
-[sub_resource type="CurveTexture" id=9]
+[sub_resource type="Curve" id=5]
+min_value = -200.0
+max_value = 200.0
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Curve" id=11]
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="Curve" id=7]
 min_value = -500.0
 max_value = 500.0
 _data = [ Vector2( 0, 98.75 ), 0.0, -957.697, 0, 0, Vector2( 0.883052, -200.2 ), -1361.51, -1361.51, 0, 0, Vector2( 0.999203, -6.59998 ), 27893.7, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=10]
-curve = SubResource( 11 )
+[sub_resource type="CurveTexture" id=8]
+curve = SubResource( 7 )
 
-[sub_resource type="Curve" id=3]
+[sub_resource type="Curve" id=9]
 _data = [ Vector2( 0.255341, 0.1491 ), 0.0, 1.97827, 0, 0, Vector2( 0.999203, 0.9477 ), 0.754751, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=4]
-curve = SubResource( 3 )
+[sub_resource type="CurveTexture" id=10]
+curve = SubResource( 9 )
 
-[sub_resource type="ParticlesMaterial" id=8]
+[sub_resource type="ParticlesMaterial" id=11]
 emission_shape = 2
 emission_box_extents = Vector3( 1, 80, 1 )
 flag_disable_z = true
@@ -111,13 +117,13 @@ angular_velocity = 50.0
 angular_velocity_random = 1.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-linear_accel_curve = SubResource( 9 )
+linear_accel_curve = SubResource( 6 )
 radial_accel_random = 0.5
-radial_accel_curve = SubResource( 10 )
+radial_accel_curve = SubResource( 8 )
 damping = 15.0
 scale = 100.0
-scale_curve = SubResource( 4 )
-color_ramp = SubResource( 7 )
+scale_curve = SubResource( 10 )
+color_ramp = SubResource( 4 )
 
 [node name="ShipExplosion" type="KinematicBody2D"]
 script = ExtResource( 1 )
@@ -126,9 +132,9 @@ identifier = "Chopper"
 
 [node name="Light2D" type="Light2D" parent="."]
 light_mask = 0
-position = Vector2( 4.30632, 56.5502 )
+position = Vector2( 0, 75 )
 rotation = -1.5708
-scale = Vector2( 1.72205, 1.81511 )
+scale = Vector2( 1.75, 2.5 )
 texture = ExtResource( 2 )
 color = Color( 0.772549, 0.866667, 1, 0 )
 energy = 0.01
@@ -138,32 +144,29 @@ shadow_gradient_length = 263.0
 shadow_item_cull_mask = 0
 
 [node name="SinkingShip" type="Node2D" parent="."]
-position = Vector2( 0, -27 )
 rotation = -1.5708
 scale = Vector2( 0.3, 0.3 )
 
 [node name="Hull_Rear" type="Sprite" parent="SinkingShip"]
 modulate = Color( 0.352941, 0.25098, 0.25098, 1 )
 light_mask = 16
-scale = Vector2( 1, 1 )
 texture = ExtResource( 3 )
 region_rect = Rect2( 0, -100.57, 256, 553.99 )
 region_filter_clip = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="SinkingShip/Hull_Rear"]
 autoplay = "Ship_Sinking_Rear"
-anims/Ship_Sinking_Rear = SubResource( 13 )
+anims/Ship_Sinking_Rear = SubResource( 1 )
 
 [node name="Hull_Front" type="Sprite" parent="SinkingShip"]
 modulate = Color( 0.352941, 0.25098, 0.25098, 0.901961 )
 light_mask = 16
-scale = Vector2( 1, 1 )
 texture = ExtResource( 3 )
 region_rect = Rect2( 0, 66.72, 256, 236.7 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="SinkingShip/Hull_Front"]
 autoplay = "Ship_Sinking_Fron"
-anims/Ship_Sinking_Fron = SubResource( 12 )
+anims/Ship_Sinking_Fron = SubResource( 2 )
 
 [node name="ExplosionSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
@@ -183,4 +186,4 @@ explosiveness = 0.25
 randomness = 1.0
 local_coords = false
 draw_order = 1
-process_material = SubResource( 8 )
+process_material = SubResource( 11 )
