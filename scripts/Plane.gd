@@ -1,7 +1,7 @@
 extends "res://scripts/Classes/Destructible.gd"
 
-var explosion = preload("res://scenes/JetExplosion.tscn")
 func _ready():
+	explosion = preload("res://scenes/JetExplosion.tscn")
 	point_value = 100
 	movement_speed = 400
 	#player

@@ -44,6 +44,7 @@ signal free_the_bullet
 signal player_died
 
 func _ready():
+	clear_console()
 	#cam = $ViewportContainer/Viewport/Camera
 	cam = $Camera
 	camera_pos = cam.position
@@ -200,6 +201,7 @@ func _death():
 	emit_signal("player_died")
 	
 	if current_mapslice:
+		print ("Current Map Slice: %s"%current_mapslice)
 		position = current_mapslice.position + Vector2(960, 8500)
 		
 	full_stop = 0
@@ -253,3 +255,6 @@ func _increment_level():
 	_set_dam_score(level + 1)
 	print ("Player advanced to level %s!" % level)
 
+func clear_console():
+    var escape = PoolByteArray([0x1b]).get_string_from_ascii()
+    print(escape + "[2J")

@@ -112,8 +112,9 @@ func _reset():
 	_clear_entities()
 	_place_entities()
 	RoadTank._left_the_screen()
-	Road.get_node("Body").get_node("Bridge").queue_free()
-
+	if (Road && Road.get_node("Body") && Road.find_node("Bridge")):
+		#Road.get_node("Body").get_node("Bridge").queue_free()
+		Road.find_node("Bridge").queue_free()
 func _template():
 	var last = [0, 0]
 	var n = _random_int(min_generate_start_n, max_generate_start_n)

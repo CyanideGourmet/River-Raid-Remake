@@ -5,12 +5,14 @@ export var point_value = 500
 var player_node
 
 var tankstate = false
-
 var explosion = preload("res://scenes/BridgeExplosion.tscn")
+
 signal destroyed
 signal level_finished
 
 func _ready():
+	#explosion
+	
 	#player
 	set_collision_layer_bit(10, 1)
 	#bullet
@@ -20,6 +22,10 @@ func _ready():
 	#terrain
 	get_parent().get_parent().set_collision_layer_bit(0, 1)
 	player_node = get_parent().get_parent().get_parent().find_node("Player")
+	if player_node:
+		print ("Player node found! %s"% player_node)
+	else:
+		print ("No player node!!")
 	#player_node = get_tree().root.find_node("Player")
 	
 		
@@ -36,12 +42,15 @@ func _death():
 		var explosionInstance = explosion.instance()
 		get_parent().get_parent().get_parent().add_child(explosionInstance)
 		explosionInstance._set_position(global_position)
-	
+	print ("Parent: %s"%get_parent())
+	print ("Parent's parent: %s"%get_parent().get_parent())
+	print ("Ded bridge parent: %s" % get_parent().get_parent().get_parent())
+	print ("Bridge tanek: %s" % get_parent().get_parent().RoadTank)
 	if tankstate:
-		get_parent().get_parent().get_parent().RoadTank.call_deferred("_death")
+		get_parent().get_parent().RoadTank.call_deferred("_death")
 	else:
-		get_parent().get_parent().get_parent().RoadTank.full_stop = 0
-	emit_signal("level_finished", get_parent().get_parent().get_parent())
+		get_parent().get_parent().RoadTank.full_stop = 0
+	emit_signal("level_finished", get_parent().get_parent())
 
 	emit_signal("destroyed", self)
 	

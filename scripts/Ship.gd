@@ -1,8 +1,7 @@
 extends "res://scripts/Classes/Destructible.gd"
 
-var explosion = preload("res://scenes/ShipExplosion.tscn")
-
 func _ready():
+	explosion = preload("res://scenes/ShipExplosion.tscn")
 	point_value = 30
 	movement_speed = 150
 	#player
@@ -15,7 +14,6 @@ func _ready():
 
 func _physics_process(delta):
 	velocity = Vector2(direction, 0) * full_stop
-
 
 func _on_PlayerDetectionArea_body_entered(body):
 	if body == player_node:

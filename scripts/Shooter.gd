@@ -2,8 +2,8 @@ extends "res://scripts/Classes/Destructible.gd"
 
 var BulletScene = preload("res://scenes/EnemyBullet.tscn")
 
-var explosion = preload("res://scenes/Chopper_Explosion.tscn")
 func _ready():
+	explosion = preload("res://scenes/Chopper_Explosion.tscn")
 	point_value = 150
 	velocity = Vector2(0, 0)
 	movement_speed = 0

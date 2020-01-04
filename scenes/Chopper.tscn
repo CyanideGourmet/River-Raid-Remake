@@ -23,6 +23,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
+wreckage_speed_multiplier = 1
 
 [node name="Body" type="Sprite" parent="."]
 rotation = -1.5708
