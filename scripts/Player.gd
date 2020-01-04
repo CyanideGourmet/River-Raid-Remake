@@ -12,6 +12,7 @@ var camera_pos
 var UI
 var Fuel_t
 var Points_t
+var HP_t
 var ammo = 1
 var Bullet = preload("res://scenes/Bullet.tscn")
 var fuel = 100
@@ -23,6 +24,8 @@ var current_mapslice
 var refill = 0
 var input = Vector2(0, 0)
 var points = 0
+var hp = 3
+var hpgained = 0
 
 signal free_the_bullet
 signal player_died
@@ -33,7 +36,9 @@ func _ready():
 	UI = get_parent().get_node("UI")
 	Fuel_t = UI.find_node("Fuel")
 	Points_t = UI.find_node("Points")
+	HP_t = UI.find_node("HP")
 	Fuel_t.text = str(fuel)
+	HP_t.text = "Lives: " + str(hp)
 	#terrain
 	set_collision_mask_bit(0, 1)
 	#chopper
@@ -111,6 +116,10 @@ func _physics_process(delta):
 	position.x = clamp(position.x, camera_pos.x, camera_pos.x + $Camera.get_viewport_rect().size.x)
 
 func _death():
+	if hp == 0:
+		get_tree().change_scene("res://scenes/Menu.tscn")
+	hp -= 1
+	HP_t.text = "Lives: " + str(hp)
 	emit_signal("player_died")
 	position = current_mapslice.position + Vector2(960, 8500)
 	full_stop = 0
@@ -135,4 +144,8 @@ func _current_mapslice_changed(node):
 func _hit_a_node(node):
 	if node.is_in_group("enemy") or node.is_in_group("fuel"):
 		points += node.point_value
+		if points >= 10000*(hpgained+1):
+			hp += 1
+			hpgained += 1
+			HP_t.text = "Lives: " + str(hp)
 		Points_t.text = "Points: " + str(points)
