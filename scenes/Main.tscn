@@ -65,6 +65,7 @@ min_forward_speed = 250
 acceleration_speed = 50
 fuel_decrease_rate = 0.05
 fuel_refill_rate = 1.25
+score_multiplier = 10
 
 [node name="UI" parent="." instance=ExtResource( 5 )]
 

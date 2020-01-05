@@ -4,7 +4,6 @@ export var point_value = 0
 export var movement_speed = 0
 export var wreckage_speed_multiplier = 0
 
-
 var player_node
 var direction = -1
 var full_stop = 0

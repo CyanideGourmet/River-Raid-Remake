@@ -132,9 +132,9 @@ identifier = "Chopper"
 
 [node name="Light2D" type="Light2D" parent="."]
 light_mask = 0
-position = Vector2( 0, 75 )
+position = Vector2( 3.97208e-005, 85.9726 )
 rotation = -1.5708
-scale = Vector2( 1.75, 2.5 )
+scale = Vector2( 2.24529, 2.5 )
 texture = ExtResource( 2 )
 color = Color( 0.772549, 0.866667, 1, 0 )
 energy = 0.01
@@ -144,12 +144,15 @@ shadow_gradient_length = 263.0
 shadow_item_cull_mask = 0
 
 [node name="SinkingShip" type="Node2D" parent="."]
+position = Vector2( 0, -1.36 )
 rotation = -1.5708
 scale = Vector2( 0.3, 0.3 )
 
 [node name="Hull_Rear" type="Sprite" parent="SinkingShip"]
 modulate = Color( 0.352941, 0.25098, 0.25098, 1 )
 light_mask = 16
+position = Vector2( -280, 100 )
+rotation = -1.5708
 texture = ExtResource( 3 )
 region_rect = Rect2( 0, -100.57, 256, 553.99 )
 region_filter_clip = true

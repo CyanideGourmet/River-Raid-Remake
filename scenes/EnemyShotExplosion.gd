@@ -49,7 +49,6 @@ func _physics_process(delta):
 	if (timer >= lifetime):
 		#print (identifier + "'s wreckage removed after: " +  str(timer) + ", life time: " + str(lifetime))
 		#print (identifier + "'s parent: " + str(get_parent()))
-		
 		queue_free()
 		return
 		

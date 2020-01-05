@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://assets/Images/Sprites/Godot_White.png" type="Texture" id=1]
+[ext_resource path="res://assets/Fonts/Digital_Font.tres" type="DynamicFont" id=2]
 
 [node name="Scores" type="CanvasLayer"]
 
@@ -13,74 +14,81 @@ texture = ExtResource( 1 )
 centered = false
 
 [node name="LivesLabel2" type="Label" parent="."]
-margin_left = 168.442
-margin_top = 9.52189
-margin_right = 262.442
-margin_bottom = 23.5219
-rect_scale = Vector2( 2, 2 )
+margin_left = 108.138
+margin_top = 9.0
+margin_right = 1126.14
+margin_bottom = 76.0
+rect_scale = Vector2( 0.3, 0.3 )
+custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
-text = "PURGE STATUS"
+text = "P U R G E   S T A T U S"
 align = 1
 valign = 2
 
 [node name="Dam" type="Node2D" parent="."]
-position = Vector2( 242.193, 44.8792 )
+position = Vector2( 269.629, 49.1661 )
 scale = Vector2( 0.4, 0.4 )
 
 [node name="DamLabel" type="Label" parent="Dam"]
 margin_left = -270.0
 margin_right = -165.0
 margin_bottom = 14.0
-rect_scale = Vector2( 4, 4 )
+rect_scale = Vector2( 0.55, 0.55 )
+custom_fonts/font = ExtResource( 2 )
 text = "DAM:"
 valign = 1
 
 [node name="DamValue" type="Label" parent="Dam"]
 margin_right = 88.0
 margin_bottom = 14.0
-rect_scale = Vector2( 4, 4 )
+rect_scale = Vector2( 0.55, 0.55 )
+custom_fonts/font = ExtResource( 2 )
 text = "999999999"
 align = 2
 valign = 1
 
 [node name="Score" type="Node2D" parent="."]
-position = Vector2( 242.193, 69.8792 )
+position = Vector2( 269.629, 74.1661 )
 scale = Vector2( 0.4, 0.4 )
 
 [node name="ScoreLabel" type="Label" parent="Score"]
 margin_left = -270.0
 margin_right = -165.0
 margin_bottom = 14.0
-rect_scale = Vector2( 4, 4 )
+rect_scale = Vector2( 0.55, 0.55 )
+custom_fonts/font = ExtResource( 2 )
 text = "SCORE:"
 valign = 1
 
 [node name="ScoreValue" type="Label" parent="Score"]
 margin_right = 88.0
 margin_bottom = 14.0
-rect_scale = Vector2( 4, 4 )
+rect_scale = Vector2( 0.55, 0.55 )
+custom_fonts/font = ExtResource( 2 )
 text = "999999999"
 align = 2
 valign = 1
 
 [node name="HiScore" type="Node2D" parent="."]
-position = Vector2( 242.193, 94.8792 )
+position = Vector2( 269.629, 99.1661 )
 scale = Vector2( 0.4, 0.4 )
 
 [node name="HiScoreLabel" type="Label" parent="HiScore"]
-modulate = Color( 0, 0, 0, 1 )
 margin_left = -270.0
 margin_right = -205.0
 margin_bottom = 14.0
-rect_scale = Vector2( 4, 4 )
+rect_scale = Vector2( 0.55, 0.55 )
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "HI-SCORE:"
 valign = 1
 
 [node name="HiScoreValue" type="Label" parent="HiScore"]
-modulate = Color( 0, 0, 0, 1 )
 margin_right = 88.0
 margin_bottom = 14.0
-rect_scale = Vector2( 4, 4 )
+rect_scale = Vector2( 0.55, 0.55 )
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "999999999"
 align = 2
 valign = 1
