@@ -16,7 +16,7 @@ __meta__ = {
 
 [node name="MapSlice" parent="." instance=ExtResource( 2 )]
 position = Vector2( 0, 8704 )
-min_fuel_number = 3
+min_fuel_number = 5
 max_fuel_number = 8
 min_chopper_number = 5
 max_chopper_number = 10
@@ -36,7 +36,7 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 1920, 8706 )
 
 [node name="MapSlice2" parent="." instance=ExtResource( 2 )]
-min_fuel_number = 3
+min_fuel_number = 5
 max_fuel_number = 8
 min_chopper_number = 5
 max_chopper_number = 10

@@ -10,7 +10,6 @@ var explosion = preload("res://scenes/BridgeExplosion.tscn")
 
 var tankcase = 0
 
-
 signal destroyed
 signal level_finished
 
@@ -25,11 +24,7 @@ func _ready():
 	#terrain
 	get_parent().get_parent().set_collision_layer_bit(0, 1)
 	player_node = get_parent().get_parent().get_parent().find_node("Player")
-#	if player_node:
-#		print ("Player node found! %s"% player_node)
-#	else:
-#		print ("No player node!!")
-	
+#	
 	connect("destroyed", player_node, "_hit_a_node")
 	connect("level_finished", player_node, "_current_mapslice_changed")
 
@@ -45,10 +40,9 @@ func _death():
 		explosionInstance._set_position(global_position)
 	
 	if tankstate:
-
-		get_parent().get_parent().RoadTank.call_deferred("_death")
-	elif tankcase == 2:
-		get_parent().get_parent().RoadTank.full_stop = 0
+		get_parent().get_parent().get_parent().RoadTank.call_deferred("_death")
+	if tankcase == 2:
+		get_parent().get_parent().get_parent().RoadTank.full_stop = 0
 	elif tankcase == 0:
 		var Shoot = get_parent().get_parent().get_parent().TankScene.instance()
 		get_parent().get_parent().get_parent().add_child(Shoot)

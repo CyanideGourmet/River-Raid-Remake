@@ -121,7 +121,13 @@ func _reset():
 	_place_entities()
 
 	RoadTank._clear()
-	Road.get_node("Body").get_node("Bridge").queue_free()
+	print ("Resetting Road: %s"%Road)
+	if (Road):
+		print ("Resetting Body: %s"%Road.get_node("Body"))
+		if (Road.get_node("Body")):
+			print ("Resetting Bridge: %s"%Road.get_node("Body").find_node("Bridge"))
+			
+	Road.get_node("Body").find_node("Bridge").queue_free()
 
 func _template():
 	var last = [0, 0]
@@ -304,6 +310,7 @@ func _place_tiles():
 			x = tiles[x]
 			if x:
 				set_cell(i, j, x[0], x[1], x[2], x[3])
+				
 
 func _instantiated_nodes_coordinates():
 	instantiated_nodes_coordinates = []

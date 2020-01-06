@@ -7,7 +7,9 @@ var direction = -1
 var ranges = []
 
 func _ready():
+	print ("Tank parent: %s"% get_parent().name)
 	for i in range(percentage_ranges.size()):
+		
 		ranges.append(get_parent().copy_offset*32*(percentage_ranges[i]/100))
 
 func _random_int(x, y):
