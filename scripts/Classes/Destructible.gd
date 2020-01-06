@@ -13,18 +13,16 @@ var collision
 var explosion
 
 signal destroyed
-signal left_the_screen
+signal clear_node
 
 func _ready():
 	add_to_group("enemy")
 	player_node = get_tree().get_root().get_node("Main").get_node("Player")
 	connect("destroyed", player_node, "_hit_a_node")
 	connect("destroyed", get_parent(), "_node_destroyed")
-	connect("left_the_screen", get_parent(), "_node_destroyed")
+	connect("clear_node", get_parent(), "_node_destroyed")
 
 func _physics_process(delta):
-	if position.x < 0 or position.x > 1920:
-		_left_the_screen()
 	collision = move_and_collide(velocity*movement_speed*delta)
 	if collision:
 		if collision.collider.is_in_group("PlayerBullet"):
@@ -43,6 +41,7 @@ func _death():
 	queue_free()
 
 
+
 func _explode(explosion_node):
 	if !explosion_node:
 		return
@@ -51,6 +50,7 @@ func _explode(explosion_node):
 	get_parent().get_parent().get_parent().add_child(explosionInstance)
 	explosionInstance._init_explosion(movement_speed * wreckage_speed_multiplier * direction, global_position)  #_set_position(global_position)
 		
-func _left_the_screen():
-	emit_signal("left_the_screen", self)
+
+func _clear():
+	emit_signal("clear_node", self)
 	queue_free()

@@ -108,7 +108,7 @@ func _generate():
 	_join_up()
 	_join_down()
 	_fill()
-	call_deferred("_place_tiles")
+	_place_tiles()
 	_instantiated_nodes_coordinates()
 	_place_entities()
 	var time_end = OS.get_ticks_msec() 
@@ -119,11 +119,10 @@ func _generate():
 func _reset():
 	_clear_entities()
 	_place_entities()
-	RoadTank._left_the_screen()
-	if (Road && Road.get_node("Body") && Road.find_node("Bridge")):
-		#Road.get_node("Body").get_node("Bridge").queue_free()
-		Road.find_node("Bridge").queue_free()
-		
+
+	RoadTank._clear()
+	Road.get_node("Body").get_node("Bridge").queue_free()
+
 func _template():
 	var last = [0, 0]
 	var n = _random_int(min_generate_start_n, max_generate_start_n)
@@ -414,9 +413,10 @@ func _place_entities():
 	Road.position = Vector2(0, 8640)
 	RoadTank = RoadTankScene.instance()
 	add_child(RoadTank)
-	RoadTank.position = Vector2(1, 8640)
-	RoadTank.rotation_degrees += 180
-	RoadTank.direction = 1
+	RoadTank.position = Vector2(_random_int(0, 1)*59*32, 8640)
+	if RoadTank.position.x == 0:
+		RoadTank.rotation_degrees += 180
+		RoadTank.direction = 1
 	entities.append([Road, RoadTank])
 
 func _fuel_entities():

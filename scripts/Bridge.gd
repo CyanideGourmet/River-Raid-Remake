@@ -5,7 +5,11 @@ export var point_value = 500
 var player_node
 
 var tankstate = false
+
 var explosion = preload("res://scenes/BridgeExplosion.tscn")
+
+var tankcase = 0
+
 
 signal destroyed
 signal level_finished
@@ -30,8 +34,8 @@ func _ready():
 	connect("level_finished", player_node, "_current_mapslice_changed")
 
 func _tankstate(node):
-	print("a")
 	tankstate = !tankstate
+	tankcase += 1
 
 func _death():
 	#death animation
@@ -41,9 +45,17 @@ func _death():
 		explosionInstance._set_position(global_position)
 	
 	if tankstate:
+
 		get_parent().get_parent().RoadTank.call_deferred("_death")
-	else:
+	elif tankcase == 2:
 		get_parent().get_parent().RoadTank.full_stop = 0
+	elif tankcase == 0:
+		var Shoot = get_parent().get_parent().get_parent().TankScene.instance()
+		get_parent().get_parent().get_parent().add_child(Shoot)
+		Shoot.transform = get_parent().get_parent().get_parent().RoadTank.transform
+		Shoot.direction = get_parent().get_parent().get_parent().RoadTank.direction
+		get_parent().get_parent().get_parent().RoadTank.call_deferred("_clear")
+		Shoot._reload()
 	emit_signal("level_finished", get_parent().get_parent())
 
 	emit_signal("destroyed", self)
