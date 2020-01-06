@@ -27,14 +27,14 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
-speed = 1200
+speed = 2000
 bullet_range = 800
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0.21, 0 )
 scale = Vector2( 0.08, 0.08 )
 frames = SubResource( 1 )
-frame = 3
+frame = 2
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
