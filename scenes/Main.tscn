@@ -58,13 +58,12 @@ region_rect = Rect2( 0, 0, 1920, 8706 )
 position = Vector2( 960, 17168 )
 collision_layer = 5
 collision_mask = 5
-movement_speed = 500
-def_forward_speed = 600
-max_forward_speed = 1000
-min_forward_speed = 250
-acceleration_speed = 50
-fuel_decrease_rate = 0.05
-fuel_refill_rate = 1.25
+def_forward_speed = 300
+max_forward_speed = 600
+min_forward_speed = 150
+acceleration_speed = 30
+fuel_decrease_rate = 0.03
+fuel_refill_rate = 1.0
 
 [node name="UI" parent="." instance=ExtResource( 5 )]
 

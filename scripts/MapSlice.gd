@@ -47,6 +47,8 @@ var entities = []
 var Road
 var RoadTank
 
+var last_delta = 1000.0/60.0
+
 func _ready():
 	#player/chopper
 	set_collision_layer_bit(0, 1)
@@ -91,6 +93,8 @@ func _choose_dir(last, n):
 	return x
 
 func _generate():
+	var time_start = OS.get_ticks_msec()
+	
 	step_memory = []
 	max_width = 0
 	map_array = []
@@ -107,6 +111,10 @@ func _generate():
 	call_deferred("_place_tiles")
 	_instantiated_nodes_coordinates()
 	_place_entities()
+	var time_end = OS.get_ticks_msec() 
+	
+	var delta_t = time_end - time_start
+	print ("Level generated in %f milliseconds (about %f frames)"% [delta_t, delta_t / last_delta ])
 
 func _reset():
 	_clear_entities()
@@ -115,6 +123,7 @@ func _reset():
 	if (Road && Road.get_node("Body") && Road.find_node("Bridge")):
 		#Road.get_node("Body").get_node("Bridge").queue_free()
 		Road.find_node("Bridge").queue_free()
+		
 func _template():
 	var last = [0, 0]
 	var n = _random_int(min_generate_start_n, max_generate_start_n)
