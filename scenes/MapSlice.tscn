@@ -23,5 +23,7 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area"]
-position = Vector2( 960, 4352 )
+position = Vector2( 960, 4346 )
 shape = SubResource( 1 )
+[connection signal="body_entered" from="Area" to="." method="_mapslice_entered"]
+[connection signal="body_exited" from="Area" to="." method="_mapslice_exited"]
