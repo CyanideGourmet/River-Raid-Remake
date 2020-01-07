@@ -28,6 +28,30 @@ func _randint(x, y):
 	randomize()
 	return(randi()%(y+1-x)+x)
 
+func _clear_matrix():
+	map_matrix = []
+	for i in range(level_size[0]):
+		map_matrix.append([])
+		for j in range(level_size[1]):
+			map_matrix[i].append([0, 0, 0])
+
+func _render_tiles(height):
+	for i in range(level_size[0]):
+		for j in range(60):
+			var tile = tiles[map_matrix[i][height-j]]
+			if tile:
+				set_cell(i, height-j, tile[0], tile[1], tile[2], tile[3])
+			else:
+				set_cell(i, height-j, -1)
+
+func _generate():
+	_clear_matrix()
+	var step_memory = _step_generation([0, 0, 0], level_size[0]/4, 33)
+	var path_template = [[level_size[0]/4, 30], step_memory[0], step_memory[1]]
+	var left_bank_path = _bank_completion(path_template, "L")
+	var right_bank_path
+	_path_process(left_bank_path)
+
 func _mapslice_entered(body):
 	if body == player_node:
 		current_mapslice = true
@@ -36,10 +60,15 @@ func _mapslice_entered(body):
 func _mapslice_exited(body):
 	if body == player_node:
 		current_mapslice = false
-		yield(get_tree().create_timer(4), "timeout")
-		position.y += level_size[1]*32*2
+		position.y -= level_size[1]*32*2
+		_generate()
+		render_height = level_size[1]*32*2
+		_render_tiles(level_size[1]-1)
+		_render_tiles(level_size[1]-61)
 
 func _ready():
+	$Area/CollisionShape2D.shape.set_extents(Vector2(level_size[0]*32/2, level_size[1]*32/2))
+	$Area/CollisionShape2D.position = Vector2(level_size[0]*32/2, level_size[1]*32/2)
 	#player/chopper
 	set_collision_layer_bit(0, 1)
 	$Area.set_collision_layer_bit(0, 1)
@@ -47,27 +76,15 @@ func _ready():
 	set_collision_layer_bit(-100, 1)
 	player_node = get_parent().find_node("Player")
 	_generate()
-	render_height = level_size[1]*32*2+64
+	render_height = level_size[1]*32*2
 	_render_tiles(level_size[1]-1)
 	_render_tiles(level_size[1]-61)
 
-"""func _process(delta):
+func _process(delta):
 	if current_mapslice:
 		if abs(render_height-player_node.position.y) >= 1080:
 			_render_tiles(int(abs(player_node.position.y - 840 - position.y)/32))
-			render_height = player_node.position.y"""
-
-func _generate():
-	_clear_matrix()
-	var step_memory = _step_generation([0, 0, 0], level_size[0]/4, 33)
-	var path_template = [[level_size[0]/4, 30], step_memory[0], step_memory[1]]
-
-func _clear_matrix():
-	map_matrix = []
-	for i in range(level_size[0]):
-		map_matrix.append([])
-		for j in range(level_size[1]):
-			map_matrix[i].append([0, 0, 0])
+			render_height = player_node.position.y - 840
 
 func _step_errorproof(step_memory, width, direction):
 	var is_stale = step_memory[2] == step_memory[1] and step_memory[1] == step_memory[0] and step_memory[0] == direction
@@ -91,11 +108,42 @@ func _step_generation(step_memory, width, height):
 		step_memory.append(direction)
 	return [step_memory, [width, height]]
 
-func _render_tiles(height):
-	for i in range(level_size[0]):
-		for j in range(60):
-			var tile = tiles[map_matrix[i][height-j]]
-			if tile:
-				set_cell(i, height-j, tile[0], tile[1], tile[2], tile[3])
-			else:
-				set_cell(i, height-j, -1)
+func _path_process(path):
+	var width = path[0][0]
+	var height = path[0][1]
+	map_matrix[width][height][0] = 3
+	for i in path[1]:
+		if i == 0:
+			map_matrix[width][height][1] = 4
+			width -= 1
+			map_matrix[width][height][0] = 2
+		elif i == 1:
+			map_matrix[width][height][1] = 1
+			height += 1
+			map_matrix[width][height][0] = 3
+		elif i == 2:
+			map_matrix[width][height][1] = 2
+			width += 1
+			map_matrix[width][height][0] = 4
+	map_matrix[width][height][1] = 1
+
+func _bank_completion(path, side):
+	var width = [path[0][0], path[2][0]]
+	var height = [path[0][1], path[2][1]]
+	while height[0] > (level_size[0]/2-7-width[0]):
+		height[0] -= 1
+		path[1].insert(0, 1)
+	while height[0] > 0:
+		path[1].insert(0, 0)
+		width[0] += 1
+		path[1].insert(0, 1)
+		height[0] -= 1
+	while level_size[1] - height[1] > (level_size[0]/2-8-width[1]):
+		height[1] += 1
+		path[1].append(1)
+	while height[1] < level_size[1]:
+		path[1].append(2)
+		width[1] += 1
+		path[1].append(1)
+		height[1] += 1
+	return [[width[0], height[0]], path[1], [width[1], height[1]]]
