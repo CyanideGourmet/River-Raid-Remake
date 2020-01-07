@@ -1,27 +1,35 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://assets/Images/Sprites/Godot_White.png" type="Texture" id=1]
-[ext_resource path="res://scenes/FuelIndicator.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scenes/Lives.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scenes/Scores.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/Images/GUI/Marek_GUI.png" type="Texture" id=1]
+[ext_resource path="res://assets/Images/Sprites/Godot_White.png" type="Texture" id=2]
+[ext_resource path="res://scenes/Scores.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/FuelIndicator.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/Lives.tscn" type="PackedScene" id=5]
 
 [node name="UI_Root" type="CanvasLayer"]
 
+[node name="Marek_GUI" type="Sprite" parent="."]
+visible = false
+position = Vector2( 960.841, 573.058 )
+scale = Vector2( 1.36359, 1.22593 )
+texture = ExtResource( 1 )
+
 [node name="LowerBarSkin" type="Sprite" parent="."]
+visible = false
 modulate = Color( 0.298039, 0.392157, 0.439216, 1 )
 position = Vector2( 0, 890 )
 scale = Vector2( 30, 4 )
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 centered = false
 
-[node name="FuelIndicator" parent="." instance=ExtResource( 2 )]
-offset = Vector2( 32, 895 )
-transform = Transform2D( 1, 0, 0, 1, 32, 895 )
+[node name="Scores" parent="." instance=ExtResource( 3 )]
+offset = Vector2( 20, 1100 )
+transform = Transform2D( 1, 0, 0, 1, 20, 1100 )
 
-[node name="Lives" parent="." instance=ExtResource( 3 )]
-offset = Vector2( 690, 895 )
-transform = Transform2D( 1, 0, 0, 1, 690, 895 )
+[node name="FuelIndicator" parent="." instance=ExtResource( 4 )]
+offset = Vector2( 1350, 920 )
+transform = Transform2D( 1, 0, 0, 1, 1350, 920 )
 
-[node name="Scores" parent="." instance=ExtResource( 4 )]
-offset = Vector2( 1360, 895 )
-transform = Transform2D( 1, 0, 0, 1, 1360, 895 )
+[node name="Lives" parent="." instance=ExtResource( 5 )]
+offset = Vector2( 1380, 920 )
+transform = Transform2D( 1, 0, 0, 1, 1380, 920 )

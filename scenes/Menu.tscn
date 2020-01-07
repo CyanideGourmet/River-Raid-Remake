@@ -16,6 +16,7 @@ corner_radius_top_left = 24
 corner_radius_top_right = 24
 corner_radius_bottom_right = 24
 corner_radius_bottom_left = 24
+shadow_size = -8
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.0509804, 0.0588235, 0.0627451, 0 )
@@ -42,13 +43,6 @@ margin_right = 1281.0
 margin_bottom = 450.0
 color = Color( 0.0509804, 0.0588235, 0.0627451, 1 )
 
-[node name="ColorRect5" type="ColorRect" parent="."]
-margin_left = 1540.0
-margin_top = 820.0
-margin_right = 1730.0
-margin_bottom = 960.0
-color = Color( 0.0509804, 0.0588235, 0.0627451, 1 )
-
 [node name="ColorRect3" type="ColorRect" parent="."]
 modulate = Color( 0, 0, 0, 1 )
 margin_left = 1730.0
@@ -64,8 +58,23 @@ margin_right = 240.0
 margin_bottom = 220.0
 color = Color( 0.0352941, 0.0392157, 0.0431373, 1 )
 
+[node name="ColorRect5" type="ColorRect" parent="."]
+margin_left = 1460.0
+margin_top = 10.0
+margin_right = 1880.0
+margin_bottom = 1040.0
+color = Color( 0.0509804, 0.0588235, 0.0627451, 1 )
+
+[node name="ColorRect6" type="ColorRect" parent="."]
+margin_left = 40.0
+margin_top = 60.0
+margin_right = 410.0
+margin_bottom = 990.0
+color = Color( 0.0509804, 0.0588235, 0.0627451, 1 )
+
 [node name="Marek_Logo" type="Sprite" parent="."]
-position = Vector2( 962.511, 284.831 )
+position = Vector2( 940, 280 )
+scale = Vector2( 1.4, 1.4 )
 texture = ExtResource( 3 )
 
 [node name="Start" type="Button" parent="."]
@@ -77,9 +86,6 @@ margin_bottom = 566.0
 custom_styles/hover = SubResource( 1 )
 custom_styles/pressed = ExtResource( 4 )
 custom_styles/normal = SubResource( 2 )
-custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
 action_mode = 0
 
