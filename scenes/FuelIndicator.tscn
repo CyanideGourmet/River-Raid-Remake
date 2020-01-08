@@ -1,39 +1,24 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://assets/Images/GUI/fuel.png" type="Texture" id=1]
-[ext_resource path="res://assets/Images/GUI/fuel zero.png" type="Texture" id=2]
-[ext_resource path="res://assets/Images/Sprites/Godot_White.png" type="Texture" id=3]
-[ext_resource path="res://assets/Fonts/Digital_Font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/Images/Sprites/Godot_White.png" type="Texture" id=1]
+[ext_resource path="res://assets/Fonts/Digital_Font.tres" type="DynamicFont" id=2]
 
 [node name="FuelIndicator" type="CanvasLayer"]
 
-[node name="fuel" type="Sprite" parent="."]
-position = Vector2( 507, -333.075 )
-texture = ExtResource( 1 )
-
-[node name="fuel zero" type="Sprite" parent="."]
-position = Vector2( 505.863, -88.6887 )
-texture = ExtResource( 2 )
-
 [node name="FuelSkin" type="Sprite" parent="."]
-visible = false
 modulate = Color( 0.211765, 0.337255, 0.403922, 1 )
 scale = Vector2( 8, 2 )
-z_as_relative = false
-texture = ExtResource( 3 )
+texture = ExtResource( 1 )
 centered = false
 
 [node name="FuelGauge" type="Sprite" parent="."]
-visible = false
 modulate = Color( 0, 0, 0, 1 )
 position = Vector2( 160.951, 55.7034 )
 scale = Vector2( 3, 0.75 )
-texture = ExtResource( 3 )
+texture = ExtResource( 1 )
 centered = false
 
 [node name="FuelLevelZero" type="Node2D" parent="."]
-editor/display_folded = true
-visible = false
 position = Vector2( 162.95, 58.0003 )
 
 [node name="FuelPointer" type="Node2D" parent="FuelLevelZero"]
@@ -42,44 +27,41 @@ position = Vector2( 162.95, 58.0003 )
 modulate = Color( 0, 0.671875, 1, 1 )
 position = Vector2( 1.54755, 0 )
 scale = Vector2( 0.2, 0.69 )
-texture = ExtResource( 3 )
+texture = ExtResource( 1 )
 centered = false
 
 [node name="FuelLabel" type="Label" parent="."]
-visible = false
 margin_left = 168.779
 margin_top = 9.0
 margin_right = 755.779
 margin_bottom = 76.0
 rect_scale = Vector2( 0.3, 0.3 )
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "R E A C T O R"
 align = 1
 valign = 2
 
 [node name="F" type="Label" parent="."]
-visible = false
 anchor_right = 1.0
 margin_left = 356.95
 margin_top = 56.0003
 margin_right = -1556.05
 margin_bottom = 70.0003
 rect_scale = Vector2( 0.5, 0.5 )
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 0, 1, 0, 1 )
 text = "F"
 align = 2
 valign = 1
 
 [node name="E!" type="Label" parent="."]
-visible = false
 margin_left = 124.95
 margin_top = 56.0003
 margin_right = 132.95
 margin_bottom = 70.0003
 rect_scale = Vector2( 0.5, 0.5 )
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "E"
 align = 2
