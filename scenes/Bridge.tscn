@@ -7,7 +7,7 @@
 extents = Vector2( 134.274, 56.0653 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 133.444, 93.565 )
+extents = Vector2( 255.158, 93.565 )
 
 [node name="Bridge" type="StaticBody2D" groups=[
 "enemy",
@@ -21,7 +21,7 @@ scale = Vector2( 2, 1 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -2.58472, 31.0164 )
+position = Vector2( -2.58472, 25.7532 )
 scale = Vector2( 2, 1 )
 shape = SubResource( 1 )
 

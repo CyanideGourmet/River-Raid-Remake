@@ -117,7 +117,7 @@ scale_random = 1.0
 scale_curve = SubResource( 9 )
 color_ramp = SubResource( 7 )
 
-[sub_resource type="ParticlesMaterial" id=22]
+[sub_resource type="ParticlesMaterial" id=15]
 flag_disable_z = true
 spread = 35.0
 gravity = Vector3( 0, -3, 0 )
@@ -133,19 +133,19 @@ scale_random = 1.0
 scale_curve = SubResource( 9 )
 color_ramp = SubResource( 7 )
 
-[sub_resource type="Gradient" id=15]
+[sub_resource type="Gradient" id=16]
 colors = PoolColorArray( 0.996078, 1, 0.752941, 0.980392, 0.637207, 0.34735, 0.0945854, 0 )
 
-[sub_resource type="GradientTexture" id=16]
-gradient = SubResource( 15 )
+[sub_resource type="GradientTexture" id=17]
+gradient = SubResource( 16 )
 
-[sub_resource type="Curve" id=17]
+[sub_resource type="Curve" id=18]
 _data = [ Vector2( 0, 0.3064 ), 0.0, 2.38619, 0, 0, Vector2( 0.99426, 0.9752 ), 0.378816, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=18]
-curve = SubResource( 17 )
+[sub_resource type="CurveTexture" id=19]
+curve = SubResource( 18 )
 
-[sub_resource type="ParticlesMaterial" id=21]
+[sub_resource type="ParticlesMaterial" id=20]
 emission_shape = 2
 emission_box_extents = Vector3( 50, 0.1, 0.1 )
 flag_disable_z = true
@@ -156,10 +156,10 @@ angular_velocity_random = 1.0
 orbit_velocity = -2.0
 orbit_velocity_random = 0.0
 scale = 15.0
-scale_curve = SubResource( 18 )
-color_ramp = SubResource( 16 )
+scale_curve = SubResource( 19 )
+color_ramp = SubResource( 17 )
 
-[sub_resource type="CircleShape2D" id=20]
+[sub_resource type="CircleShape2D" id=21]
 
 [node name="BridgeExplosion" type="KinematicBody2D"]
 position = Vector2( 1000, 800 )
@@ -426,7 +426,7 @@ explosiveness = 0.2
 randomness = 1.0
 local_coords = false
 draw_order = 1
-process_material = SubResource( 22 )
+process_material = SubResource( 15 )
 
 [node name="Rotor_Fire" type="Particles2D" parent="RotorChunk"]
 scale = Vector2( 0.75, 0.75 )
@@ -434,7 +434,7 @@ amount = 60
 lifetime = 0.2
 randomness = 1.0
 draw_order = 1
-process_material = SubResource( 21 )
+process_material = SubResource( 20 )
 
 [node name="Sprite" type="Sprite" parent="RotorChunk"]
 visible = false
@@ -445,7 +445,7 @@ texture = ExtResource( 4 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RotorChunk"]
 visible = false
 scale = Vector2( 2, 2 )
-shape = SubResource( 20 )
+shape = SubResource( 21 )
 disabled = true
 
 [node name="RotorChunk5" type="RigidBody2D" parent="."]
@@ -468,7 +468,7 @@ explosiveness = 0.2
 randomness = 1.0
 local_coords = false
 draw_order = 1
-process_material = SubResource( 22 )
+process_material = SubResource( 15 )
 
 [node name="Rotor_Fire" type="Particles2D" parent="RotorChunk5"]
 scale = Vector2( 0.75, 0.75 )
@@ -476,7 +476,7 @@ amount = 60
 lifetime = 0.2
 randomness = 1.0
 draw_order = 1
-process_material = SubResource( 21 )
+process_material = SubResource( 20 )
 
 [node name="Sprite" type="Sprite" parent="RotorChunk5"]
 visible = false
@@ -487,7 +487,7 @@ texture = ExtResource( 4 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RotorChunk5"]
 visible = false
 scale = Vector2( 2, 2 )
-shape = SubResource( 20 )
+shape = SubResource( 21 )
 disabled = true
 
 [node name="RotorChunk2" type="RigidBody2D" parent="."]
@@ -509,7 +509,7 @@ explosiveness = 0.2
 randomness = 1.0
 local_coords = false
 draw_order = 1
-process_material = SubResource( 22 )
+process_material = SubResource( 15 )
 
 [node name="Rotor_Fire" type="Particles2D" parent="RotorChunk2"]
 scale = Vector2( 0.75, 0.75 )
@@ -517,7 +517,7 @@ amount = 60
 lifetime = 0.2
 randomness = 1.0
 draw_order = 1
-process_material = SubResource( 21 )
+process_material = SubResource( 20 )
 
 [node name="Sprite" type="Sprite" parent="RotorChunk2"]
 visible = false
@@ -528,7 +528,7 @@ texture = ExtResource( 4 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RotorChunk2"]
 visible = false
 scale = Vector2( 2, 2 )
-shape = SubResource( 20 )
+shape = SubResource( 21 )
 disabled = true
 
 [node name="RotorChunk4" type="RigidBody2D" parent="."]
@@ -551,7 +551,7 @@ explosiveness = 0.2
 randomness = 1.0
 local_coords = false
 draw_order = 1
-process_material = SubResource( 22 )
+process_material = SubResource( 15 )
 
 [node name="Rotor_Fire" type="Particles2D" parent="RotorChunk4"]
 scale = Vector2( 0.75, 0.75 )
@@ -559,7 +559,7 @@ amount = 60
 lifetime = 0.2
 randomness = 1.0
 draw_order = 1
-process_material = SubResource( 21 )
+process_material = SubResource( 20 )
 
 [node name="Sprite" type="Sprite" parent="RotorChunk4"]
 visible = false
@@ -570,7 +570,7 @@ texture = ExtResource( 4 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RotorChunk4"]
 visible = false
 scale = Vector2( 2, 2 )
-shape = SubResource( 20 )
+shape = SubResource( 21 )
 disabled = true
 
 [node name="RotorChunk3" type="RigidBody2D" parent="."]
@@ -592,7 +592,7 @@ explosiveness = 0.2
 randomness = 1.0
 local_coords = false
 draw_order = 1
-process_material = SubResource( 22 )
+process_material = SubResource( 15 )
 
 [node name="Rotor_Fire" type="Particles2D" parent="RotorChunk3"]
 scale = Vector2( 0.75, 0.75 )
@@ -600,7 +600,7 @@ amount = 60
 lifetime = 0.2
 randomness = 1.0
 draw_order = 1
-process_material = SubResource( 21 )
+process_material = SubResource( 20 )
 
 [node name="Sprite" type="Sprite" parent="RotorChunk3"]
 visible = false
@@ -611,7 +611,7 @@ texture = ExtResource( 4 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RotorChunk3"]
 visible = false
 scale = Vector2( 2, 2 )
-shape = SubResource( 20 )
+shape = SubResource( 21 )
 disabled = true
 
 [node name="RotorChunk6" type="RigidBody2D" parent="."]
@@ -634,7 +634,7 @@ explosiveness = 0.2
 randomness = 1.0
 local_coords = false
 draw_order = 1
-process_material = SubResource( 22 )
+process_material = SubResource( 15 )
 
 [node name="Rotor_Fire" type="Particles2D" parent="RotorChunk6"]
 scale = Vector2( 0.75, 0.75 )
@@ -642,7 +642,7 @@ amount = 60
 lifetime = 0.2
 randomness = 1.0
 draw_order = 1
-process_material = SubResource( 21 )
+process_material = SubResource( 20 )
 
 [node name="Sprite" type="Sprite" parent="RotorChunk6"]
 visible = false
@@ -653,5 +653,5 @@ texture = ExtResource( 4 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RotorChunk6"]
 visible = false
 scale = Vector2( 2, 2 )
-shape = SubResource( 20 )
+shape = SubResource( 21 )
 disabled = true
