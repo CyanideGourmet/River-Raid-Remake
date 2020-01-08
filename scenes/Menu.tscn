@@ -1,21 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/Menu.gd" type="Script" id=1]
 [ext_resource path="res://assets/Images/Menus/Marek_MainMenu.png" type="Texture" id=2]
 [ext_resource path="res://assets/Images/Menus/Marek_Logo.png" type="Texture" id=3]
-[ext_resource path="res://assets/StylesAndThemes/Menu_Button.stylebox" type="StyleBox" id=4]
-
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.0509804, 0.0588235, 0.0627451, 0 )
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color( 0.560784, 0.27451, 0.52549, 0.411765 )
-corner_radius_top_left = 24
-corner_radius_top_right = 24
-corner_radius_bottom_right = 24
-corner_radius_bottom_left = 24
+[ext_resource path="res://assets/StylesAndThemes/Button_Hover_StyleBox.tres" type="StyleBox" id=4]
+[ext_resource path="res://assets/StylesAndThemes/Menu_Button.stylebox" type="StyleBox" id=5]
+[ext_resource path="res://assets/Fonts/AC_Line_Menu_Marek.tres" type="DynamicFont" id=6]
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.0509804, 0.0588235, 0.0627451, 0 )
@@ -31,15 +21,17 @@ margin_bottom = 1080.0
 color = Color( 0.0509804, 0.0588235, 0.0627451, 1 )
 
 [node name="Marek_MainMenu" type="Sprite" parent="."]
+visible = false
 scale = Vector2( 1.94479, 1.59632 )
 texture = ExtResource( 2 )
 centered = false
 
 [node name="ColorRect2" type="ColorRect" parent="."]
+visible = false
 margin_left = 560.0
 margin_top = 63.0
 margin_right = 1310.0
-margin_bottom = 450.0
+margin_bottom = 740.0
 color = Color( 0.0509804, 0.0588235, 0.0627451, 1 )
 
 [node name="ColorRect5" type="ColorRect" parent="."]
@@ -62,46 +54,52 @@ texture = ExtResource( 3 )
 
 [node name="Start" type="Button" parent="."]
 anchor_right = 1.0
-margin_left = 730.0
-margin_top = 516.0
-margin_right = -760.0
-margin_bottom = 566.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = ExtResource( 4 )
+margin_left = 750.0
+margin_top = 500.0
+margin_right = -740.0
+margin_bottom = 560.0
+custom_styles/hover = ExtResource( 4 )
+custom_styles/pressed = ExtResource( 5 )
 custom_styles/normal = SubResource( 2 )
+custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
-custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 0.980392, 0.345098, 1, 1 )
 action_mode = 0
+text = "START ASSAULT"
 
 [node name="Credits" type="Button" parent="."]
 anchor_right = 1.0
-margin_left = 730.0
-margin_top = 588.0
-margin_right = -760.0
-margin_bottom = 638.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = ExtResource( 4 )
+margin_left = 750.0
+margin_top = 580.0
+margin_right = -740.0
+margin_bottom = 640.0
+custom_styles/hover = ExtResource( 4 )
+custom_styles/pressed = ExtResource( 5 )
 custom_styles/normal = SubResource( 2 )
+custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
-custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 0.980392, 0.345098, 1, 1 )
 action_mode = 0
+text = "CREDITS"
 
 [node name="Exit" type="Button" parent="."]
 anchor_right = 1.0
-margin_left = 730.0
+margin_left = 750.0
 margin_top = 660.0
-margin_right = -760.0
-margin_bottom = 710.0
-custom_styles/hover = SubResource( 1 )
-custom_styles/pressed = ExtResource( 4 )
+margin_right = -740.0
+margin_bottom = 720.0
+custom_styles/hover = ExtResource( 4 )
+custom_styles/pressed = ExtResource( 5 )
 custom_styles/normal = SubResource( 2 )
+custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
-custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 0.980392, 0.345098, 1, 1 )
 action_mode = 0
+text = "QUIT GAME"
 [connection signal="button_down" from="Start" to="." method="_start"]
