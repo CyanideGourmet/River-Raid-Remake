@@ -121,8 +121,6 @@ func _ready():
 	set_collision_layer_bit(-20, 1)
 	#explosion
 	set_collision_mask_bit(-21, 1)
-	connect("player_died", current_mapslice, "_reset")
-	
 
 func _input(event):
 	if event.is_pressed():
@@ -153,6 +151,7 @@ func _input(event):
 		else:
 			acceleration_dir = 1
 	if event.is_action_pressed("ui_select") and ammo > 0:
+		refill = (refill+1)%2
 		var bullet = Bullet.instance()
 		bullet.scale = Vector2(4, 4)
 		add_child(bullet)
@@ -204,10 +203,8 @@ func _physics_process(delta):
 		elif collision.collider.is_in_group("enemy"):
 			collision.collider.call_deferred("_death")
 			_death()
-	fuel += -fuel_decrease_rate + fuel_refill_rate * refill
-	
-	position.x = clamp(position.x, camera_pos.x, camera_pos.x + cam.get_viewport_rect().size.x)
-	
+	fuel += (-fuel_decrease_rate + fuel_refill_rate * refill)*full_stop
+	position.x = clamp(position.x, camera_pos.x, camera_pos.x + $Camera.get_viewport_rect().size.x)			
 	#Hubert (dodane do physics_process())
 	var lerpPitch = 1
 	if (forward_speed>= def_forward_speed):
@@ -222,7 +219,11 @@ func _physics_process(delta):
 		GUI_FuelIndicator.position = Vector2.RIGHT * lerp(0.0, 175.0, fuel * 0.01)
 	#/Hubert (koniec do physics_process())
 
+	
+
 func _death():
+	fuel = 100
+	full_stop = 0
 
 	if hp == 0:
 		get_tree().change_scene("res://scenes/Menu.tscn")
@@ -236,19 +237,13 @@ func _death():
 		GUI_Lives[hp].visible = false
 	#/Hubert
 
-	emit_signal("player_died")
-	
-	if current_mapslice:
-		position = current_mapslice.position + Vector2(960, 8500)
-		
-	full_stop = 0
+	position = Vector2(960, 8500)
 	yield(get_tree().create_timer(1), "timeout")
 	full_stop = 1
-	fuel = 100
+
 	#Hubert
 	$EngineSound.play(0)
 	#/Hubert
-
 func _reload():
 	ammo = 1
 

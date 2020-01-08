@@ -1,26 +1,13 @@
 extends TileMap
 
-export var level_size = 8704
-export var min_fuel_number = 4
-export var max_fuel_number = 10
-export var min_chopper_number = 1
-export var max_chopper_number = 5
-export var min_plane_number = 3
-export var max_plane_number = 8
-export var min_heavy_number = 1
-export var max_heavy_number = 3
-export var min_ship_number = 1
-export var max_ship_number = 5
-export var min_shooter_number = 1
-export var max_shooter_number = 4
-export var min_tank_number = 0
-export var max_tank_number = 2
-export var min_generate_start_n = 3
-export var max_generate_start_n = 5
-export var min_generate_start_m = 10
-export var max_generate_start_m = 20
-
-signal current_mapslice_changed
+export var level_size = [60, 300]
+export var fuel_number = [4, 10]
+export var chopper_number = [1, 5]
+export var plane_number = [3, 8]
+export var heavy_number = [1, 3]
+export var ship_number = [1, 5]
+export var shooter_number = [1, 4]
+export var tank_number = [0, 2]
 
 var player_node
 var FuelScene = preload("res://scenes/Fuel.tscn")
@@ -32,501 +19,134 @@ var ShooterScene = preload("res://scenes/Shooter.tscn")
 var TankScene = preload("res://scenes/Tank.tscn")
 var RoadTankScene = preload("res://scenes/RoadTank.tscn")
 var RoadScene = preload("res://scenes/Road.tscn")
-var map_array = []
-var instantiated_nodes_coordinates = []
-var start_end_width = [0, 0]
-var start_end_height = [0, 272]
-var min_width = 60
-var max_width = 0
-var copy_offset = 30
-var step_memory = []
-var randomization_safelock = [0, 0]
-var island_params = [10, 39, 232]
 var tiles = {[0, 0, 0]: 0, [1, 1, 0]: [1, 0, 0, 0], [2, 1, 0]: [3, 1, 0, 0], [2, 1, 1]: [4, 0, 0, 0], [2, 4, 0]: [2, 0, 1, 0], [2, 4, 1]: [2, 0, 0, 0], [3, 1, 0]: [2, 1, 0, 1], [3, 1, 1]: [2, 0, 0, 1], [3, 2, 0]: [3, 1, 1, 0], [3, 2, 1]: [4, 0, 1, 0], [3, 4, 0]: [4, 1, 1, 0], [3, 4, 1]: [3, 0, 1, 0], [4, 1, 0]: [4, 1, 0, 0], [4, 1, 1]: [3, 0, 0, 0], [4, 2, 0]: [2, 0, 0, 0], [4, 2, 1]: [2, 0, 1, 0]}
-var entities = []
-var Road
-var RoadTank
 
-var last_delta = 1000.0/60.0
+var map_matrix
+var render_height = 0
+var current_mapslice = false
+
+func _randint(x, y):
+	randomize()
+	return(randi()%(y+1-x)+x)
+
+func _clear_matrix():
+	map_matrix = []
+	for i in range(level_size[0]):
+		map_matrix.append([])
+		for j in range(level_size[1]):
+			map_matrix[i].append([0, 0, 0])
+
+func _render_tiles(height):
+	for i in range(level_size[0]):
+		for j in range(60):
+			var tile = tiles[map_matrix[i][height-j]]
+			if tile:
+				set_cell(i, height-j, tile[0], tile[1], tile[2], tile[3])
+			else:
+				set_cell(i, height-j, -1)
+
+func _generate():
+	_clear_matrix()
+	var step_memory = _step_generation([0, 0, 0], level_size[0]/4, 33)
+	var path_template = [[level_size[0]/4, 30], step_memory[0], step_memory[1]]
+	var left_bank_path = _bank_completion(path_template, "L")
+	var right_bank_path
+	_path_process(left_bank_path)
+
+func _mapslice_entered(body):
+	if body == player_node:
+		current_mapslice = true
+		add_child(player_node)
+
+func _mapslice_exited(body):
+	if body == player_node:
+		current_mapslice = false
+		position.y -= level_size[1]*32*2
+		_generate()
+		render_height = level_size[1]*32*2
+		_render_tiles(level_size[1]-1)
+		_render_tiles(level_size[1]-61)
 
 func _ready():
+	$Area/CollisionShape2D.shape.set_extents(Vector2(level_size[0]*32/2, level_size[1]*32/2))
+	$Area/CollisionShape2D.position = Vector2(level_size[0]*32/2, level_size[1]*32/2)
 	#player/chopper
 	set_collision_layer_bit(0, 1)
 	$Area.set_collision_layer_bit(0, 1)
 	#bullet
 	set_collision_layer_bit(-100, 1)
 	player_node = get_parent().find_node("Player")
-	$Area.connect("body_exited", self, "_on_MapSlice_body_exited")
-	connect("current_mapslice_changed", player_node, "_current_mapslice_changed")
 	_generate()
+	render_height = level_size[1]*32*2
+	_render_tiles(level_size[1]-1)
+	_render_tiles(level_size[1]-61)
 
-func _on_MapSlice_body_exited(body):
-	yield(get_tree().create_timer(1), "timeout")
-	if body == player_node:
-		position.y -= 2 * level_size
-		_clear_entities()
-		call_deferred("_generate")
+func _process(delta):
+	if current_mapslice:
+		if abs(render_height-player_node.position.y) >= 1080:
+			_render_tiles(int(abs(player_node.position.y - 840 - position.y)/32))
+			render_height = player_node.position.y - 840
 
-func _node_destroyed(body):
-	for i in entities:
-		i.erase(body)
+func _step_errorproof(step_memory, width, direction):
+	var is_stale = step_memory[2] == step_memory[1] and step_memory[1] == step_memory[0] and step_memory[0] == direction
+	var is_error = (step_memory[2] == 0 and direction == 2) or (step_memory[2] == 2 and direction == 0)
+	var is_outofbounds = (width < 2 and direction == 0) or (width > level_size[0]/2-2 and direction == 2)
+	return is_stale or is_error or is_outofbounds
 
-func _random_int(x, y):
-	randomize()
-	return(randi()%(y+1-x)+x)
+func _step_generation(step_memory, width, height):
+	while height < level_size[1]-30:
+		var direction = _randint(0, 2)
+		var error = _step_errorproof([step_memory[-3], step_memory[-2], step_memory[-1]], width, direction)
+		while error:
+			direction = _randint(0, 2)
+			error = _step_errorproof([step_memory[-3], step_memory[-2], step_memory[-1]], width, direction)
+		if direction == 0:
+			width -= 1
+		elif direction == 1:
+			height += 1
+		elif direction == 2:
+			width += 1
+		step_memory.append(direction)
+	return [step_memory, [width, height]]
 
-func _choose_dir(last, n):
-	var x
-	if last[0] == 0:
-			if last[1] == 0:
-				x = _random_int(0, 2)
-			else:
-				x = 0
-	elif last[0] == 1:
-		x = _random_int(0, 1)
-	elif last[0] == 2:
-		x = _random_int(0, 1)
-		x *= 2
-	if (n > 25 and x == 1) or (n < 2 and x == 2) or (randomization_safelock[0] > 3 or randomization_safelock[1] > 3):
-		x = 0
-	step_memory.append(x)
-	return x
-
-func _generate():
-	var time_start = OS.get_ticks_msec()
-	
-	step_memory = []
-	max_width = 0
-	map_array = []
-	for i in range(60):
-		map_array.append([])
-		for j in range(272):
-			map_array[i].append([0, 0, 0])
-	_template()
-	_right_side_copy()
-	_island()
-	_join_up()
-	_join_down()
-	_fill()
-	_place_tiles()
-	_instantiated_nodes_coordinates()
-	_place_entities()
-	var time_end = OS.get_ticks_msec() 
-	
-	var delta_t = time_end - time_start
-	print ("Level generated in %f milliseconds (about %f frames)"% [delta_t, delta_t / last_delta ])
-
-func _reset():
-	_clear_entities()
-	_place_entities()
-
-	RoadTank._clear()
-	print ("Resetting Road: %s"%Road)
-	if (Road):
-		print ("Resetting Body: %s"%Road.get_node("Body"))
-		if (Road.get_node("Body")):
-			print ("Resetting Bridge: %s"%Road.get_node("Body").find_node("Bridge"))
-			
-	Road.get_node("Body").find_node("Bridge").queue_free()
-
-func _template():
-	var last = [0, 0]
-	var n = _random_int(min_generate_start_n, max_generate_start_n)
-	var m = _random_int(min_generate_start_m, max_generate_start_m)
-	var x
-	start_end_width[0] = n
-	start_end_height = [m, 272-m]
-	max_width = n
-	map_array[n][m][0] = 3
-	while(m <= start_end_height[1]):
-		x = _choose_dir(last, n)
-		if x == 0:
-			map_array[n][m][1] = 1
-			m += 1
-			map_array[n][m][0] = 3
-			last[1] = last[0]
-			last[0] = 0
-			randomization_safelock = [0, 0]
-		elif x == 1:
-			map_array[n][m][1] = 2
-			n += 1
-			map_array[n][m][0] = 4
-			last[1] = last[0]
-			last[0] = 1
-			randomization_safelock[0] += 1
-			randomization_safelock[1] = 0
-		elif x == 2:
-			map_array[n][m][1] = 4
-			n -= 1
-			map_array[n][m][0] = 2
-			last[1] = last[0]
-			last[0] = 2
-			randomization_safelock[0] = 0
-			randomization_safelock[1] += 1
-		min_width = min(min_width, n)
-		max_width = max(max_width, n)
-	start_end_width[1] = n
-	copy_offset = 59-max_width
-
-func _right_side_copy():
-	var n = start_end_width[0]
-	var m = start_end_height[0]
-	for i in step_memory:
-		map_array[n+copy_offset][m] = map_array[n][m].duplicate()
-		map_array[n+copy_offset][m][2] = 1
+func _path_process(path):
+	var width = path[0][0]
+	var height = path[0][1]
+	map_matrix[width][height][0] = 3
+	for i in path[1]:
 		if i == 0:
-			m += 1
+			map_matrix[width][height][1] = 4
+			width -= 1
+			map_matrix[width][height][0] = 2
 		elif i == 1:
-			n += 1
+			map_matrix[width][height][1] = 1
+			height += 1
+			map_matrix[width][height][0] = 3
 		elif i == 2:
-			n -= 1
-	map_array[n+copy_offset][m] = map_array[n][m]
-	map_array[n+copy_offset][m][2] = 1
+			
+			map_matrix[width][height][1] = 2
+			width += 1
+			map_matrix[width][height][0] = 4
+	map_matrix[width][height][1] = 1
 
-func _island():
-	island_params = [12, _random_int(39, 79), _random_int(192, 232)]
-	var start_n
-	var end_n
-	if island_params[0]:
-		var n = start_end_width[0]
-		var m = start_end_height[0] 
-		for i in step_memory:
-			if m > island_params[1] and m < island_params[2]:
-				map_array[n+island_params[0]][m] = map_array[n+copy_offset][m].duplicate()
-				map_array[n+copy_offset-island_params[0]][m] = map_array[n][m].duplicate()
-			elif m == island_params[1]:
-				map_array[n+island_params[0]][m] = map_array[n+copy_offset][m].duplicate()
-				map_array[n+copy_offset-island_params[0]][m] = map_array[n][m].duplicate()
-				if map_array[n][m][0] == 3:
-					start_n = [n+island_params[0], n+copy_offset-island_params[0]]
-			elif m == island_params[2]:
-				map_array[n+island_params[0]][m] = map_array[n+copy_offset][m].duplicate()
-				map_array[n+copy_offset-island_params[0]][m] = map_array[n][m].duplicate()
-				if map_array[n][m][1] == 1:
-					end_n = [n+island_params[0], n+copy_offset-island_params[0]]
-			if i == 0:
-				m += 1
-			elif i == 1:
-				n += 1
-			elif i == 2:
-				n -= 1
-		map_array[start_n[0]][island_params[1]-1] = [2, 1, 1]
-		map_array[start_n[1]][island_params[1]-1] = [4, 1, 0] 
-		map_array[end_n[0]][island_params[2]+1] = [3, 2, 1]
-		map_array[end_n[1]][island_params[2]+1] = [3, 4, 0]
-		for i in range(start_n[1]-start_n[0]-1):
-			map_array[start_n[0]+1+i][island_params[1]-1] = [4, 2, 0]
-			map_array[end_n[0]+1+i][island_params[2]+1] = [2, 4, 0]
+func _bank_completion(path, side):
+	var width = [path[0][0], path[2][0]]
+	var height = [path[0][1], path[2][1]]
+	while height[0] > (level_size[0]/2-7-width[0]):
+		height[0] -= 1
+		path[1].insert(0, 1)
+	while height[0] > 0:
+		path[1].insert(0, 0)
+		width[0] += 1
+		path[1].insert(0, 1)
+		height[0] -= 1
+	while level_size[1] - height[1] > (level_size[0]/2-8-width[1]):
+		height[1] += 1
+		path[1].append(1)
+	while height[1] < level_size[1]:
+		path[1].append(2)
+		width[1] += 1
+		path[1].append(1)
+		height[1] += 1
+	return [[width[0], height[0]], path[1], [width[1], height[1]]]
 
-func _join_up():
-	var m = [start_end_height[0]-1, start_end_height[0]-1]
-	var n = [start_end_width[0], start_end_width[0]+copy_offset]
-	while m[0] > 25-n[0]:
-		map_array[n[0]][m[0]] = [3, 1, 0]
-		m[0] -= 1
-	while m[1] > n[1]-35:
-		map_array[n[1]][m[1]] = [3, 1, 1]
-		m[1] -= 1
-	var x = 0
-	while m[0] >= 1:
-		if x == 0:
-			map_array[n[0]][m[0]] = [2, 1, 0]
-			n[0] += 1
-			x = 1
-		if x == 1:
-			map_array[n[0]][m[0]] = [3, 4, 0]
-			m[0] -= 1
-			x = 0
-	x = 0 
-	while m[1] >= 1:
-		if x == 0:
-			map_array[n[1]][m[1]] = [4, 1, 1]
-			n[1] -= 1
-			x = 1
-		if x == 1:
-			map_array[n[1]][m[1]] = [3, 2, 1]
-			m[1] -= 1
-			x = 0
-
-func _join_down():
-	var m = [start_end_height[1]+1, start_end_height[1]+1]
-	var n = [start_end_width[1], start_end_width[1]+copy_offset]
-	while 272 - m[0] > max(25-n[0], 3):
-		map_array[n[0]][m[0]] = [3, 1, 0]
-		m[0] += 1
-	while 272 - m[1] > max(n[1]-35, 3):
-		map_array[n[1]][m[1]] = [3, 1, 1]
-		m[1] += 1
-	var x = 0
-	while m[0] < 272:
-		if x == 0:
-			map_array[n[0]][m[0]] = [3, 2, 0]
-			n[0] += 1
-			x = 1
-		if x == 1:
-			map_array[n[0]][m[0]] = [4, 1, 0]
-			m[0] += 1
-			x = 0
-	x = 0 
-	while m[1] < 272:
-		if x == 0:
-			map_array[n[1]][m[1]] = [3, 4, 1]
-			n[1] -= 1
-			x = 1
-		if x == 1:
-			map_array[n[1]][m[1]] = [2, 1, 1]
-			m[1] += 1
-			x = 0
-
-func _fill():
-	var n = 0
-	for i in range(island_params[2]-island_params[1]+1):
-		var m = island_params[1]+i
-		while map_array[n][m] == [0, 0, 0]:
-			map_array[n][m] = [1, 1, 0]
-			n += 1
-		while map_array[n][m] != [0, 0, 0]:
-			n += 1
-		n += island_params[0]
-		while map_array[n][m] == [0, 0, 0]:
-			map_array[n][m] = [1, 1, 0]
-			n += 1
-		n = 0
-	n = [0, -1]
-	for i in range(271):
-		while map_array[n[0]][i+1] == [0, 0, 0]:
-			map_array[n[0]][i+1] = [1, 1, 0]
-			n[0] += 1
-		while map_array[n[1]][i+1] == [0, 0, 0]:
-			map_array[n[1]][i+1] = [1, 1, 0]
-			n[1] -= 1
-		n = [0, -1] 
-
-func _place_tiles():
-	clear()
-	for i in range(60):
-		for j in range(272):
-			var x = map_array[i][j]
-			x = tiles[x]
-			if x:
-				set_cell(i, j, x[0], x[1], x[2], x[3])
-				
-
-func _instantiated_nodes_coordinates():
-	instantiated_nodes_coordinates = []
-	var fuel_number = _random_int(min_fuel_number, max_fuel_number)
-	var chopper_number = _random_int(min_chopper_number, max_chopper_number)
-	var plane_number = _random_int(min_plane_number, max_plane_number)
-	var heavy_number = _random_int(min_heavy_number, max_heavy_number)
-	var ship_number = _random_int(min_ship_number, max_ship_number)
-	var shooter_number = _random_int(min_shooter_number, max_shooter_number)
-	var tank_number = _random_int(min_tank_number, max_tank_number)
-	var fuel_coords = []
-	var chopper_coords = []
-	var plane_coords = []
-	var heavy_coords = []
-	var ship_coords = []
-	var shooter_coords = []
-	var tank_coords = []
-	while fuel_number > 0:
-		var coordinates = [0, _random_int(20, 251)]
-		while(map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]):
-			coordinates[0] += 1
-		coordinates[0] += island_params[0]/2
-		coordinates[0] += (copy_offset-island_params[0])*_random_int(0, 1)
-		fuel_coords.append(coordinates)
-		fuel_number -= 1
-	instantiated_nodes_coordinates.append(fuel_coords)
-	while chopper_number > 0:
-		var coordinates = [_random_int(0, 1)*59, _random_int(50, 221)]
-		var k = 0
-		if coordinates[0] == 0:
-			k = 1
-		else:
-			k = -1
-		coordinates.append(k)
-		while map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]:
-			coordinates[0] += k
-		coordinates[0] += 2*k
-		chopper_coords.append(coordinates)
-		chopper_number -= 1
-	instantiated_nodes_coordinates.append(chopper_coords)
-	while plane_number > 0:
-		var coordinates = [_random_int(0, 1)*59, _random_int(50, 221)]
-		plane_coords.append(coordinates)
-		plane_number -= 1
-	instantiated_nodes_coordinates.append(plane_coords)
-	while heavy_number > 0:
-		var coordinates = [_random_int(0, 1)*59, _random_int(50, 221)]
-		var k = 0
-		if coordinates[0] == 0:
-			k = 1
-		else:
-			k = -1
-		coordinates.append(k)
-		while map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]:
-			coordinates[0] += k
-		coordinates[0] += 2*k
-		heavy_coords.append(coordinates)
-		heavy_number -= 1
-	instantiated_nodes_coordinates.append(heavy_coords)
-	while ship_number > 0:
-		var coordinates = [_random_int(0, 1)*59, _random_int(50, 221)]
-		var k = 0
-		if coordinates[0] == 0:
-			k = 1
-		else:
-			k = -1
-		coordinates.append(k)
-		while map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]:
-			coordinates[0] += k
-		coordinates[0] += 2*k
-		ship_coords.append(coordinates)
-		ship_number -= 1
-	instantiated_nodes_coordinates.append(ship_coords)
-	while shooter_number > 0:
-		var coordinates = [_random_int(0, 1)*59, _random_int(50, 221)]
-		var k = 0
-		if coordinates[0] == 0:
-			k = 1
-		else:
-			k = -1
-		coordinates.append(k)
-		while map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]:
-			coordinates[0] += k
-		shooter_coords.append(coordinates)
-		shooter_number -= 1
-	instantiated_nodes_coordinates.append(shooter_coords)
-	while tank_number > 0:
-		var coordinates = [_random_int(0, 1)*59, _random_int(50, 221)]
-		var k = 0
-		if coordinates[0] == 0:
-			k = 1
-		else:
-			k = -1
-		coordinates.append(k)
-		while map_array[coordinates[0]][coordinates[1]] != [0, 0, 0]:
-			coordinates[0] += k
-		coordinates[0] -= 2*k
-		tank_coords.append(coordinates)
-		tank_number -= 1
-	instantiated_nodes_coordinates.append(tank_coords)
-
-func _place_entities():
-	_fuel_entities()
-	_enemies()
-	Road = RoadScene.instance()
-	add_child(Road)
-	Road.position = Vector2(0, 8640)
-	RoadTank = RoadTankScene.instance()
-	add_child(RoadTank)
-	RoadTank.position = Vector2(_random_int(0, 1)*59*32, 8640)
-	if RoadTank.position.x == 0:
-		RoadTank.rotation_degrees += 180
-		RoadTank.direction = 1
-	entities.append([Road, RoadTank])
-
-func _fuel_entities():
-	var fuel_entities = []
-	for i in instantiated_nodes_coordinates[0]:
-		var x = FuelScene.instance()
-		add_child(x)
-		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
-		x.scale = Vector2(2, 2)
-		fuel_entities.append(x)
-	entities.append(fuel_entities)
-
-func _enemies():
-	_choppers()
-	_planes()
-	_heavies()
-	_ships()
-	_shooters()
-	_tanks()
-
-func _choppers():
-	var chopper_entities = []
-	for i in instantiated_nodes_coordinates[1]:
-		var x = ChopperScene.instance()
-		add_child(x)
-		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
-		x.direction = -1
-		if i[2] > 0:
-			x.rotation_degrees += 180
-			x.direction = 1
-		chopper_entities.append(x)
-	entities.append(chopper_entities)
-
-func _planes():
-	var plane_entities = []
-	for i in instantiated_nodes_coordinates[2]:
-		var x = PlaneScene.instance()
-		add_child(x)
-		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
-		x.direction = -1
-		if i[0] == 0:
-			x.rotation_degrees += 180
-			x.direction = 1
-		plane_entities.append(x)
-	entities.append(plane_entities)
-
-func _heavies():
-	var heavy_entities = []
-	for i in instantiated_nodes_coordinates[3]:
-		var x = HeavyScene.instance()
-		add_child(x)
-		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
-		x.direction = -1
-		if i[2] > 0:
-			x.rotation_degrees += 180
-			x.direction = 1
-		heavy_entities.append(x)
-	entities.append(heavy_entities)
-
-func _ships():
-	var ship_entities = []
-	for i in instantiated_nodes_coordinates[4]:
-		var x = ShipScene.instance()
-		add_child(x)
-		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
-		x.direction = -1
-		if i[2] > 0:
-			var x_body = x.get_node("Body")
-			x_body.flip_v = !x_body.flip_v
-			x.direction = 1
-		ship_entities.append(x)
-	entities.append(ship_entities)
-
-func _shooters():
-	var shooter_entities = []
-	for i in instantiated_nodes_coordinates[5]:
-		var x = ShooterScene.instance()
-		add_child(x)
-		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
-		x.direction = -1
-		if i[2] > 0:
-			x.rotation_degrees += 180
-			x.direction = 1
-		shooter_entities.append(x)
-		x._reload()
-	entities.append(shooter_entities)
-
-func _tanks():
-	var tank_entities = []
-	for i in instantiated_nodes_coordinates[6]:
-		var x = TankScene.instance()
-		add_child(x)
-		x.position = Vector2(16 + 32 * i[0], 16 + 32 * i[1])
-		x.direction = -1
-		if i[2] > 0:
-			x.rotation_degrees += 180
-			x.direction = 1
-		tank_entities.append(x)
-		x._reload()
-	entities.append(tank_entities)
-
-func _clear_entities():
-	for i in entities:
-		for j in i:
-			j.queue_free()
-	entities = []
