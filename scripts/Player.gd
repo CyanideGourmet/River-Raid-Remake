@@ -74,7 +74,7 @@ func _ready():
 		GUI_Score = GUI.find_node("ScoreValue")
 		GUI_Dam = GUI.find_node("DamValue")
 		GUI_HiScore = GUI.find_node("HiScoreValue")
-		GUI_FuelIndicator = GUI.find_node("FuelPointer")
+		GUI_FuelIndicator = GUI.find_node("FuelPointerVert")
 		
 		_set_dam_score(0)
 		
@@ -218,8 +218,11 @@ func _physics_process(delta):
 	current_pitch_scale = lerp(0.8, 1.2, lerpPitch)
 	if (refill > 0):
 		$RefillSound.pitch_scale = lerp(1, 10, fuel * 0.01)
-	if GUI_FuelIndicator:
-		GUI_FuelIndicator.position = Vector2.RIGHT * lerp(0.0, 175.0, fuel * 0.01)
+	
+	if GUI_FuelIndicator && GUI_FuelIndicator.region_rect:
+		var rect = GUI_FuelIndicator.region_rect
+		GUI_FuelIndicator.region_rect = Rect2(rect.position.x, lerp( 435.0, 0.0, fuel * 0.01), rect.size.x, lerp(0, 435.0, fuel * 0.01))
+		GUI_FuelIndicator.position = Vector2.UP * lerp(-217.5, 0, fuel * 0.01)
 	#/Hubert (koniec do physics_process())
 
 func _death():
@@ -265,7 +268,8 @@ func _fuel():
 		#/Hubert
 
 func _current_mapslice_changed(node):
-	if !node:
+	if (!node):
+		print("No target mapslice node!!")
 		return
 	#Hubert
 	_increment_level()
@@ -306,4 +310,5 @@ func _set_dam_score( var lvl):
 
 func _increment_level():
 	_set_dam_score(level + 1)
+	print ("Player advanced to level %s!"%level)
 #/Hubert

@@ -1,94 +1,150 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://assets/Images/Sprites/Godot_White.png" type="Texture" id=1]
-[ext_resource path="res://assets/Fonts/Digital_Font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/Images/GUI/level.png" type="Texture" id=1]
+[ext_resource path="res://assets/Images/GUI/score-1.png" type="Texture" id=2]
+[ext_resource path="res://assets/Images/Sprites/Godot_White.png" type="Texture" id=3]
+[ext_resource path="res://assets/Fonts/Digital_Font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/Fonts/AC_Line_by_Marekt.tres" type="DynamicFont" id=5]
+[ext_resource path="res://assets/Images/GUI/score.png" type="Texture" id=6]
+[ext_resource path="res://assets/Images/GUI/highscore_ 1000 00000 00000 0000.png" type="Texture" id=7]
+[ext_resource path="res://assets/Images/GUI/level_ 02.png" type="Texture" id=8]
 
 [node name="Scores" type="CanvasLayer"]
 
+[node name="level" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.392157 )
+position = Vector2( 1518.5, 25 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 1 )
+centered = false
+
+[node name="score-1" type="Sprite" parent="."]
+position = Vector2( 25, 25 )
+texture = ExtResource( 2 )
+centered = false
+
 [node name="LivesSkin2" type="Sprite" parent="."]
+visible = false
 modulate = Color( 0.211765, 0.337255, 0.403922, 1 )
 show_behind_parent = true
 scale = Vector2( 8, 2 )
 z_as_relative = false
-texture = ExtResource( 1 )
+texture = ExtResource( 3 )
 centered = false
 
 [node name="LivesLabel2" type="Label" parent="."]
+visible = false
 margin_left = 108.138
 margin_top = 9.0
 margin_right = 1126.14
 margin_bottom = 76.0
 rect_scale = Vector2( 0.3, 0.3 )
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "P U R G E   S T A T U S"
 align = 1
 valign = 2
 
 [node name="Dam" type="Node2D" parent="."]
-position = Vector2( 269.629, 49.1661 )
-scale = Vector2( 0.4, 0.4 )
+position = Vector2( 1773.35, 232.871 )
+scale = Vector2( 0.6, 0.6 )
 
 [node name="DamLabel" type="Label" parent="Dam"]
-margin_left = -270.0
-margin_right = -165.0
-margin_bottom = 14.0
+margin_right = 180.0
+margin_bottom = 80.0
 rect_scale = Vector2( 0.55, 0.55 )
-custom_fonts/font = ExtResource( 2 )
-text = "DAM:"
+custom_fonts/font = ExtResource( 5 )
+text = "Level"
 valign = 1
 
 [node name="DamValue" type="Label" parent="Dam"]
-margin_right = 88.0
-margin_bottom = 14.0
+margin_right = 322.0
+margin_bottom = 80.0
 rect_scale = Vector2( 0.55, 0.55 )
-custom_fonts/font = ExtResource( 2 )
-text = "999999999"
+custom_fonts/font = ExtResource( 5 )
+text = "999"
 align = 2
 valign = 1
 
 [node name="Score" type="Node2D" parent="."]
-position = Vector2( 269.629, 74.1661 )
-scale = Vector2( 0.4, 0.4 )
+position = Vector2( 26.305, 60.8192 )
+scale = Vector2( 0.55, 0.55 )
+
+[node name="score" type="Sprite" parent="Score"]
+position = Vector2( 140, 142.218 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 6 )
+
+[node name="score2" type="Sprite" parent="Score"]
+position = Vector2( 140, 19.7829 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 6 )
 
 [node name="ScoreLabel" type="Label" parent="Score"]
-margin_left = -270.0
-margin_right = -165.0
-margin_bottom = 14.0
+visible = false
+margin_right = 512.0
+margin_bottom = 70.0
 rect_scale = Vector2( 0.55, 0.55 )
-custom_fonts/font = ExtResource( 2 )
-text = "SCORE:"
+custom_fonts/font = ExtResource( 5 )
+text = "SCORE"
+align = 1
+valign = 1
+
+[node name="ScoreLabel2" type="Label" parent="Score"]
+visible = false
+margin_top = 130.0
+margin_right = 512.0
+margin_bottom = 200.0
+rect_scale = Vector2( 0.55, 0.55 )
+custom_fonts/font = ExtResource( 5 )
+text = "SCORE"
+align = 1
 valign = 1
 
 [node name="ScoreValue" type="Label" parent="Score"]
-margin_right = 88.0
-margin_bottom = 14.0
+margin_top = 65.0
+margin_right = 513.0
+margin_bottom = 132.0
 rect_scale = Vector2( 0.55, 0.55 )
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 5 )
 text = "999999999"
-align = 2
+align = 1
 valign = 1
 
 [node name="HiScore" type="Node2D" parent="."]
-position = Vector2( 269.629, 99.1661 )
-scale = Vector2( 0.4, 0.4 )
+position = Vector2( 58.8858, 755.708 )
+rotation = -1.5708
+scale = Vector2( 0.6, 0.6 )
+
+[node name="highscore_ 1000 00000 00000 0000" type="Sprite" parent="HiScore"]
+visible = false
+position = Vector2( 70.0349, 16.7248 )
+rotation = 1.5708
+scale = Vector2( 2.5, 2.5 )
+texture = ExtResource( 7 )
 
 [node name="HiScoreLabel" type="Label" parent="HiScore"]
-margin_left = -270.0
-margin_right = -205.0
-margin_bottom = 14.0
+margin_left = -354.0
+margin_right = 86.0
+margin_bottom = 80.0
 rect_scale = Vector2( 0.55, 0.55 )
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "HI-SCORE:"
 valign = 1
 
 [node name="HiScoreValue" type="Label" parent="HiScore"]
-margin_right = 88.0
-margin_bottom = 14.0
+margin_left = -153.0
+margin_right = 444.0
+margin_bottom = 80.0
 rect_scale = Vector2( 0.55, 0.55 )
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "999999999"
+text = "999999999999999"
 align = 2
 valign = 1
+
+[node name="level_ 02" type="Sprite" parent="."]
+visible = false
+position = Vector2( 1848.67, 174.445 )
+texture = ExtResource( 8 )
