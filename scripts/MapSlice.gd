@@ -93,8 +93,7 @@ func _choose_dir(last, n):
 	return x
 
 func _generate():
-	var time_start = OS.get_ticks_msec()
-	
+
 	step_memory = []
 	max_width = 0
 	map_array = []
@@ -111,22 +110,14 @@ func _generate():
 	_place_tiles()
 	_instantiated_nodes_coordinates()
 	_place_entities()
-	var time_end = OS.get_ticks_msec() 
 	
-	var delta_t = time_end - time_start
-	print ("Level generated in %f milliseconds (about %f frames)"% [delta_t, delta_t / last_delta ])
 
 func _reset():
 	_clear_entities()
 	_place_entities()
 
 	RoadTank._clear()
-	print ("Resetting Road: %s"%Road)
-	if (Road):
-		print ("Resetting Body: %s"%Road.get_node("Body"))
-		if (Road.get_node("Body")):
-			print ("Resetting Bridge: %s"%Road.get_node("Body").find_node("Bridge"))
-			
+	
 	Road.get_node("Body").find_node("Bridge").queue_free()
 
 func _template():

@@ -1,27 +1,42 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/Images/Sprites/Godot_White.png" type="Texture" id=1]
-[ext_resource path="res://scenes/FuelIndicator.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scenes/Lives.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scenes/Scores.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/Images/GUI/level.png" type="Texture" id=2]
+[ext_resource path="res://scenes/FuelIndicator.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/Lives.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/Scores.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/Images/GUI/Marek_GUI.png" type="Texture" id=6]
 
 [node name="UI_Root" type="CanvasLayer"]
 
 [node name="LowerBarSkin" type="Sprite" parent="."]
+visible = false
 modulate = Color( 0.298039, 0.392157, 0.439216, 1 )
 position = Vector2( 0, 890 )
 scale = Vector2( 30, 4 )
 texture = ExtResource( 1 )
 centered = false
 
-[node name="FuelIndicator" parent="." instance=ExtResource( 2 )]
-offset = Vector2( 32, 895 )
-transform = Transform2D( 1, 0, 0, 1, 32, 895 )
+[node name="level" type="Sprite" parent="."]
+visible = false
+position = Vector2( 1644, 25 )
+texture = ExtResource( 2 )
+centered = false
 
-[node name="Lives" parent="." instance=ExtResource( 3 )]
-offset = Vector2( 690, 895 )
-transform = Transform2D( 1, 0, 0, 1, 690, 895 )
+[node name="FuelIndicator" parent="." instance=ExtResource( 3 )]
+offset = Vector2( 1880, 1060 )
+transform = Transform2D( 1, 0, 0, 1, 1880, 1060 )
 
-[node name="Scores" parent="." instance=ExtResource( 4 )]
-offset = Vector2( 1360, 895 )
-transform = Transform2D( 1, 0, 0, 1, 1360, 895 )
+[node name="Lives" parent="." instance=ExtResource( 4 )]
+offset = Vector2( 1800, 1020 )
+transform = Transform2D( 1, 0, 0, 1, 1800, 1020 )
+
+[node name="Scores" parent="." instance=ExtResource( 5 )]
+
+[node name="Marek_GUI" type="Sprite" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0.415686 )
+position = Vector2( -3.05176e-005, 0 )
+scale = Vector2( 1.36364, 1.15632 )
+texture = ExtResource( 6 )
+centered = false

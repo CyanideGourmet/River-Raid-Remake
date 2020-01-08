@@ -1,17 +1,40 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/Images/Sprites/Godot_White.png" type="Texture" id=1]
-[ext_resource path="res://assets/Fonts/Digital_Font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/Images/GUI/fuel full.png" type="Texture" id=2]
+[ext_resource path="res://assets/Images/GUI/fuel zero.png" type="Texture" id=3]
+[ext_resource path="res://assets/Images/GUI/fuel.png" type="Texture" id=4]
+[ext_resource path="res://assets/Fonts/Digital_Font.tres" type="DynamicFont" id=5]
 
 [node name="FuelIndicator" type="CanvasLayer"]
 
 [node name="FuelSkin" type="Sprite" parent="."]
+visible = false
 modulate = Color( 0.211765, 0.337255, 0.403922, 1 )
 scale = Vector2( 8, 2 )
 texture = ExtResource( 1 )
 centered = false
 
-[node name="FuelGauge" type="Sprite" parent="."]
+[node name="FuelGaugeNew" type="Node2D" parent="."]
+position = Vector2( 0, -217 )
+
+[node name="FuelPointerVert" type="Sprite" parent="FuelGaugeNew"]
+modulate = Color( 0, 0.811765, 1, 1 )
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 14, 435 )
+region_filter_clip = true
+
+[node name="fuel zero" type="Sprite" parent="FuelGaugeNew"]
+texture = ExtResource( 3 )
+
+[node name="fuel" type="Sprite" parent="FuelGaugeNew"]
+position = Vector2( -3.83633, -262.188 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 4 )
+
+[node name="FuelGaugeOld" type="Sprite" parent="."]
+visible = false
 modulate = Color( 0, 0, 0, 1 )
 position = Vector2( 160.951, 55.7034 )
 scale = Vector2( 3, 0.75 )
@@ -19,6 +42,7 @@ texture = ExtResource( 1 )
 centered = false
 
 [node name="FuelLevelZero" type="Node2D" parent="."]
+visible = false
 position = Vector2( 162.95, 58.0003 )
 
 [node name="FuelPointer" type="Node2D" parent="FuelLevelZero"]
@@ -30,38 +54,41 @@ scale = Vector2( 0.2, 0.69 )
 texture = ExtResource( 1 )
 centered = false
 
-[node name="FuelLabel" type="Label" parent="."]
+[node name="Labels" type="Node2D" parent="."]
+visible = false
+
+[node name="FuelLabel" type="Label" parent="Labels"]
 margin_left = 168.779
 margin_top = 9.0
 margin_right = 755.779
 margin_bottom = 76.0
 rect_scale = Vector2( 0.3, 0.3 )
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "R E A C T O R"
 align = 1
 valign = 2
 
-[node name="F" type="Label" parent="."]
+[node name="F" type="Label" parent="Labels"]
 anchor_right = 1.0
 margin_left = 356.95
 margin_top = 56.0003
-margin_right = -1556.05
-margin_bottom = 70.0003
+margin_right = -1511.05
+margin_bottom = 123.0
 rect_scale = Vector2( 0.5, 0.5 )
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 1, 0, 1 )
 text = "F"
 align = 2
 valign = 1
 
-[node name="E!" type="Label" parent="."]
+[node name="E!" type="Label" parent="Labels"]
 margin_left = 124.95
 margin_top = 56.0003
-margin_right = 132.95
-margin_bottom = 70.0003
+margin_right = 176.95
+margin_bottom = 123.0
 rect_scale = Vector2( 0.5, 0.5 )
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "E"
 align = 2

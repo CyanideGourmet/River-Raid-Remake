@@ -36,33 +36,25 @@ texture = ExtResource( 2 )
 centered = false
 
 [node name="ColorRect2" type="ColorRect" parent="."]
-margin_left = 603.0
+margin_left = 560.0
 margin_top = 63.0
-margin_right = 1281.0
+margin_right = 1310.0
 margin_bottom = 450.0
 color = Color( 0.0509804, 0.0588235, 0.0627451, 1 )
 
 [node name="ColorRect5" type="ColorRect" parent="."]
 margin_left = 1540.0
-margin_top = 820.0
-margin_right = 1730.0
+margin_top = 50.0
+margin_right = 1860.0
 margin_bottom = 960.0
 color = Color( 0.0509804, 0.0588235, 0.0627451, 1 )
 
-[node name="ColorRect3" type="ColorRect" parent="."]
-modulate = Color( 0, 0, 0, 1 )
-margin_left = 1730.0
-margin_top = 220.0
-margin_right = 1810.0
-margin_bottom = 250.0
+[node name="ColorRect6" type="ColorRect" parent="."]
+margin_left = 40.0
+margin_top = 60.0
+margin_right = 360.0
+margin_bottom = 970.0
 color = Color( 0.0509804, 0.0588235, 0.0627451, 1 )
-
-[node name="ColorRect4" type="ColorRect" parent="."]
-margin_left = 120.0
-margin_top = 140.0
-margin_right = 240.0
-margin_bottom = 220.0
-color = Color( 0.0352941, 0.0392157, 0.0431373, 1 )
 
 [node name="Marek_Logo" type="Sprite" parent="."]
 position = Vector2( 962.511, 284.831 )

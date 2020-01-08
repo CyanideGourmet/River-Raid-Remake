@@ -23,8 +23,13 @@ func _ready():
 	$RoadTankDetection.set_collision_layer_bit(1, 1)
 	#terrain
 	get_parent().get_parent().set_collision_layer_bit(0, 1)
-	player_node = get_parent().get_parent().get_parent().find_node("Player")
-#	
+	player_node = get_parent().get_parent().get_parent().get_parent().find_node("Player")
+	
+	if (player_node):
+		print ("Player Node found: %s"%player_node)
+	else:
+		print("Player Node not found!!!! Root: %s"%get_parent().get_parent().get_parent().get_parent())
+		
 	connect("destroyed", player_node, "_hit_a_node")
 	connect("level_finished", player_node, "_current_mapslice_changed")
 
@@ -50,8 +55,8 @@ func _death():
 		Shoot.direction = get_parent().get_parent().get_parent().RoadTank.direction
 		get_parent().get_parent().get_parent().RoadTank.call_deferred("_clear")
 		Shoot._reload()
-	emit_signal("level_finished", get_parent().get_parent())
-
+	emit_signal("level_finished", get_parent().get_parent().get_parent())
+	print ("Bridge emitted signal to %s"%get_parent().get_parent())
 	emit_signal("destroyed", self)
 	
 	queue_free()
