@@ -10,8 +10,8 @@ radius = 61.7572
 height = 496.73
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 6480.0
-height = 15360.0
+radius = 1800.0
+height = 5000.0
 
 [node name="Chopper" type="KinematicBody2D" groups=[
 "enemy",
@@ -43,7 +43,6 @@ rotation = -1.5708
 shape = SubResource( 1 )
 
 [node name="PlayerDetectionArea" type="Area2D" parent="."]
-editor/display_folded = true
 collision_layer = 0
 collision_mask = 0
 

@@ -31,6 +31,7 @@ var input = Vector2(0, 0)
 
 var engine_sound
 var isLowOnFuel = false
+var isFullOnFuel = false
 var current_pitch_scale = 1
 
 var points = 0
@@ -47,6 +48,7 @@ var GUI_Score
 var GUI_HiScore
 var GUI_FuelIndicator
 var GUI_Lives = []
+onready var GUI_default_fuel_color = Color(200.0/255.0, 1.0, 1.0, 1.0)
 #/Hubert
 
 signal free_the_bullet
@@ -173,14 +175,17 @@ func _process(delta):
 	
 	#Hubert
 	if !isLowOnFuel && fuel < low_fuel_threshold:
-		isLowOnFuel = true
-		$LowFuelSound.play(0)
+			isLowOnFuel = true
+			$LowFuelSound.play(0)
+			
 	elif isLowOnFuel && fuel >= low_fuel_threshold:
-		isLowOnFuel = false
-		$LowFuelSound.stop()
+			isLowOnFuel = false
+			$LowFuelSound.stop()			
 	else:
 		pass
 	
+	
+			
 	$EngineSound.pitch_scale = current_pitch_scale
 	#/Hubert
 	if fuel <= 0:
@@ -218,11 +223,19 @@ func _physics_process(delta):
 	current_pitch_scale = lerp(0.8, 1.2, lerpPitch)
 	if (refill > 0):
 		$RefillSound.pitch_scale = lerp(1, 10, fuel * 0.01)
-	
-	if GUI_FuelIndicator && GUI_FuelIndicator.region_rect:
-		var rect = GUI_FuelIndicator.region_rect
-		GUI_FuelIndicator.region_rect = Rect2(rect.position.x, lerp( 435.0, 0.0, fuel * 0.01), rect.size.x, lerp(0, 435.0, fuel * 0.01))
-		GUI_FuelIndicator.position = Vector2.UP * lerp(-217.5, 0, fuel * 0.01)
+		
+	if (GUI_FuelIndicator):
+		if fuel >= 100:
+			GUI_FuelIndicator.modulate = Color.green
+		elif fuel < low_fuel_threshold:
+			GUI_FuelIndicator.modulate = Color.red
+		else:
+			GUI_FuelIndicator.modulate = Color.cyan
+		
+		if GUI_FuelIndicator.region_rect:
+			var rect = GUI_FuelIndicator.region_rect
+			GUI_FuelIndicator.region_rect = Rect2(rect.position.x, lerp( 435.0, 0.0, fuel * 0.01), rect.size.x, lerp(0, 435.0, fuel * 0.01))
+			GUI_FuelIndicator.position = Vector2.UP * lerp(-217.5, 0, fuel * 0.01)
 	#/Hubert (koniec do physics_process())
 
 func _death():
