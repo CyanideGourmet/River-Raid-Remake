@@ -51,10 +51,10 @@ func _death():
 	elif tankcase == 0:
 		var Shoot = get_parent().get_parent().get_parent().TankScene.instance()
 		get_parent().get_parent().get_parent().add_child(Shoot)
+		get_parent().get_parent().get_parent().instanced_entities.append(Shoot)
 		Shoot.transform = get_parent().get_parent().get_parent().RoadTank.transform
 		Shoot.direction = get_parent().get_parent().get_parent().RoadTank.direction
 		get_parent().get_parent().get_parent().RoadTank.call_deferred("_clear")
-		Shoot._reload()
 	emit_signal("level_finished", get_parent().get_parent().get_parent())
 	print ("Bridge emitted signal to %s"%get_parent().get_parent())
 	emit_signal("destroyed", self)

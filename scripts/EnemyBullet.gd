@@ -5,6 +5,7 @@ func _ready():
 	collision_mask_bits = [-20, 0]
 	_set_collision()
 	collision_group_names = ["player"]
-	speed = 300
+	speed = 500
 	bullet_range = 50000
 	velocity.x = get_parent().direction
+	position.x += get_parent().direction*50
