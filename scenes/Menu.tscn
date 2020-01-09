@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/Menu.gd" type="Script" id=1]
 [ext_resource path="res://assets/Images/Menus/Marek_MainMenu.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://assets/StylesAndThemes/Menu_Button.stylebox" type="StyleBox" id=5]
 [ext_resource path="res://assets/Fonts/AC_Line_Menu_Marek.tres" type="DynamicFont" id=6]
 [ext_resource path="res://assets/RRSounds/Menu_Beep.ogg" type="AudioStream" id=7]
+[ext_resource path="res://assets/RRSounds/Menu_Drum_Simple.ogg" type="AudioStream" id=8]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0509804, 0.0588235, 0.0627451, 0 )
@@ -74,6 +75,9 @@ text = "BEGIN TRIAL"
 [node name="CursorEnterBeep" type="AudioStreamPlayer2D" parent="Start"]
 stream = ExtResource( 7 )
 
+[node name="ConfirmDrum" type="AudioStreamPlayer2D" parent="Start"]
+stream = ExtResource( 8 )
+
 [node name="Credits" type="Button" parent="."]
 anchor_right = 1.0
 margin_left = 750.0
@@ -96,6 +100,10 @@ text = "CREDITS"
 position = Vector2( 0, -80 )
 stream = ExtResource( 7 )
 
+[node name="ConfirmDrum" type="AudioStreamPlayer2D" parent="Credits"]
+position = Vector2( 0, -80 )
+stream = ExtResource( 8 )
+
 [node name="Exit" type="Button" parent="."]
 anchor_right = 1.0
 margin_left = 750.0
@@ -117,7 +125,14 @@ text = "QUIT GAME"
 [node name="CursorEnterBeep" type="AudioStreamPlayer2D" parent="Exit"]
 position = Vector2( 0, -160 )
 stream = ExtResource( 7 )
+
+[node name="ConfirmDrum" type="AudioStreamPlayer2D" parent="Exit"]
+position = Vector2( 0, -160 )
+stream = ExtResource( 8 )
 [connection signal="button_down" from="Start" to="." method="_start"]
+[connection signal="button_down" from="Start" to="." method="_beep" binds= [ "ConfirmDrum" ]]
 [connection signal="mouse_entered" from="Start" to="." method="_beep" binds= [ "CursorEnterBeep" ]]
+[connection signal="button_down" from="Credits" to="." method="_beep" binds= [ "ConfirmDrum" ]]
 [connection signal="mouse_entered" from="Credits" to="." method="_beep" binds= [ "CursorEnterBeep" ]]
+[connection signal="button_down" from="Exit" to="." method="_beep" binds= [ "ConfirmDrum" ]]
 [connection signal="mouse_entered" from="Exit" to="." method="_beep" binds= [ "CursorEnterBeep" ]]

@@ -2,8 +2,8 @@ extends "res://scripts/Classes/Destructible.gd"
 
 func _ready():
 	explosion = preload("res://scenes/Chopper_Explosion.tscn")
-	point_value = 60
-	movement_speed = 200
+	#point_value = 60
+	#movement_speed = 200
 	$Body/Rotor/AnimationPlayer.play()
 	
 	#player

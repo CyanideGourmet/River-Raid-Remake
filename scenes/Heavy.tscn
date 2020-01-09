@@ -64,8 +64,8 @@ radius = 48.9232
 height = 316.948
 
 [sub_resource type="CapsuleShape2D" id=5]
-radius = 1200.0
-height = 2000.0
+radius = 2000.0
+height = 3500.0
 
 [node name="Heavy" type="KinematicBody2D" groups=[
 "enemy",
@@ -75,6 +75,8 @@ scale = Vector2( 0.2, 0.2 )
 collision_layer = 0
 collision_mask = 0
 script = ExtResource( 1 )
+point_value = 60
+movement_speed = 100
 
 [node name="Body" type="Sprite" parent="."]
 texture = ExtResource( 2 )

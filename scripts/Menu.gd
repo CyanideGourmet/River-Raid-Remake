@@ -3,7 +3,7 @@ extends Control
 func _start():
 
 	seed(2137)
-	yield(get_tree().create_timer(0.05), "timeout")
+	yield(get_tree().create_timer(1), "timeout")
 	get_tree().change_scene("res://scenes/Main.tscn")
 
 func _beep(var soundName):
@@ -15,4 +15,5 @@ func _beep(var soundName):
 			print ("%s is not a sound!" % sound.name)
 	else:
 		print ("No node named: %s!"%soundName)
-		
+
+
