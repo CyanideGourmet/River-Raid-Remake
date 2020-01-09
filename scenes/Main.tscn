@@ -18,15 +18,12 @@ __meta__ = {
 
 [node name="MapSlice" parent="." instance=ExtResource( 2 )]
 position = Vector2( 0, 8704 )
-min_fuel_number = 5
-max_fuel_number = 7
-min_chopper_number = 5
-max_chopper_number = 10
-min_plane_number = 4
-min_heavy_number = 2
-max_heavy_number = 5
-min_ship_number = 5
-max_ship_number = 10
+chopper_number = [ 5, 10 ]
+plane_number = [ 7, 14 ]
+heavy_number = [ 5, 10 ]
+ship_number = [ 5, 10 ]
+shooter_number = [ 3, 6 ]
+tank_number = [ 2, 4 ]
 
 [node name="River" type="Sprite" parent="MapSlice"]
 modulate = Color( 0.521569, 0.317647, 0.521569, 1 )
@@ -48,16 +45,12 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 1920, 8706 )
 
 [node name="MapSlice2" parent="." instance=ExtResource( 2 )]
-
-min_fuel_number = 5
-max_fuel_number = 7
-min_chopper_number = 5
-max_chopper_number = 10
-min_plane_number = 4
-min_heavy_number = 2
-max_heavy_number = 5
-min_ship_number = 5
-max_ship_number = 10
+chopper_number = [ 5, 10 ]
+plane_number = [ 7, 14 ]
+heavy_number = [ 5, 10 ]
+ship_number = [ 5, 10 ]
+shooter_number = [ 3, 6 ]
+tank_number = [ 2, 4 ]
 
 [node name="River" type="Sprite" parent="MapSlice2"]
 modulate = Color( 0.521569, 0.317647, 0.521569, 1 )
@@ -77,7 +70,6 @@ region_enabled = true
 region_rect = Rect2( 0, 0, 1920, 8706 )
 
 [node name="Player" parent="." instance=ExtResource( 5 )]
-
 position = Vector2( 960, 17168 )
 collision_layer = 5
 collision_mask = 5

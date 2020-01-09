@@ -9,8 +9,8 @@ height = 331.029
 
 [sub_resource type="CapsuleShape2D" id=2]
 custom_solver_bias = 1.0
-radius = 2000.0
-height = 6000.0
+radius = 3000.0
+height = 10000.0
 
 [node name="Ship" type="KinematicBody2D" groups=[
 "enemy",
@@ -20,6 +20,8 @@ scale = Vector2( 0.2, 0.2 )
 collision_layer = 0
 collision_mask = 0
 script = ExtResource( 1 )
+point_value = 30
+movement_speed = 150
 
 [node name="Body" type="Sprite" parent="."]
 scale = Vector2( 1.5, 1.5 )

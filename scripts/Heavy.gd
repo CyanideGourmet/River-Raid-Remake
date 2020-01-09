@@ -2,8 +2,8 @@ extends "res://scripts/Classes/Destructible.gd"
 
 func _ready():
 	explosion = preload("res://scenes/HeavyExplosion.tscn")
-	point_value = 60
-	movement_speed = 100
+	#point_value = 60
+	#movement_speed = 100
 	var rotors = get_node("Body/Rotors").get_children()
 	for i in rotors:
 		i.get_children()[0].play("Rotor")

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Menu_Drum_Simple.ogg-c6519caa2fbad7e599b0dc03cf3865d3.oggstr"
+
+[deps]
+
+source_file="res://assets/RRSounds/Menu_Drum_Simple.ogg"
+dest_files=[ "res://.import/Menu_Drum_Simple.ogg-c6519caa2fbad7e599b0dc03cf3865d3.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

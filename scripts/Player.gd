@@ -137,8 +137,9 @@ func _input(event):
 
 			
 		elif event.is_action("ui_accept"):
-			fuel_decrease_rate -= 0.1
-			fuel_decrease_rate = abs(fuel_decrease_rate)
+			pass
+			#fuel_decrease_rate -= 0.1
+			#fuel_decrease_rate = abs(fuel_decrease_rate)
 
 	elif event.is_action_released("ui_left") or event.is_action_released("ui_right"):
 		input.x = 0
@@ -149,8 +150,8 @@ func _input(event):
 			acceleration_dir = -1
 		else:
 			acceleration_dir = 1
-	if event.is_action_pressed("ui_select") and ammo > 0:
-		refill = (refill+1)%2
+	if event.is_action("ui_select") and ammo > 0:
+		#refill = (refill+1)%2
 		var bullet = Bullet.instance()
 		bullet.scale = Vector2(4, 4)
 		add_child(bullet)
