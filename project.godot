@@ -29,6 +29,7 @@ window/stretch/aspect="keep"
 
 [physics]
 
+2d/physics_engine="GodotPhysics"
 2d/cell_size=32
 
 [rendering]

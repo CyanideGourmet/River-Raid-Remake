@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 export var movement_speed = 400
 export var def_forward_speed = 200
-export var max_forward_speed = 1200
+export var max_forward_speed = 400
 export var min_forward_speed = 50
 export var acceleration_speed = 20
 export var fuel_decrease_rate = 0.05
@@ -61,6 +61,7 @@ func _ready():
 	set_collision_layer_bit(-20, 1)
 	#explosion
 	set_collision_mask_bit(-21, 1)
+	connect("player_died", current_mapslice, "_reset")
 
 func _input(event):
 	if event.is_pressed():
@@ -117,14 +118,14 @@ func _physics_process(delta):
 
 func _death():
 	fuel = 100
-	full_stop = 0
 	if hp == 0:
 		get_tree().change_scene("res://scenes/Menu.tscn")
 	hp -= 1
 	HP_t.text = "Lives: " + str(hp)
 	position = current_mapslice.position + Vector2(960, 8500)
-	yield(get_tree().create_timer(1), "timeout")
-	full_stop = 1
+	emit_signal("player_died")
+	yield(get_tree().create_timer(0.1), "timeout")
+	get_tree().paused = !get_tree().paused
 
 func _reload():
 	ammo = 1
@@ -143,7 +144,7 @@ func _current_mapslice_changed(node):
 func _hit_a_node(node):
 	if node.is_in_group("enemy") or node.is_in_group("fuel"):
 		points += node.point_value
-		if points >= 10000*(hpgained+1):
+		if points >= 10000*(hpgained+1) and hp < 9:
 			hp += 1
 			hpgained += 1
 			HP_t.text = "Lives: " + str(hp)

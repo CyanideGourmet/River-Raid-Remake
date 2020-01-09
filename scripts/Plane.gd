@@ -9,9 +9,6 @@ func _ready():
 	#bullet
 	set_collision_layer_bit(-3, 1)
 
-func _physics_process(delta):
-	velocity = Vector2(direction, 0) * full_stop
-
 func _on_PlayerDetectionArea_body_entered(body):
 	if body == player_node:
 		full_stop = 1
