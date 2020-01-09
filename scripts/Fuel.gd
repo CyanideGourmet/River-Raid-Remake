@@ -4,6 +4,8 @@ export var point_value = 80
 var explosion = preload("res://scenes/FuelExplosion.tscn")
 signal fuel
 signal destroyed
+signal clear_node
+
 var player_node
 
 func _ready():
@@ -17,6 +19,7 @@ func _ready():
 	connect("fuel", player_node, "_fuel")
 	connect("destroyed", player_node, "_hit_a_node")
 	connect("destroyed", get_parent(), "_node_destroyed")
+	connect("clear_node", get_parent(), "_node_destroyed")
 
 func _fuel_entered(body):
 	if body == player_node:
@@ -37,4 +40,8 @@ func _death():
 		explosionInstance._set_position(global_position)
 	
 	emit_signal("destroyed", self)
+	queue_free()
+
+func _clear():
+	emit_signal("clear_node", self)
 	queue_free()

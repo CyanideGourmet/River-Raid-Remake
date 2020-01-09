@@ -37,7 +37,6 @@ var current_pitch_scale = 1
 var points = 0
 
 var level = 0
-var cam
 
 var hp = 3
 var hpgained = 0
@@ -55,15 +54,11 @@ signal free_the_bullet
 signal player_died
 
 func _ready():
-	#cam = $ViewportContainer/Viewport/Camera
-	cam = $Camera
-	camera_pos = cam.position
 
-	UI = get_parent().get_node("UI").get_node("Fuel")
-	UI.text = str(fuel)
-	
-	current_mapslice = get_parent().find_node("MapSlice")
-	UI = get_parent().get_node("UI")
+	camera_pos = $Camera.position
+	current_mapslice = get_parent().get_node("MapSlice")
+	UI = get_tree().get_root().get_node("Main").get_node("UI")
+
 	Fuel_t = UI.find_node("Fuel")
 	Points_t = UI.find_node("Points")
 	HP_t = UI.find_node("HP")
@@ -155,6 +150,7 @@ func _input(event):
 		else:
 			acceleration_dir = 1
 	if event.is_action_pressed("ui_select") and ammo > 0:
+		refill = (refill+1)%2
 		var bullet = Bullet.instance()
 		bullet.scale = Vector2(4, 4)
 		add_child(bullet)
@@ -209,10 +205,10 @@ func _physics_process(delta):
 		elif collision.collider.is_in_group("enemy"):
 			collision.collider.call_deferred("_death")
 			_death()
-	fuel += -fuel_decrease_rate + fuel_refill_rate * refill
-	
-	position.x = clamp(position.x, camera_pos.x, camera_pos.x + cam.get_viewport_rect().size.x)
-	
+
+	fuel += (-fuel_decrease_rate + fuel_refill_rate * refill)*full_stop
+	position.x = clamp(position.x, camera_pos.x, camera_pos.x + $Camera.get_viewport_rect().size.x)
+
 	#Hubert (dodane do physics_process())
 	var lerpPitch = 1
 	if (forward_speed>= def_forward_speed):
@@ -239,12 +235,13 @@ func _physics_process(delta):
 	#/Hubert (koniec do physics_process())
 
 func _death():
-
+	fuel = 100
 	if hp == 0:
 		get_tree().change_scene("res://scenes/Menu.tscn")
 	
 	hp -= 1
 	HP_t.text = "Lives: " + str(hp)
+
 	#Hubert
 	$EngineSound.stop()
 	current_pitch_scale = 1
@@ -252,15 +249,11 @@ func _death():
 		GUI_Lives[hp].visible = false
 	#/Hubert
 
+	position = current_mapslice.position + Vector2(960, 8500)
 	emit_signal("player_died")
+	yield(get_tree().create_timer(0.1), "timeout")
+	get_tree().paused = !get_tree().paused
 	
-	if current_mapslice:
-		position = current_mapslice.position + Vector2(960, 8500)
-		
-	full_stop = 0
-	yield(get_tree().create_timer(1), "timeout")
-	full_stop = 1
-	fuel = 100
 	#Hubert
 	$EngineSound.play(0)
 	#/Hubert
@@ -294,11 +287,11 @@ func _current_mapslice_changed(node):
 	
 func _hit_a_node(node):
 	if node.is_in_group("enemy") or node.is_in_group("fuel"):
+
 		points += node.point_value * score_multiplier
-		if points >= 10000*(hpgained+1):
+		if points >= 10000*(hpgained+1) and hp < 9:
 			#Hubert
-			if (hp < len(GUI_Lives)):
-				GUI_Lives[hp].visible = true
+			GUI_Lives[hp].visible = true
 			#/Hubert
 			hp += 1
 			hpgained += 1
