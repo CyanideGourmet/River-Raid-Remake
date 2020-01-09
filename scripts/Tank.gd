@@ -8,7 +8,7 @@ var ranges = []
 
 func _ready():
 	for i in range(percentage_ranges.size()):
-		ranges.append(get_parent().copy_offset*32*(percentage_ranges[i]/100))
+		ranges.append(33*32*(percentage_ranges[i]/100))
 
 func _random_int(x, y):
 	randomize()

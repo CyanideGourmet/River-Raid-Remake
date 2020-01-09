@@ -16,7 +16,6 @@ collision_layer = 0
 collision_mask = 0
 format = 1
 script = ExtResource( 2 )
-level_size = [ 60, 272 ]
 
 [node name="Area" type="Area2D" parent="."]
 collision_layer = 0

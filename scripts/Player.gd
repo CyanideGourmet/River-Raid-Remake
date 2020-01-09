@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 export var movement_speed = 400
 export var def_forward_speed = 200
-export var max_forward_speed = 400
+export var max_forward_speed = 1200
 export var min_forward_speed = 50
 export var acceleration_speed = 20
 export var fuel_decrease_rate = 0.05
@@ -32,8 +32,8 @@ signal player_died
 
 func _ready():
 	camera_pos = $Camera.position
-	current_mapslice = get_parent().find_node("MapSlice")
-	UI = get_parent().get_node("UI")
+	current_mapslice = get_parent().get_node("MapSlice")
+	UI = get_tree().get_root().get_node("Main").get_node("UI")
 	Fuel_t = UI.find_node("Fuel")
 	Points_t = UI.find_node("Points")
 	HP_t = UI.find_node("HP")
@@ -122,7 +122,7 @@ func _death():
 		get_tree().change_scene("res://scenes/Menu.tscn")
 	hp -= 1
 	HP_t.text = "Lives: " + str(hp)
-	position = Vector2(960, 8500)
+	position = current_mapslice.position + Vector2(960, 8500)
 	yield(get_tree().create_timer(1), "timeout")
 	full_stop = 1
 
