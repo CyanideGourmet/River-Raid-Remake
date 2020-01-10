@@ -285,8 +285,8 @@ func _instance_entities(entities_list):
 			call_deferred("add_child", entity)
 			entity.position = Vector2(entities_list[entities_list.size()-1-i][1][1]*32, (entities_list.size()-1-i+15)*32)
 			instanced_entities.append(entity)
-		if i > 10:
-			yield(get_tree().create_timer(0.06), "timeout")
+		#if i > 10:
+			#yield(get_tree().create_timer(0.06), "timeout")
 
 func _clear_entities():
 	for i in instanced_entities:

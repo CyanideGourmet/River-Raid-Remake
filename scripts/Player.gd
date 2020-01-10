@@ -125,12 +125,10 @@ func _input(event):
 	return
 	
 	if event.is_pressed():
-		if event.is_action("ui_left") :
-			input.x = -1
-		elif event.is_action("ui_right"):
-			input.x = 1	
-	
-			
+		if event.is_action("ui_left") and !event.is_echo():
+			input.x += -1
+		elif event.is_action("ui_right") and !event.is_echo():
+			input.x += 1
 		elif event.is_action("ui_up"):
 			forward_slowdown = 0
 			acceleration_dir = 1
@@ -138,10 +136,11 @@ func _input(event):
 		elif event.is_action("ui_down"):
 			forward_slowdown = 0
 			acceleration_dir = -1
-
-	elif event.is_action_released("ui_left") or event.is_action_released("ui_right"):
-		input.x = 0
-	
+			
+	elif event.is_action_released("ui_left"):
+		input.x -= -1
+	elif event.is_action_released("ui_right"):
+		input.x -= 1
 	if event.is_action_released("ui_up") or event.is_action_released("ui_down"):
 		forward_slowdown = 1
 		
