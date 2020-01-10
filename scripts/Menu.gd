@@ -33,6 +33,10 @@ func _cancel_quit():
 	#	quit_no.visible = false
 	#	quit_no.disabled = true
 
+func _credits():
+	yield(get_tree().create_timer(0.6), "timeout")
+	get_tree().change_scene("res://scenes/Credits.tscn")
+
 func _button_state(var button, var state):
 	if !button || !(button is Button) || !(state is bool):
 		return

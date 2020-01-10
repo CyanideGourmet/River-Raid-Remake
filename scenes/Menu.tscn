@@ -138,7 +138,7 @@ margin_left = 1000.0
 margin_top = 750.0
 margin_right = -720.0
 margin_bottom = 810.0
-hint_tooltip = "Leave to fight another day"
+hint_tooltip = "Press to leave the game"
 custom_styles/hover = ExtResource( 4 )
 custom_styles/pressed = ExtResource( 5 )
 custom_styles/disabled = ExtResource( 9 )
@@ -167,7 +167,7 @@ margin_left = 700.0
 margin_top = 750.0
 margin_right = -1020.0
 margin_bottom = 810.0
-hint_tooltip = "Leave to fight another day"
+hint_tooltip = "Ok, just one more game..."
 custom_styles/hover = ExtResource( 4 )
 custom_styles/pressed = ExtResource( 5 )
 custom_styles/disabled = ExtResource( 9 )
@@ -192,13 +192,14 @@ stream = ExtResource( 8 )
 [connection signal="button_down" from="Start" to="." method="_beep" binds= [ "ConfirmDrum" ]]
 [connection signal="mouse_entered" from="Start" to="." method="_beep" binds= [ "CursorEnterBeep" ]]
 [connection signal="button_down" from="Credits" to="." method="_beep" binds= [ "ConfirmDrum" ]]
+[connection signal="button_down" from="Credits" to="." method="_credits"]
 [connection signal="mouse_entered" from="Credits" to="." method="_beep" binds= [ "CursorEnterBeep" ]]
-[connection signal="button_down" from="Exit" to="." method="_beep" binds= [ "ConfirmDrum" ]]
 [connection signal="button_down" from="Exit" to="." method="_are_u_sure"]
+[connection signal="button_down" from="Exit" to="." method="_beep" binds= [ "ConfirmDrum" ]]
 [connection signal="mouse_entered" from="Exit" to="." method="_beep" binds= [ "CursorEnterBeep" ]]
-[connection signal="button_down" from="Yes" to="." method="_beep" binds= [ "ConfirmDrum" ]]
 [connection signal="button_down" from="Yes" to="." method="_quit_game"]
+[connection signal="button_down" from="Yes" to="." method="_beep" binds= [ "ConfirmDrum" ]]
 [connection signal="mouse_entered" from="Yes" to="." method="_beep" binds= [ "CursorEnterBeep" ]]
-[connection signal="button_down" from="No" to="." method="_beep" binds= [ "ConfirmDrum" ]]
 [connection signal="button_down" from="No" to="." method="_cancel_quit"]
+[connection signal="button_down" from="No" to="." method="_beep" binds= [ "ConfirmDrum" ]]
 [connection signal="mouse_entered" from="No" to="." method="_beep" binds= [ "CursorEnterBeep" ]]
