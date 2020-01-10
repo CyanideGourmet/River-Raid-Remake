@@ -17,6 +17,10 @@ height = 39.9848
 collision_layer = 0
 collision_mask = 0
 script = ExtResource( 1 )
+def_forward_speed = 350
+max_forward_speed = 500
+min_forward_speed = 200
+fuel_decrease_rate = 0.05
 fuel_refill_rate = 1.0
 
 [node name="Sprite" type="Sprite" parent="."]
