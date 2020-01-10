@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/ExplosionChunk.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://assets/Images/Sprites/Smoke_Chunk.png" type="Texture" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0.0285714, 0.0675325, 0.171429, 1 )
@@ -27,15 +28,14 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 damping = 10.0
 damping_random = 1.0
-scale = 80.0
-scale_random = 1.0
+scale = 0.2
+scale_random = 0.4
 scale_curve = SubResource( 4 )
 color_ramp = SubResource( 2 )
 
 [sub_resource type="CircleShape2D" id=6]
 
 [node name="ExplosionChunk" type="RigidBody2D"]
-editor/display_folded = true
 gravity_scale = 4.0
 linear_damp = 1.5
 script = ExtResource( 1 )
@@ -50,6 +50,7 @@ randomness = 1.0
 local_coords = false
 draw_order = 1
 process_material = SubResource( 5 )
+texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -59,4 +60,4 @@ disabled = true
 [node name="Sprite" type="Sprite" parent="."]
 visible = false
 modulate = Color( 1, 1, 1, 0.160784 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
