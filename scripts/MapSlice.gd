@@ -61,7 +61,6 @@ func _render_tiles(start_height, end_height):
 				set_cell(i, start_height - j, -1)
 
 func _generate():
-
 	thread = Thread.new()
 	_clear_matrix()
 	_clear_entities()
@@ -95,6 +94,12 @@ func _generate():
 	thread.start(self, "_entities", 0)
 	thread.wait_to_finish()
 	_instance_entities(entities)
+	for i in range(20):
+		map_matrix[i+20][0] = [0, 0, 0]
+		map_matrix[i+20][1] = [0, 0, 0]
+		map_matrix[i+20][2] = [0, 0, 0]
+		map_matrix[i+20][270] = [0, 0, 0]
+		map_matrix[i+20][271] = [0, 0, 0]
 
 func _reset():
 	_clear_entities()
@@ -202,39 +207,39 @@ func _step_generation(width, height):
 	return [step_memory, [width, height], coordinates] 
 
 func _left_bank_generation(path):
-	var up = [[level_size[0]/2-5, 0], []]
-	var down = [[level_size[0]/2-5, level_size[1]-1], []]
+	var up = [[level_size[0]/2-9, 0], []]
+	var down = [[level_size[0]/2-9, level_size[1]-1], []]
 # warning-ignore:unused_variable
-	for i in range(level_size[0]/2-(5+path[0][0])):
+	for i in range(level_size[0]/2-(9+path[0][0])):
 		up[1].append(1)
 		up[1].append(0)
 # warning-ignore:unused_variable
-	for i in range(path[0][1] - (level_size[0]/2-(5+path[0][0]))):
+	for i in range(path[0][1] - (level_size[0]/2-(9+path[0][0]))):
 		up[1].append(1)
 # warning-ignore:unused_variable
-	for i in range((level_size[1]-1-path[2][1])-(level_size[0]/2-(path[2][0]+5))):
+	for i in range((level_size[1]-1-path[2][1])-(level_size[0]/2-(path[2][0]+9))):
 		down[1].append(1)
 # warning-ignore:unused_variable
-	for i in range(level_size[0]/2-(path[2][0]+5)):
+	for i in range(level_size[0]/2-(path[2][0]+9)):
 		down[1].append(1)
 		down[1].append(2)
 	return [up, down]
 
 func _right_bank_generation(path):
-	var up = [[level_size[0]/2+5, 0], []]
-	var down = [[level_size[0]/2+5, level_size[1]-1], []]
+	var up = [[level_size[0]/2+9, 0], []]
+	var down = [[level_size[0]/2+9, level_size[1]-1], []]
 # warning-ignore:unused_variable
-	for i in range((path[0][0]+33) - (level_size[0]/2+5)):
+	for i in range((path[0][0]+33) - (level_size[0]/2+9)):
 		up[1].append(1)
 		up[1].append(2)
 # warning-ignore:unused_variable
-	for i in range(path[0][1] - ((path[0][0]+33) - (level_size[0]/2+5))):
+	for i in range(path[0][1] - ((path[0][0]+33) - (level_size[0]/2+9))):
 		up[1].append(1)
 # warning-ignore:unused_variable
-	for i in range((level_size[1]-1-path[2][1])-((path[2][0]+33) - (level_size[0]/2+5))):
+	for i in range((level_size[1]-1-path[2][1])-((path[2][0]+33) - (level_size[0]/2+9))):
 		down[1].append(1)
 # warning-ignore:unused_variable
-	for i in range((path[2][0]+33) - (level_size[0]/2+5)):
+	for i in range((path[2][0]+33) - (level_size[0]/2+9)):
 		down[1].append(1)
 		down[1].append(0)
 	return [up, down]
