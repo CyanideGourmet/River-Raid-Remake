@@ -3,12 +3,12 @@
 [ext_resource path="res://assets/Fonts/AC Line_0.otf" type="DynamicFontData" id=1]
 
 [resource]
-size = 48
-outline_size = 4
-outline_color = Color( 0.682353, 0.388235, 0.721569, 0.12549 )
+size = 72
+outline_size = 8
+outline_color = Color( 0.682353, 0.388235, 0.721569, 0.25098 )
 use_mipmaps = true
 use_filter = true
-extra_spacing_bottom = 12
-extra_spacing_char = 12
+extra_spacing_bottom = 36
+extra_spacing_char = 16
 extra_spacing_space = 20
 font_data = ExtResource( 1 )

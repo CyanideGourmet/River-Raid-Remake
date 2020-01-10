@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scenes/CreditsParent.gd" type="Script" id=1]
-[ext_resource path="res://assets/Fonts/AC_Line_Credits_Marek_Regular.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/Fonts/AC_Line_Credits_Marek_Bold.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/Fonts/AC_Line_Credits_Marek_Regular.tres" type="DynamicFont" id=3]
 
 [node name="Credits" type="CanvasLayer"]
 
@@ -19,93 +20,164 @@ credits_speed = 100.0
 margin_left = 300.0
 margin_right = 1620.0
 margin_bottom = 10000.0
-custom_fonts/normal_font = ExtResource( 2 )
+custom_fonts/bold_font = ExtResource( 2 )
+custom_fonts/normal_font = ExtResource( 3 )
 bbcode_enabled = true
 bbcode_text = "[center]
 Thank you for playing
 
-Predator
-
+[b]Predator[/b]
 path of the chosen
 
 
 
-staff:
+Creators
 
-Programming
 
+
+[b]Programming[/b]
 Bartosz Klis
 Hubert Welenc
 
 
-Concept & Graphics 
-Marek Dąbrowski
+[b]Concept & Graphics [/b]
+Marek Dabrowski
 
 
-Designers
-Krzysztof Jabłoński
+[b]Designers[/b]
+Krzysztof Jablonski
 Hubert Welenc
 
 
-Producer
-Krzysztof Jabłoński
+[b]Producer[/b]
+Krzysztof Jablonski
 
 
-GFX & SFX
+[b]GFX & SFX[/b]
 Hubert Welenc
 
 
-This text
+[b]This text[/b]
 Hubert Welenc
 
 
-SPECIAL THANKS TO:
 
-Music
 
+[b]SPECIAL THANKS TO[/b]
+
+
+[b]Music (zapsplat.com)[/b]
+
+
+Epic – seamless music loop, fast, driving, dramatic orchestral driven track with drums, good for action and high adrenaline etc.
+parts 1, 4, 5, 6 and 10
+by
 Orlando \"OrlaMusic\" Lanzini
 
-Epic – seamless music loop, fast, driving, dramatic orchestral driven track with drums, good for action and high adrenaline etc 1
-Epic – seamless music loop, fast, driving, dramatic orchestral driven track with drums, good for action and high adrenaline etc 4
-Epic – seamless music loop, fast, driving, dramatic orchestral driven track with drums, good for action and high adrenaline etc 5
-Epic – seamless music loop, fast, driving, dramatic orchestral driven track with drums, good for action and high adrenaline etc 6
-Epic – seamless music loop, fast, driving, dramatic orchestral driven track with drums, good for action and high adrenaline etc 10
 
 
-Sound Effects:
 
-to be continued...
-...
-...
-..."
+[b]Sound Effects (freesound.com)[/b]
+
+
+Laser shot silenced
+by
+Zdravko \"BubaProducer\" Djordjevic
+
+
+LaserRocket2.wav
+by
+EcoDTR
+
+
+Huge Explosion
+by
+Tobiasz 'unfa' Karon
+
+
+archi_soundscape_electric1.wav
+by
+Elan \"Argitoth\" Hickler
+
+
+
+[b]Sound Effects (Youtube.com)[/b]
+
+
+Predator Wrist Bomb self destruct sound FX
+by
+Grant Evans
+(Youtube: ThatSFXGuy)
+
+
+
+
+
+
+[b]PREDATOR[/b] 
+trademark 
+is a property 
+of 	
+[b]The Walt Disney Company
+(via 20th Century Fox)[/b]
+
+
+
+
+This game was based on 
+
+[b]River Raid[/b]
+
+a video game created 
+by
+[b]Carol Shaw - Activision[/b]
+1982-1983
+
+
+
+
+
+
+
+
+
+
+
+
+No Aliens were hurt during development.
+
+
+
+
+"
 text = "
 Thank you for playing
 
 Predator
-
 path of the chosen
 
 
 
-staff:
+Creators
+
+
 
 Programming
-
 Bartosz Klis
 Hubert Welenc
 
 
 Concept & Graphics 
-Marek Dąbrowski
+Marek Dabrowski
 
 
 Designers
-Krzysztof Jabłoński
+Krzysztof Jablonski
 Hubert Welenc
 
 
 Producer
-Krzysztof Jabłoński
+Krzysztof Jablonski
 
 
 GFX & SFX
@@ -116,25 +188,95 @@ This text
 Hubert Welenc
 
 
-SPECIAL THANKS TO:
 
-Music
 
+SPECIAL THANKS TO
+
+
+Music (zapsplat.com)
+
+
+Epic – seamless music loop, fast, driving, dramatic orchestral driven track with drums, good for action and high adrenaline etc.
+parts 1, 4, 5, 6 and 10
+by
 Orlando \"OrlaMusic\" Lanzini
 
-Epic – seamless music loop, fast, driving, dramatic orchestral driven track with drums, good for action and high adrenaline etc 1
-Epic – seamless music loop, fast, driving, dramatic orchestral driven track with drums, good for action and high adrenaline etc 4
-Epic – seamless music loop, fast, driving, dramatic orchestral driven track with drums, good for action and high adrenaline etc 5
-Epic – seamless music loop, fast, driving, dramatic orchestral driven track with drums, good for action and high adrenaline etc 6
-Epic – seamless music loop, fast, driving, dramatic orchestral driven track with drums, good for action and high adrenaline etc 10
 
 
-Sound Effects:
 
-to be continued...
-...
-...
-..."
+Sound Effects (freesound.com)
+
+
+Laser shot silenced
+by
+Zdravko \"BubaProducer\" Djordjevic
+
+
+LaserRocket2.wav
+by
+EcoDTR
+
+
+Huge Explosion
+by
+Tobiasz 'unfa' Karon
+
+
+archi_soundscape_electric1.wav
+by
+Elan \"Argitoth\" Hickler
+
+
+
+Sound Effects (Youtube.com)
+
+
+Predator Wrist Bomb self destruct sound FX
+by
+Grant Evans
+(Youtube: ThatSFXGuy)
+
+
+
+
+
+
+PREDATOR 
+trademark 
+is a property 
+of 	
+The Walt Disney Company
+(via 20th Century Fox)
+
+
+
+
+This game was based on 
+
+River Raid
+
+a video game created 
+by
+Carol Shaw - Activision
+1982-1983
+
+
+
+
+
+
+
+
+
+
+
+
+No Aliens were hurt during development.
+
+
+
+
+"
 scroll_active = false
 
 [node name="LoremIpsum" type="RichTextLabel" parent="CreditsParent"]
@@ -142,8 +284,8 @@ visible = false
 margin_left = 300.0
 margin_right = 1620.0
 margin_bottom = 10000.0
-custom_fonts/mono_font = ExtResource( 2 )
-custom_fonts/normal_font = ExtResource( 2 )
+custom_fonts/mono_font = ExtResource( 3 )
+custom_fonts/normal_font = ExtResource( 3 )
 bbcode_enabled = true
 bbcode_text = "[center]Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tristique nulla aliquet enim tortor at auctor urna nunc id. Tempor nec feugiat nisl pretium fusce id velit ut tortor. Nec ultrices dui sapien eget mi proin sed libero enim. Nec dui nunc mattis enim ut. Eget mauris pharetra et ultrices neque ornare aenean. Scelerisque fermentum dui faucibus in ornare quam viverra orci sagittis. Dignissim enim sit amet venenatis urna. Tempus imperdiet nulla malesuada pellentesque elit. Interdum velit laoreet id donec. Sit amet justo donec enim diam vulputate ut pharetra sit. Et egestas quis ipsum suspendisse ultrices gravida dictum fusce ut. Euismod in pellentesque massa placerat. Dui sapien eget mi proin sed libero enim sed faucibus. 
 
