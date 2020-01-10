@@ -220,6 +220,13 @@ func _physics_process(delta):
 			GUI_FuelIndicator.position = Vector2.UP * lerp(-217.5, 0, fuel * 0.01)
 
 func _death():
+	for i in current_mapslice.instanced_entities:
+		if i == PhysicsBody2D:
+			add_collision_exception_with(i)
+	#enemybullet
+	set_collision_layer_bit(-20, 0)
+	#explosion
+	set_collision_mask_bit(-21, 0)
 	var explosionInstance = explosion.instance()
 	if (explosionInstance):
 		add_child(explosionInstance)
@@ -249,6 +256,13 @@ func _death():
 	full_stop = 1
 	refill = 0
 	yield(get_tree().create_timer(0.1), "timeout")
+	for i in current_mapslice.instanced_entities:
+		if i == PhysicsBody2D:
+			remove_collision_exception_with(i)
+	#enemybullet
+	set_collision_layer_bit(-20, 1)
+	#explosion
+	set_collision_mask_bit(-21, 1)
 	get_tree().paused = true
 	$EngineSound.play(0)
 
