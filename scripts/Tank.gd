@@ -17,6 +17,8 @@ func _ready():
 		direction = 1
 	connect("clear_node", get_parent(), "_node_destroyed")
 	yield(get_tree().create_timer(0.5), "timeout")
+	while get_parent().map_matrix[(position.x + ranges*direction)/32][position.y/32] != [0, 0, 0]:
+		ranges += 32*direction
 	_reload()
 
 func _random_int(x, y):
