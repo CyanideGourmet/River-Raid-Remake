@@ -1,12 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/UI_Hubert.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/MapSlice.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/Images/Tiles/tileWater.png" type="Texture" id=3]
 [ext_resource path="res://assets/Images/Sprites/Godot_White.png" type="Texture" id=4]
-[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/UI.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scenes/MusicPlayer.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/Tank.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/UI.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/MusicPlayer.tscn" type="PackedScene" id=8]
 
 [node name="Main" type="Node"]
 script = ExtResource( 1 )
@@ -44,7 +45,11 @@ centered = false
 region_enabled = true
 region_rect = Rect2( 0, 0, 1920, 8706 )
 
+[node name="Tank" parent="MapSlice" instance=ExtResource( 5 )]
+position = Vector2( 1519.56, 8125.53 )
+
 [node name="MapSlice2" parent="." instance=ExtResource( 2 )]
+editor/display_folded = true
 chopper_number = [ 5, 10 ]
 plane_number = [ 7, 14 ]
 heavy_number = [ 5, 10 ]
@@ -69,7 +74,7 @@ centered = false
 region_enabled = true
 region_rect = Rect2( 0, 0, 1920, 8706 )
 
-[node name="Player" parent="." instance=ExtResource( 5 )]
+[node name="Player" parent="." instance=ExtResource( 6 )]
 position = Vector2( 960, 17168 )
 collision_layer = 5
 collision_mask = 5
@@ -77,8 +82,8 @@ def_forward_speed = 400
 max_forward_speed = 600
 acceleration_speed = 50
 
-[node name="UI" parent="." instance=ExtResource( 6 )]
+[node name="UI" parent="." instance=ExtResource( 7 )]
 
-[node name="MusicPlayer" parent="." instance=ExtResource( 7 )]
+[node name="MusicPlayer" parent="." instance=ExtResource( 8 )]
 maxVolume = -20.0
 minVolume = -60.0

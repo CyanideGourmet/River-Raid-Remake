@@ -27,6 +27,7 @@ func _random_int(x, y):
 func _reload():
 	var bullet = BulletScene.instance()
 	call_deferred("add_child", bullet)
+	bullet.position.x += direction*32
 	bullet.bullet_range = ranges
 
 func _clear():
