@@ -46,7 +46,6 @@ script = ExtResource( 1 )
 position = Vector2( 0, -28.45 )
 frames = SubResource( 1 )
 animation = "shot"
-frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -60,9 +59,6 @@ collision_mask = 0
 visible = false
 frames = SubResource( 3 )
 animation = "explode"
-frame = 7
-speed_scale = 7.0
-playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionArea"]
 shape = SubResource( 4 )

@@ -7,6 +7,7 @@ var player_node
 var tankstate = false
 
 var explosion = preload("res://scenes/BridgeExplosion.tscn")
+var tank_sprite = preload("res://assets/Images/Sprites/tank 02.png")
 
 var tankcase = 0
 
@@ -54,6 +55,7 @@ func _death():
 		get_parent().get_parent().get_parent().instanced_entities.append(Shoot)
 		Shoot.transform = get_parent().get_parent().get_parent().RoadTank.transform
 		Shoot.direction = get_parent().get_parent().get_parent().RoadTank.direction
+		Shoot.set_texture(tank_sprite)
 		get_parent().get_parent().get_parent().RoadTank.call_deferred("_clear")
 	emit_signal("level_finished", get_parent().get_parent().get_parent())
 	print ("Bridge emitted signal to %s"%get_parent().get_parent())
