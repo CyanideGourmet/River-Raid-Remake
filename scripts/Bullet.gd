@@ -6,6 +6,6 @@ func _ready():
 #                          Chopper Fuel    Plane   Heavy   Ship    Shooter Bridge   Terrain
 	_set_collision()
 	collision_group_names = ["enemy"]
-	speed = 1000
-	bullet_range = 800
+	#speed = 1000
+	#bullet_range = 800
 	velocity = Vector2(0, -1)

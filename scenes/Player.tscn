@@ -1,7 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/Images/Sprites/statek.png" type="Texture" id=2]
+[ext_resource path="res://assets/RRSounds/SpaceShipLoop.ogg" type="AudioStream" id=3]
+[ext_resource path="res://assets/RRSounds/Low_Fuel_Tick.ogg" type="AudioStream" id=4]
+[ext_resource path="res://assets/RRSounds/151022__bubaproducer__laser-shot-silenced.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/RRSounds/SpaceShipEnergyCharge.ogg" type="AudioStream" id=6]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 5.12219
@@ -13,7 +17,11 @@ height = 39.9848
 collision_layer = 0
 collision_mask = 0
 script = ExtResource( 1 )
-fuel_decrease_rate = 0.5
+def_forward_speed = 350
+max_forward_speed = 500
+min_forward_speed = 200
+fuel_decrease_rate = 0.05
+fuel_refill_rate = 1.0
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 0.5, 0.5 )
@@ -30,3 +38,22 @@ drag_margin_left = 1.0
 drag_margin_top = 0.0
 drag_margin_right = 1.0
 drag_margin_bottom = 0.0
+
+[node name="EngineSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+volume_db = -10.0
+autoplay = true
+
+[node name="LowFuelSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+volume_db = 2.0
+autoplay = true
+
+[node name="Pew" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+volume_db = -25.0
+
+[node name="RefillSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+volume_db = -20.0
+autoplay = true

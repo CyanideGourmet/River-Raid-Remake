@@ -10,8 +10,8 @@ radius = 47.6833
 height = 387.267
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 6480.0
-height = 15360.0
+radius = 4500.0
+height = 14000.0
 
 [node name="Shooter" type="KinematicBody2D" groups=[
 "enemy",

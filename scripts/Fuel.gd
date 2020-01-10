@@ -1,7 +1,7 @@
 extends Area2D
-
 export var point_value = 80
 
+var explosion = preload("res://scenes/FuelExplosion.tscn")
 signal fuel
 signal destroyed
 signal clear_node
@@ -35,6 +35,11 @@ func _fuel_exited(body):
 
 func _death():
 	#death animation
+	if (explosion):
+		var explosionInstance = explosion.instance()
+		get_parent().get_parent().get_parent().add_child(explosionInstance)
+		explosionInstance._set_position(global_position)
+	
 	emit_signal("destroyed", self)
 	queue_free()
 

@@ -38,6 +38,7 @@ var RoadTank
 var chunk = 7
 var thread
 
+
 func _randint(x, y):
 	seed(randi())
 	return(randi()%(y+1-x)+x)
@@ -60,6 +61,7 @@ func _render_tiles(start_height, end_height):
 				set_cell(i, start_height - j, -1)
 
 func _generate():
+
 	thread = Thread.new()
 	_clear_matrix()
 	_clear_entities()
@@ -97,6 +99,7 @@ func _generate():
 func _reset():
 	_clear_entities()
 	_instance_entities(entities)
+
 
 func _islands(step_memory):
 	var islands = [_island_generation(step_memory, _randint(40, 50), _randint(90, 100)), _island_generation(step_memory, _randint(110, 120), _randint(160, 170)), _island_generation(step_memory, _randint(180, 190), 230)]
@@ -260,6 +263,7 @@ func _fill_terrain(islands):
 			map_matrix[n][i] = [1, 1, 0]
 			n -= 1
 		n = 0
+
 	for i in range(3):
 		if islands[-1][i] == 1:
 			for j in range(islands[0][i][2][1] - islands[0][i][0][1] - 1):

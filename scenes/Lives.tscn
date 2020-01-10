@@ -1,0 +1,118 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/Images/Sprites/Godot_White.png" type="Texture" id=1]
+[ext_resource path="res://assets/Images/GUI/live lost.png" type="Texture" id=2]
+[ext_resource path="res://assets/Images/GUI/live one.png" type="Texture" id=3]
+[ext_resource path="res://assets/Fonts/Digital_Font.tres" type="DynamicFont" id=4]
+
+[node name="Lives" type="CanvasLayer"]
+
+[node name="LivesSkin" type="Sprite" parent="."]
+visible = false
+modulate = Color( 0.211765, 0.337255, 0.403922, 1 )
+show_behind_parent = true
+position = Vector2( 0, 0.418121 )
+scale = Vector2( 8, 2 )
+z_as_relative = false
+texture = ExtResource( 1 )
+centered = false
+
+[node name="LostLives" type="Node" parent="."]
+
+[node name="lost" type="Sprite" parent="LostLives"]
+texture = ExtResource( 2 )
+
+[node name="lost2" type="Sprite" parent="LostLives"]
+position = Vector2( -54, 0 )
+texture = ExtResource( 2 )
+
+[node name="lost3" type="Sprite" parent="LostLives"]
+position = Vector2( -108, 0 )
+texture = ExtResource( 2 )
+
+[node name="lost4" type="Sprite" parent="LostLives"]
+position = Vector2( -162, 0 )
+texture = ExtResource( 2 )
+
+[node name="lost5" type="Sprite" parent="LostLives"]
+position = Vector2( -216, 0 )
+texture = ExtResource( 2 )
+
+[node name="lost6" type="Sprite" parent="LostLives"]
+position = Vector2( -270, 0 )
+texture = ExtResource( 2 )
+
+[node name="lost7" type="Sprite" parent="LostLives"]
+position = Vector2( -324, 0 )
+texture = ExtResource( 2 )
+
+[node name="lost8" type="Sprite" parent="LostLives"]
+position = Vector2( -378, 0 )
+texture = ExtResource( 2 )
+
+[node name="LivesGroup" type="Node" parent="."]
+
+[node name="Live0" type="Sprite" parent="LivesGroup"]
+show_behind_parent = true
+texture = ExtResource( 3 )
+
+[node name="Live1" type="Sprite" parent="LivesGroup"]
+show_behind_parent = true
+position = Vector2( -54, 0 )
+texture = ExtResource( 3 )
+
+[node name="Live2" type="Sprite" parent="LivesGroup"]
+visible = false
+show_behind_parent = true
+position = Vector2( -108, 0 )
+texture = ExtResource( 3 )
+
+[node name="Live3" type="Sprite" parent="LivesGroup"]
+visible = false
+position = Vector2( -162, 0 )
+texture = ExtResource( 3 )
+
+[node name="Live4" type="Sprite" parent="LivesGroup"]
+visible = false
+show_behind_parent = true
+position = Vector2( -216, 0 )
+texture = ExtResource( 3 )
+
+[node name="Live5" type="Sprite" parent="LivesGroup"]
+visible = false
+show_behind_parent = true
+position = Vector2( -270, 0 )
+texture = ExtResource( 3 )
+
+[node name="Live6" type="Sprite" parent="LivesGroup"]
+visible = false
+show_behind_parent = true
+position = Vector2( -324, 0 )
+texture = ExtResource( 3 )
+
+[node name="Live7" type="Sprite" parent="LivesGroup"]
+visible = false
+show_behind_parent = true
+position = Vector2( -378, 0 )
+texture = ExtResource( 3 )
+
+[node name="Live8" type="Sprite" parent="LivesGroup"]
+visible = false
+show_behind_parent = true
+position = Vector2( -432, 0 )
+texture = ExtResource( 3 )
+
+[node name="LivesPredatorLabelParent" type="Node2D" parent="."]
+visible = false
+position = Vector2( 46.7224, -4.68355 )
+
+[node name="HumanLivesLabel" type="Label" parent="LivesPredatorLabelParent"]
+margin_left = 118.977
+margin_top = 9.0
+margin_right = 797.977
+margin_bottom = 100.0
+rect_scale = Vector2( 0.3, 0.3 )
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "V E S S E L S"
+valign = 2

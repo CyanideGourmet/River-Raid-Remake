@@ -9,7 +9,9 @@ var direction = -1
 var ranges = []
 
 func _ready():
+	print ("Tank parent: %s"% get_parent().name)
 	for i in range(percentage_ranges.size()):
+
 		ranges.append(33*32*(percentage_ranges[i]/100))
 	ranges = ranges[_random_int(0, 2)]
 	if position.x < 960:

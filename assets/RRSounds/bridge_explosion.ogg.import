@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/bridge_explosion.ogg-1a3d12bc8fab44b12f011a3607dbe4c8.oggstr"
+
+[deps]
+
+source_file="res://assets/RRSounds/bridge_explosion.ogg"
+dest_files=[ "res://.import/bridge_explosion.ogg-1a3d12bc8fab44b12f011a3607dbe4c8.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

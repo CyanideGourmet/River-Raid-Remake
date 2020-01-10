@@ -3,6 +3,7 @@ extends "res://scripts/Classes/Destructible.gd"
 var BulletScene = preload("res://scenes/EnemyBullet.tscn")
 
 func _ready():
+	explosion = preload("res://scenes/Chopper_Explosion.tscn")
 	point_value = 150
 	movement_speed = 200
 	$Body/Rotor/AnimationPlayer.play("Rotor")

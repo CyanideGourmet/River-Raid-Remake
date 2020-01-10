@@ -1,8 +1,9 @@
 extends "res://scripts/Classes/Destructible.gd"
 
 func _ready():
-	point_value = 30
-	movement_speed = 150
+	explosion = preload("res://scenes/ShipExplosion.tscn")
+	#point_value = 30
+	#movement_speed = 150
 	#player
 	set_collision_layer_bit(5, 1)
 	$PlayerDetectionArea.set_collision_layer_bit(5, 1)
