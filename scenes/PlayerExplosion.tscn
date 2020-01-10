@@ -1,0 +1,289 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://scenes/EnemyShotExplosion.gd" type="Script" id=1]
+[ext_resource path="res://assets/RRSounds/EnemyExplosion.ogg" type="AudioStream" id=2]
+[ext_resource path="res://assets/StylesAndThemes/BlueFlame.tres" type="Texture" id=3]
+[ext_resource path="res://scripts/ExplosionChunk.gd" type="Script" id=4]
+[ext_resource path="res://icon.png" type="Texture" id=5]
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 5.37783e-005, 0.7354 ), 0.0, -3.49503, 0, 0, Vector2( 0.578123, 0.9895 ), 2.957, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 10, -25, 0 )
+initial_velocity = 150.0
+initial_velocity_random = 0.8
+angular_velocity = 170.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 50.0
+damping_random = 0.16
+scale = 80.0
+scale_curve = SubResource( 4 )
+color_ramp = ExtResource( 3 )
+
+[sub_resource type="Curve" id=10]
+_data = [ Vector2( 0.136719, 0.159 ), 0.0, 1.54821, 0, 0, Vector2( 0.450574, 0.3966 ), -1.42435, -1.42435, 0, 0, Vector2( 1, 1 ), 0.274291, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=11]
+curve = SubResource( 10 )
+
+[sub_resource type="ParticlesMaterial" id=14]
+flag_disable_z = true
+spread = 15.0
+gravity = Vector3( 0, -3, 0 )
+initial_velocity = 20.0
+initial_velocity_random = 1.0
+angular_velocity = 2.8026e-044
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 10.0
+damping_random = 1.0
+scale = 80.0
+scale_random = 1.0
+scale_curve = SubResource( 11 )
+color_ramp = ExtResource( 3 )
+
+[sub_resource type="CircleShape2D" id=13]
+
+[node name="PlayerExplosion" type="KinematicBody2D"]
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 1 )
+identifier = "Fuel"
+
+[node name="ExplosionSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 2 )
+volume_db = -10.0
+pitch_scale = 0.8
+autoplay = true
+max_distance = 10000.0
+
+[node name="Explosion" type="Particles2D" parent="."]
+scale = Vector2( 1.5, 1.5 )
+amount = 300
+lifetime = 5.0
+speed_scale = 4.0
+explosiveness = 0.9
+randomness = 1.0
+process_material = SubResource( 7 )
+
+[node name="ExplosionChunk" type="RigidBody2D" parent="."]
+gravity_scale = 2.0
+linear_damp = 2.0
+script = ExtResource( 4 )
+initial_velocity = Vector2( 500, -500 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk"]
+rotation = 2.61799
+amount = 150
+lifetime = 10.0
+speed_scale = 8.0
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk"]
+visible = false
+shape = SubResource( 13 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 5 )
+
+[node name="ExplosionChunk2" type="RigidBody2D" parent="."]
+editor/display_folded = true
+gravity_scale = 2.0
+linear_damp = 2.0
+script = ExtResource( 4 )
+initial_velocity = Vector2( 500, 500 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk2"]
+rotation = 2.61799
+amount = 150
+lifetime = 10.0
+speed_scale = 8.0
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk2"]
+visible = false
+shape = SubResource( 13 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk2"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 5 )
+
+[node name="ExplosionChunk3" type="RigidBody2D" parent="."]
+editor/display_folded = true
+gravity_scale = 2.0
+linear_damp = 2.0
+script = ExtResource( 4 )
+initial_velocity = Vector2( -500, -500 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk3"]
+rotation = 2.61799
+amount = 150
+lifetime = 10.0
+speed_scale = 8.0
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk3"]
+visible = false
+shape = SubResource( 13 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk3"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 5 )
+
+[node name="ExplosionChunk4" type="RigidBody2D" parent="."]
+editor/display_folded = true
+gravity_scale = 2.0
+linear_damp = 2.0
+script = ExtResource( 4 )
+initial_velocity = Vector2( -500, 500 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk4"]
+rotation = 2.61799
+amount = 150
+lifetime = 10.0
+speed_scale = 8.0
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk4"]
+visible = false
+shape = SubResource( 13 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk4"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 5 )
+
+[node name="ExplosionChunk5" type="RigidBody2D" parent="."]
+editor/display_folded = true
+gravity_scale = 2.0
+linear_damp = 2.0
+script = ExtResource( 4 )
+initial_velocity = Vector2( 700, 0 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk5"]
+rotation = 2.61799
+amount = 150
+lifetime = 10.0
+speed_scale = 8.0
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk5"]
+visible = false
+shape = SubResource( 13 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk5"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 5 )
+
+[node name="ExplosionChunk6" type="RigidBody2D" parent="."]
+editor/display_folded = true
+gravity_scale = 2.0
+linear_damp = 2.0
+script = ExtResource( 4 )
+initial_velocity = Vector2( -700, 0 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk6"]
+rotation = 2.61799
+amount = 150
+lifetime = 10.0
+speed_scale = 8.0
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk6"]
+visible = false
+shape = SubResource( 13 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk6"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 5 )
+
+[node name="ExplosionChunk7" type="RigidBody2D" parent="."]
+editor/display_folded = true
+gravity_scale = 2.0
+linear_damp = 2.0
+script = ExtResource( 4 )
+initial_velocity = Vector2( 0, 700 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk7"]
+rotation = 2.61799
+amount = 150
+lifetime = 10.0
+speed_scale = 8.0
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk7"]
+visible = false
+shape = SubResource( 13 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk7"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 5 )
+
+[node name="ExplosionChunk8" type="RigidBody2D" parent="."]
+editor/display_folded = true
+gravity_scale = 2.0
+linear_damp = 2.0
+script = ExtResource( 4 )
+initial_velocity = Vector2( 0, -700 )
+
+[node name="Particles2D" type="Particles2D" parent="ExplosionChunk8"]
+rotation = 2.61799
+amount = 150
+lifetime = 10.0
+speed_scale = 8.0
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 14 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionChunk8"]
+visible = false
+shape = SubResource( 13 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="ExplosionChunk8"]
+visible = false
+modulate = Color( 1, 1, 1, 0.160784 )
+texture = ExtResource( 5 )

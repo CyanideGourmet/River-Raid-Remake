@@ -3,12 +3,12 @@
 [ext_resource path="res://scenes/EnemyShotExplosion.gd" type="Script" id=1]
 [ext_resource path="res://assets/RRSounds/EnemyExplosion.ogg" type="AudioStream" id=2]
 
-[sub_resource type="Gradient" id=1]
-offsets = PoolRealArray( 0.0885609, 0.162362, 0.291513, 0.413284, 0.95 )
+[sub_resource type="Gradient" id=6]
+offsets = PoolRealArray( 0.0334029, 0.158664, 0.291513, 0.413284, 0.95 )
 colors = PoolColorArray( 1, 0.996078, 0.87451, 1, 0, 0.712891, 1, 0.752941, 0.054902, 0.33184, 0.87451, 0.501961, 0.282353, 0.368627, 0.478431, 0.25098, 0.235294, 0.239216, 0.243137, 0 )
 
 [sub_resource type="GradientTexture" id=2]
-gradient = SubResource( 1 )
+gradient = SubResource( 6 )
 
 [sub_resource type="Curve" id=3]
 _data = [ Vector2( 5.37783e-005, 0.7354 ), 0.0, -3.49503, 0, 0, Vector2( 0.578123, 0.9895 ), 2.957, 0.0, 0, 0 ]
@@ -35,7 +35,6 @@ color_ramp = SubResource( 2 )
 [node name="FuelExplosion" type="KinematicBody2D"]
 scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 1 )
-lifetime = 3
 identifier = "Fuel"
 
 [node name="ExplosionSound" type="AudioStreamPlayer2D" parent="."]

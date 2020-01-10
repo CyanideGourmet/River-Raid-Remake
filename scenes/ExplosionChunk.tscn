@@ -3,20 +3,20 @@
 [ext_resource path="res://scripts/ExplosionChunk.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0.0285714, 0.0675325, 0.171429, 1 )
 colors = PoolColorArray( 1, 0.857723, 0.410156, 1, 1, 0.52549, 0, 0.65098, 0.164706, 0.14902, 0.113725, 0.580392, 0, 0, 0, 0 )
 
-[sub_resource type="GradientTexture" id=3]
-gradient = SubResource( 2 )
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=3]
 _data = [ Vector2( 0.136719, 0.159 ), 0.0, 1.54821, 0, 0, Vector2( 0.450574, 0.3966 ), -1.42435, -1.42435, 0, 0, Vector2( 1, 1 ), 0.274291, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=5]
-curve = SubResource( 4 )
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
 
-[sub_resource type="ParticlesMaterial" id=6]
+[sub_resource type="ParticlesMaterial" id=5]
 flag_disable_z = true
 spread = 35.0
 gravity = Vector3( 0, -3, 0 )
@@ -29,10 +29,10 @@ damping = 10.0
 damping_random = 1.0
 scale = 80.0
 scale_random = 1.0
-scale_curve = SubResource( 5 )
-color_ramp = SubResource( 3 )
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CircleShape2D" id=6]
 
 [node name="ExplosionChunk" type="RigidBody2D"]
 editor/display_folded = true
@@ -49,11 +49,11 @@ speed_scale = 8.0
 randomness = 1.0
 local_coords = false
 draw_order = 1
-process_material = SubResource( 6 )
+process_material = SubResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-shape = SubResource( 1 )
+shape = SubResource( 6 )
 disabled = true
 
 [node name="Sprite" type="Sprite" parent="."]

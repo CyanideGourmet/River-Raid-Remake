@@ -11,7 +11,6 @@ export var fuel_refill_rate = 0.2
 export var low_fuel_threshold = 30
 
 export var score_multiplier = 1
-
 var camera_pos
 var UI
 var Fuel_t
@@ -19,6 +18,7 @@ var Points_t
 var HP_t
 var ammo = 1
 var Bullet = preload("res://scenes/Bullet.tscn")
+var explosion = preload("res://scenes/PlayerExplosion.tscn")
 var fuel = 100
 var acceleration_dir = 0
 var forward_speed = def_forward_speed
@@ -213,7 +213,14 @@ func _physics_process(delta):
 			GUI_FuelIndicator.position = Vector2.UP * lerp(-217.5, 0, fuel * 0.01)
 
 func _death():
+
+	var explosionInstance = explosion.instance()
+	if (explosionInstance):
+		add_child(explosionInstance)
+		explosionInstance._init_explosion(0, global_position)
+	
 	$CollisionShape2D.disabled = true
+
 	fuel = 100
 	full_stop = 0
 	refill = 1
@@ -267,10 +274,12 @@ func _current_mapslice_changed(node):
 	
 func _hit_a_node(node):
 	if node.is_in_group("enemy") or node.is_in_group("fuel"):
-		points += node.point_value
+		#points += node.point_value
+		points += node.point_value * score_multiplier
 		if points > global.high_score:
 			global.high_score = points
-		points += node.point_value * score_multiplier
+			if GUI_HiScore:
+				GUI_HiScore.text = str(points)
 		if points >= 10000*(hpgained+1) and hp < 9:
 			#Hubert
 			GUI_Lives[hp].visible = true
