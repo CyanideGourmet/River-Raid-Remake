@@ -7,6 +7,7 @@ func _ready():
 	speed = 500
 	velocity = Vector2(get_parent().direction, 0)
 
+# warning-ignore:unused_argument
 func _physics_process(delta):
 	var distance = sqrt(pow(position.x, 2)+pow(position.y, 2))
 	if distance >= bullet_range*5:

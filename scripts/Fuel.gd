@@ -1,4 +1,5 @@
 extends Area2D
+# warning-ignore:unused_class_variable
 export var point_value = 80
 
 var explosion = preload("res://scenes/FuelExplosion.tscn")
@@ -9,17 +10,23 @@ signal clear_node
 var player_node
 
 func _ready():
-	scale = Vector2(1.5, 1.5)
+	scale = Vector2(2, 2)
 	#player
 	set_collision_layer_bit(2, 1)
 	#bullet
 	set_collision_layer_bit(-2, 1)
 	player_node = get_parent().get_parent().find_node("Player")
+# warning-ignore:return_value_discarded
 	connect("body_entered", self, "_fuel_entered")
+# warning-ignore:return_value_discarded
 	connect("body_exited", self, "_fuel_exited")
+# warning-ignore:return_value_discarded
 	connect("fuel", player_node, "_fuel")
+# warning-ignore:return_value_discarded
 	connect("destroyed", player_node, "_hit_a_node")
+# warning-ignore:return_value_discarded
 	connect("destroyed", get_parent(), "_node_destroyed")
+# warning-ignore:return_value_discarded
 	connect("clear_node", get_parent(), "_node_destroyed")
 
 func _fuel_entered(body):

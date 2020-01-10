@@ -12,5 +12,6 @@ func _ready():
 func _process(delta):
 	position += Vector2(0, -credits_speed*delta)
 	if (Input.is_action_just_pressed("ui_cancel")):
+# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://scenes/Menu.tscn")
 # 

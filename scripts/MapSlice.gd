@@ -9,6 +9,7 @@ export var ship_number = [1, 5]
 export var shooter_number = [1, 4]
 export var tank_number = [0, 2]
 
+# warning-ignore:unused_signal
 signal mapslice_changed
 
 var player_node

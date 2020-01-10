@@ -2,12 +2,14 @@ extends Control
 onready var quit_yes = find_node("Yes")
 onready var quit_no = find_node("No")
 
+# warning-ignore:unused_class_variable
 var high_score = 0
 
 func _start():
 
 	seed(2137)
 	yield(get_tree().create_timer(1), "timeout")
+# warning-ignore:return_value_discarded
 	get_tree().change_scene("res://scenes/Main.tscn")
 
 func _beep(var soundName):
@@ -37,6 +39,7 @@ func _cancel_quit():
 
 func _credits():
 	yield(get_tree().create_timer(0.6), "timeout")
+# warning-ignore:return_value_discarded
 	get_tree().change_scene("res://scenes/Credits.tscn")
 
 func _button_state(var button, var state):

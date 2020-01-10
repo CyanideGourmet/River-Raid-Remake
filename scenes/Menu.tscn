@@ -200,6 +200,6 @@ stream = ExtResource( 8 )
 [connection signal="button_down" from="Yes" to="." method="_beep" binds= [ "ConfirmDrum" ]]
 [connection signal="button_down" from="Yes" to="." method="_quit_game"]
 [connection signal="mouse_entered" from="Yes" to="." method="_beep" binds= [ "CursorEnterBeep" ]]
-[connection signal="button_down" from="No" to="." method="_beep" binds= [ "ConfirmDrum" ]]
 [connection signal="button_down" from="No" to="." method="_cancel_quit"]
+[connection signal="button_down" from="No" to="." method="_beep" binds= [ "ConfirmDrum" ]]
 [connection signal="mouse_entered" from="No" to="." method="_beep" binds= [ "CursorEnterBeep" ]]

@@ -13,12 +13,14 @@ signal reload
 
 func _ready():
 	starting_position = position
+# warning-ignore:return_value_discarded
 	connect("reload", get_parent(), "_reload")
 
 func _set_collision():
 	for bit in collision_mask_bits:
 		set_collision_mask_bit(bit, 1)
 
+# warning-ignore:unused_argument
 func _process(delta):
 	if sqrt(pow(position.y - starting_position.y, 2)) >= bullet_range:
 		_reload()

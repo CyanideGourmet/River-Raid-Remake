@@ -1,5 +1,6 @@
  extends StaticBody2D
 
+# warning-ignore:unused_class_variable
 export var point_value = 500
 
 var player_node
@@ -31,9 +32,12 @@ func _ready():
 	else:
 		print("Player Node not found!!!! Root: %s"%get_parent().get_parent().get_parent().get_parent())
 		
+# warning-ignore:return_value_discarded
 	connect("destroyed", player_node, "_hit_a_node")
+# warning-ignore:return_value_discarded
 	connect("level_finished", player_node, "_current_mapslice_changed")
 
+# warning-ignore:unused_argument
 func _tankstate(node):
 	tankstate = !tankstate
 	tankcase += 1
