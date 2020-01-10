@@ -9,7 +9,6 @@ var direction = -1
 var ranges = []
 
 func _ready():
-	print ("Tank parent: %s"% get_parent().name)
 	for i in range(percentage_ranges.size()):
 		ranges.append(33*32*(percentage_ranges[i]/100))
 	ranges = ranges[_random_int(0, 2)]
@@ -26,8 +25,7 @@ func _random_int(x, y):
 
 func _reload():
 	var bullet = BulletScene.instance()
-	call_deferred("add_child", bullet)
-	bullet.position.x += direction*32
+	add_child(bullet)
 	bullet.bullet_range = ranges
 
 func _clear():

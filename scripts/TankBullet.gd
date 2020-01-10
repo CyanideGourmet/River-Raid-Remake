@@ -13,8 +13,6 @@ func _physics_process(delta):
 		_explode()
 	if velocity.x < 0:
 		velocity.x += 0.0023
-	if velocity.x > 0:
-		velocity.x -= 0.0023
 	if $ExplosionArea/Explosion.frame == 7:
 		_reload()
 

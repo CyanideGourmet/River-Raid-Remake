@@ -24,7 +24,7 @@ func _process(delta):
 		_reload()
 
 func _physics_process(delta):
-	collision = move_and_collide(velocity * speed)
+	collision = move_and_collide(velocity * speed * delta)
 	if collision:
 		if collision.collider.is_in_group("terrain"):
 			_reload()
