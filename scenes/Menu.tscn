@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scripts/Menu.gd" type="Script" id=1]
 [ext_resource path="res://assets/Images/Menus/Marek_MainMenu.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://assets/Fonts/AC_Line_Menu_Marek.tres" type="DynamicFont" id=6]
 [ext_resource path="res://assets/RRSounds/Menu_Beep.ogg" type="AudioStream" id=7]
 [ext_resource path="res://assets/RRSounds/Menu_Drum_Simple.ogg" type="AudioStream" id=8]
+[ext_resource path="res://assets/StylesAndThemes/Empty.tres" type="StyleBox" id=9]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0509804, 0.0588235, 0.0627451, 0 )
@@ -129,10 +130,75 @@ stream = ExtResource( 7 )
 [node name="ConfirmDrum" type="AudioStreamPlayer2D" parent="Exit"]
 position = Vector2( 0, -160 )
 stream = ExtResource( 8 )
+
+[node name="Yes" type="Button" parent="."]
+visible = false
+anchor_right = 1.0
+margin_left = 1000.0
+margin_top = 750.0
+margin_right = -720.0
+margin_bottom = 810.0
+hint_tooltip = "Leave to fight another day"
+custom_styles/hover = ExtResource( 4 )
+custom_styles/pressed = ExtResource( 5 )
+custom_styles/disabled = ExtResource( 9 )
+custom_styles/normal = SubResource( 1 )
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 0.980392, 0.345098, 1, 1 )
+disabled = true
+action_mode = 0
+text = "YES"
+
+[node name="CursorEnterBeep" type="AudioStreamPlayer2D" parent="Yes"]
+position = Vector2( 0, -160 )
+stream = ExtResource( 7 )
+
+[node name="ConfirmDrum" type="AudioStreamPlayer2D" parent="Yes"]
+position = Vector2( 0, -160 )
+stream = ExtResource( 8 )
+
+[node name="No" type="Button" parent="."]
+visible = false
+anchor_right = 1.0
+margin_left = 700.0
+margin_top = 750.0
+margin_right = -1020.0
+margin_bottom = 810.0
+hint_tooltip = "Leave to fight another day"
+custom_styles/hover = ExtResource( 4 )
+custom_styles/pressed = ExtResource( 5 )
+custom_styles/disabled = ExtResource( 9 )
+custom_styles/normal = SubResource( 1 )
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color_disabled = Color( 1, 1, 1, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 0.980392, 0.345098, 1, 1 )
+disabled = true
+action_mode = 0
+text = "NO"
+
+[node name="CursorEnterBeep" type="AudioStreamPlayer2D" parent="No"]
+position = Vector2( 0, -160 )
+stream = ExtResource( 7 )
+
+[node name="ConfirmDrum" type="AudioStreamPlayer2D" parent="No"]
+position = Vector2( 0, -160 )
+stream = ExtResource( 8 )
 [connection signal="button_down" from="Start" to="." method="_start"]
 [connection signal="button_down" from="Start" to="." method="_beep" binds= [ "ConfirmDrum" ]]
 [connection signal="mouse_entered" from="Start" to="." method="_beep" binds= [ "CursorEnterBeep" ]]
 [connection signal="button_down" from="Credits" to="." method="_beep" binds= [ "ConfirmDrum" ]]
 [connection signal="mouse_entered" from="Credits" to="." method="_beep" binds= [ "CursorEnterBeep" ]]
 [connection signal="button_down" from="Exit" to="." method="_beep" binds= [ "ConfirmDrum" ]]
+[connection signal="button_down" from="Exit" to="." method="_are_u_sure"]
 [connection signal="mouse_entered" from="Exit" to="." method="_beep" binds= [ "CursorEnterBeep" ]]
+[connection signal="button_down" from="Yes" to="." method="_beep" binds= [ "ConfirmDrum" ]]
+[connection signal="button_down" from="Yes" to="." method="_quit_game"]
+[connection signal="mouse_entered" from="Yes" to="." method="_beep" binds= [ "CursorEnterBeep" ]]
+[connection signal="button_down" from="No" to="." method="_beep" binds= [ "ConfirmDrum" ]]
+[connection signal="button_down" from="No" to="." method="_cancel_quit"]
+[connection signal="mouse_entered" from="No" to="." method="_beep" binds= [ "CursorEnterBeep" ]]
