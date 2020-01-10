@@ -74,9 +74,9 @@ position = Vector2( 960, 17168 )
 collision_layer = 5
 collision_mask = 5
 def_forward_speed = 400
-max_forward_speed = 800
+max_forward_speed = 600
 min_forward_speed = 200
-acceleration_speed = 30
+acceleration_speed = 50
 fuel_decrease_rate = 0.05
 
 [node name="UI" parent="." instance=ExtResource( 6 )]
