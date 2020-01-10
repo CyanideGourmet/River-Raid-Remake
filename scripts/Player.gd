@@ -276,6 +276,7 @@ func _hit_a_node(node):
 			GUI_Lives[hp].visible = true
 			#/Hubert
 			hp += 1
+			$LiveUp.play(0)
 			hpgained += 1
 			HP_t.text = "Lives: " + str(hp)
 		Points_t.text = "Points: " + str(points)

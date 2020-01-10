@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Predator_Live_Up.ogg-9c98865a4f1fb77f7b33b238828fe27f.oggstr"
+
+[deps]
+
+source_file="res://assets/RRSounds/Predator_Live_Up.ogg"
+dest_files=[ "res://.import/Predator_Live_Up.ogg-9c98865a4f1fb77f7b33b238828fe27f.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
