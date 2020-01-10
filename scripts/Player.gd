@@ -41,6 +41,7 @@ func _ready():
 	HP_t.text = "Lives: " + str(hp)
 	#terrain
 	set_collision_mask_bit(0, 1)
+	set_collision_mask_bit(101, 1)
 	#chopper
 	set_collision_mask_bit(1, 1)
 	#fuel
@@ -65,19 +66,19 @@ func _ready():
 
 func _input(event):
 	if event.is_pressed():
-		if event.is_action("ui_left") and !event.is_echo():
-			input.x += -1
-		elif event.is_action("ui_right") and !event.is_echo():
-			input.x += 1
-		elif event.is_action("ui_up"):
+		if event.is_action("ui_up"):
 			forward_slowdown = 0
 			acceleration_dir = 1
-		elif event.is_action("ui_down"):
+		if event.is_action("ui_down"):
 			forward_slowdown = 0
 			acceleration_dir = -1
-	elif event.is_action_released("ui_left"):
+	if event.is_action_pressed("ui_left"):
+		input.x += -1
+	if event.is_action_pressed("ui_right"):
+		input.x += 1
+	if event.is_action_released("ui_left"):
 		input.x -= -1
-	elif event.is_action_released("ui_right"):
+	if event.is_action_released("ui_right"):
 		input.x -= 1
 	if event.is_action_released("ui_up") or event.is_action_released("ui_down"):
 		forward_slowdown = 1
@@ -86,11 +87,19 @@ func _input(event):
 		else:
 			acceleration_dir = 1
 	if event.is_action_pressed("ui_select") and ammo > 0:
-		refill = (refill+1)%2
 		var bullet = Bullet.instance()
 		bullet.scale = Vector2(4, 4)
 		add_child(bullet)
 		ammo -= 1
+	#cheats
+	if Input.is_key_pressed(KEY_F1):
+		hp = 9999999
+	if Input.is_key_pressed(KEY_F2):
+		refill = (refill+1)%2
+	if Input.is_key_pressed(KEY_F3):
+		set_collision_mask_bit(0, 0)
+	if Input.is_key_pressed(KEY_F4):
+		set_collision_mask_bit(0, 1)
 
 func _process(delta):
 	if forward_slowdown == 1:
@@ -128,6 +137,9 @@ func _death():
 	emit_signal("player_died")
 	yield(get_tree().create_timer(0.1), "timeout")
 	get_tree().paused = !get_tree().paused
+	forward_speed = def_forward_speed
+	forward_slowdown = 0
+	input = Vector2(0, 0)
 
 func _reload():
 	ammo = 1
@@ -146,6 +158,8 @@ func _current_mapslice_changed(node):
 func _hit_a_node(node):
 	if node.is_in_group("enemy") or node.is_in_group("fuel"):
 		points += node.point_value
+		if points > global.high_score:
+			global.high_score = points
 		if points >= 10000*(hpgained+1) and hp < 9:
 			hp += 1
 			hpgained += 1

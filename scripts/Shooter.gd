@@ -13,16 +13,17 @@ func _ready():
 	set_collision_layer_bit(-6, 1)
 	#terrain
 	set_collision_mask_bit(0, 1)
-	_reload()
 
 func _physics_process(delta):
 	velocity = Vector2(direction, 0) * full_stop
 
 func _on_PlayerDetectionArea_body_entered(body):
 	if body == player_node:
+		_reload()
 		full_stop = 1
 		$PlayerDetectionArea.queue_free()
 
 func _reload():
 	var bullet = BulletScene.instance()
-	add_child(bullet)
+	call_deferred("add_child", bullet)
+	bullet.add_collision_exception_with(self)
