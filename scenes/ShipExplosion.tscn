@@ -1,9 +1,10 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://scenes/EnemyShotExplosion.gd" type="Script" id=1]
 [ext_resource path="res://assets/Images/Sprites/Godot_White.png" type="Texture" id=2]
 [ext_resource path="res://assets/Images/Sprites/ship.png" type="Texture" id=3]
 [ext_resource path="res://assets/RRSounds/EnemyExplosion.ogg" type="AudioStream" id=4]
+[ext_resource path="res://assets/Images/Sprites/Smoke_Chunk.png" type="Texture" id=5]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Ship_Sinking_Rear"
@@ -108,9 +109,9 @@ curve = SubResource( 9 )
 
 [sub_resource type="ParticlesMaterial" id=11]
 emission_shape = 2
-emission_box_extents = Vector3( 1, 80, 1 )
+emission_box_extents = Vector3( 1, 120, 1 )
 flag_disable_z = true
-spread = 15.0
+spread = 24.73
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 300.0
 angular_velocity = 50.0
@@ -120,8 +121,8 @@ orbit_velocity_random = 0.0
 linear_accel_curve = SubResource( 6 )
 radial_accel_random = 0.5
 radial_accel_curve = SubResource( 8 )
-damping = 15.0
-scale = 100.0
+damping = 10.0
+scale = 2.0
 scale_curve = SubResource( 10 )
 color_ramp = SubResource( 4 )
 
@@ -182,11 +183,12 @@ max_distance = 10000.0
 position = Vector2( 0, -6 )
 rotation = -1.5708
 scale = Vector2( 0.2, 0.2 )
-amount = 100
-lifetime = 4.0
+amount = 200
+lifetime = 5.0
 speed_scale = 7.0
 explosiveness = 0.25
 randomness = 1.0
 local_coords = false
 draw_order = 1
 process_material = SubResource( 11 )
+texture = ExtResource( 5 )
