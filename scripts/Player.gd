@@ -122,11 +122,15 @@ func _ready():
 	
 
 func _input(event):
+	return
+	
 	if event.is_pressed():
-		if event.is_action("ui_left"):
+		if event.is_action("ui_left") :
 			input.x = -1
 		elif event.is_action("ui_right"):
-			input.x = 1
+			input.x = 1	
+	
+			
 		elif event.is_action("ui_up"):
 			forward_slowdown = 0
 			acceleration_dir = 1
@@ -135,14 +139,9 @@ func _input(event):
 			forward_slowdown = 0
 			acceleration_dir = -1
 
-			
-		elif event.is_action("ui_accept"):
-			pass
-			#fuel_decrease_rate -= 0.1
-			#fuel_decrease_rate = abs(fuel_decrease_rate)
-
 	elif event.is_action_released("ui_left") or event.is_action_released("ui_right"):
 		input.x = 0
+	
 	if event.is_action_released("ui_up") or event.is_action_released("ui_down"):
 		forward_slowdown = 1
 		
@@ -150,8 +149,8 @@ func _input(event):
 			acceleration_dir = -1
 		else:
 			acceleration_dir = 1
+			
 	if event.is_action("ui_select") and ammo > 0:
-		#refill = (refill+1)%2
 		var bullet = Bullet.instance()
 		bullet.scale = Vector2(4, 4)
 		add_child(bullet)
@@ -165,6 +164,9 @@ func _input(event):
 		#/Hubert
 
 func _process(delta):
+	
+	_hub_input()
+	
 	if forward_slowdown == 1:
 		if forward_speed == def_forward_speed and acceleration_dir != 0:
 			acceleration_dir = 0
@@ -193,7 +195,12 @@ func _process(delta):
 
 func _physics_process(delta):
 	var velocity = (input + Vector2(0, -1))*full_stop
-	forward_speed += acceleration_speed * acceleration_dir
+	
+	if (acceleration_dir!= 0):
+		forward_speed += acceleration_speed * acceleration_dir
+	if (forward_slowdown!=0 && acceleration_dir == 0):
+		forward_speed = forward_speed + sign(def_forward_speed - forward_speed) * acceleration_speed
+		#forward_speed += acceleration_speed * 
 	forward_speed = clamp(forward_speed, min_forward_speed, max_forward_speed)	
 	velocity.x *= movement_speed
 	
@@ -318,4 +325,35 @@ func _set_dam_score( var lvl):
 func _increment_level():
 	_set_dam_score(level + 1)
 	print ("Player advanced to level %s!"%level)
+	
+func _hub_input():
+	if (Input.is_action_pressed("ui_left") && !Input.is_action_pressed("ui_right")):
+		input.x = -1
+	elif (Input.is_action_pressed("ui_right") && !Input.is_action_pressed("ui_left") ):
+		input.x = 1
+	else:
+		input.x = 0
+	
+	if (Input.is_action_pressed("ui_up") && !Input.is_action_pressed("ui_down")):
+		forward_slowdown = 0
+		acceleration_dir = 1
+	elif (Input.is_action_pressed("ui_down") && !Input.is_action_pressed("ui_up") ):
+		forward_slowdown = 0
+		acceleration_dir = -1
+	
+	else:
+		acceleration_dir = 0
+		forward_slowdown = 1
+	
+	if Input.is_action_pressed("ui_select") and ammo > 0:
+		var bullet = Bullet.instance()
+		bullet.scale = Vector2(4, 4)
+		add_child(bullet)
+
+		connect("free_the_bullet", bullet, "_death")
+		
+		ammo -= 1
+		#Hubert
+		$Pew.play(0.0)
+		#/Hubert
 #/Hubert
