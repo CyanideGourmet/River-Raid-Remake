@@ -2,6 +2,8 @@ extends Control
 onready var quit_yes = find_node("Yes")
 onready var quit_no = find_node("No")
 
+var high_score = 0
+
 func _start():
 
 	seed(2137)

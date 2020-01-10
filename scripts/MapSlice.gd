@@ -134,7 +134,7 @@ func _ready():
 	player_node = get_tree().get_root().get_node("Main").get_node("Player")
 	#player/chopper
 	set_collision_layer_bit(0, 1)
-	$Area.set_collision_layer_bit(0, 1)
+	$Area.set_collision_layer_bit(101, 1)
 	#bullet
 	set_collision_layer_bit(-100, 1)
 # warning-ignore:return_value_discarded
@@ -285,8 +285,8 @@ func _instance_entities(entities_list):
 			call_deferred("add_child", entity)
 			entity.position = Vector2(entities_list[entities_list.size()-1-i][1][1]*32, (entities_list.size()-1-i+15)*32)
 			instanced_entities.append(entity)
-		if i > 10:
-			yield(get_tree().create_timer(0.06), "timeout")
+		#if i > 10:
+			#yield(get_tree().create_timer(0.06), "timeout")
 
 func _clear_entities():
 	for i in instanced_entities:
@@ -329,6 +329,10 @@ func _fuel(fuel):
 					n += 1
 			else:
 				n += _randint(1, 32)
+			if map_matrix[n+1][i+15] != [0, 0, 0] or map_matrix[n+2][i+15] != [0, 0, 0]:
+				n -= 2
+			if map_matrix[n-1][i+15] != [0, 0, 0] or map_matrix[n-2][i+15] != [0, 0, 0]:
+				n += 2
 			entities[i] = [true, [FuelScene, n]]
 			fuel -= 1
 		i += 1
@@ -349,6 +353,10 @@ func _choppers(choppers):
 					n += 1
 			else:
 				n += _randint(1, 32)
+			if map_matrix[n+1][i+15] != [0, 0, 0] or map_matrix[n+2][i+15] != [0, 0, 0]:
+				n -= 2
+			if map_matrix[n-1][i+15] != [0, 0, 0] or map_matrix[n-2][i+15] != [0, 0, 0]:
+				n += 2
 			entities[i] = [true, [ChopperScene, n]]
 			choppers -= 1
 		i += 1
@@ -369,6 +377,10 @@ func _heavies(heavies):
 					n += 1
 			else:
 				n += _randint(1, 32)
+			if map_matrix[n+1][i+15] != [0, 0, 0] or map_matrix[n+2][i+15] != [0, 0, 0]:
+				n -= 2
+			if map_matrix[n-1][i+15] != [0, 0, 0] or map_matrix[n-2][i+15] != [0, 0, 0]:
+				n += 2
 			entities[i] = [true, [HeavyScene, n]]
 			heavies -= 1
 		i += 1
@@ -401,6 +413,10 @@ func _ships(ships):
 					n += 1
 			else:
 				n += _randint(1, 32)
+			if map_matrix[n+1][i+15] != [0, 0, 0] or map_matrix[n+2][i+15] != [0, 0, 0]:
+				n -= 2
+			if map_matrix[n-1][i+15] != [0, 0, 0] or map_matrix[n-2][i+15] != [0, 0, 0]:
+				n += 2
 			entities[i] = [true, [ShipScene, n]]
 			ships -= 1
 		i += 1
@@ -421,6 +437,10 @@ func _shooters(shooters):
 					n += 1
 			else:
 				n += _randint(1, 32)
+			if map_matrix[n+1][i+15] != [0, 0, 0] or map_matrix[n+2][i+15] != [0, 0, 0]:
+				n -= 2
+			if map_matrix[n-1][i+15] != [0, 0, 0] or map_matrix[n-2][i+15] != [0, 0, 0]:
+				n += 2
 			entities[i] = [true, [ShooterScene, n]]
 			shooters -= 1
 		i += 1

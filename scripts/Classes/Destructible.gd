@@ -21,6 +21,7 @@ func _ready():
 	connect("destroyed", player_node, "_hit_a_node")
 	connect("destroyed", get_parent(), "_node_destroyed")
 	connect("clear_node", get_parent(), "_node_destroyed")
+	set_collision_mask_bit(-21, 1)
 	yield(get_tree().create_timer(1), "timeout")
 	if position.x < 960:
 		rotation_degrees += 180

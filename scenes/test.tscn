@@ -9,3 +9,4 @@
 position = Vector2( 954.124, 1006.44 )
 
 [node name="Tank" parent="." instance=ExtResource( 2 )]
+position = Vector2( 1894.78, 614.809 )
