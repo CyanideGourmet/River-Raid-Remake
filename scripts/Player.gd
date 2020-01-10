@@ -328,6 +328,7 @@ func _set_dam_score( var lvl):
 func _increment_level():
 	_set_dam_score(level + 1)
 	print ("Player advanced to level %s!"%level)
+	print_stack()
 	
 func _hub_input():
 	if (Input.is_action_pressed("ui_left") && !Input.is_action_pressed("ui_right")):

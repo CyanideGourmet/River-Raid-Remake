@@ -110,7 +110,7 @@ func _islands(step_memory):
 func _mapslice_entered(body):
 	if body == player_node:
 		current_mapslice = true
-		emit_signal("mapslice_changed", self)
+		#emit_signal("mapslice_changed", self)
 	
 
 func _mapslice_exited(body):
