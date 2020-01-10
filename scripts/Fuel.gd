@@ -10,7 +10,7 @@ signal clear_node
 var player_node
 
 func _ready():
-	scale = Vector2(1.5, 1.5)
+	scale = Vector2(2, 2)
 	#player
 	set_collision_layer_bit(2, 1)
 	#bullet

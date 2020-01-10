@@ -6,6 +6,7 @@ func _ready():
 	set_collision_mask_bit(1, 1)
 	$PlayerDetectionArea.set_collision_layer_bit(7, 1)
 
+# warning-ignore:unused_argument
 func _physics_process(delta):
 	velocity = Vector2(direction, 0) * full_stop
 

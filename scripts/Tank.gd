@@ -15,6 +15,7 @@ func _ready():
 	if position.x < 960:
 		rotation_degrees += 180
 		direction = 1
+# warning-ignore:return_value_discarded
 	connect("clear_node", get_parent(), "_node_destroyed")
 	yield(get_tree().create_timer(0.5), "timeout")
 	_reload()

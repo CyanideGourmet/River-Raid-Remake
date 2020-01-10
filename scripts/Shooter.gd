@@ -15,6 +15,7 @@ func _ready():
 	#terrain
 	set_collision_mask_bit(0, 1)
 
+# warning-ignore:unused_argument
 func _physics_process(delta):
 	velocity = Vector2(direction, 0) * full_stop
 
