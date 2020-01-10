@@ -218,8 +218,8 @@ func _death():
 	full_stop = 0
 	refill = 1
 	yield(get_tree().create_timer(3), "timeout")
-	$CollisionShape2D.disabled = false
 	position = current_mapslice.position + Vector2(960, 8500)
+	$CollisionShape2D.disabled = false
 	emit_signal("player_died")
 	if hp == 0:
 		get_tree().change_scene("res://scenes/Menu.tscn")
