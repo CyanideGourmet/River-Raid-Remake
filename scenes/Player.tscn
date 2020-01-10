@@ -36,6 +36,7 @@ position = Vector2( 0, 12.9414 )
 shape = SubResource( 1 )
 
 [node name="player_check" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 37.71 )
 shape = SubResource( 2 )
 
 [node name="Camera" type="Camera2D" parent="."]

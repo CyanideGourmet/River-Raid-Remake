@@ -29,8 +29,10 @@ var refill = 0
 var input = Vector2(0, 0)
 
 
+# warning-ignore:unused_class_variable
 var engine_sound
 var isLowOnFuel = false
+# warning-ignore:unused_class_variable
 var isFullOnFuel = false
 var current_pitch_scale = 1
 
@@ -47,9 +49,11 @@ var GUI_Score
 var GUI_HiScore
 var GUI_FuelIndicator
 var GUI_Lives = []
+# warning-ignore:unused_class_variable
 onready var GUI_default_fuel_color = Color(200.0/255.0, 1.0, 1.0, 1.0)
 #/Hubert
 
+# warning-ignore:unused_signal
 signal free_the_bullet
 signal player_died
 
@@ -107,6 +111,7 @@ func _ready():
 	set_collision_layer_bit(-20, 1)
 	#explosion
 	set_collision_mask_bit(-21, 1)
+# warning-ignore:return_value_discarded
 	connect("player_died", current_mapslice, "_reset")
 	
 
@@ -138,6 +143,7 @@ func _input(event):
 		bullet.scale = Vector2(4, 4)
 		add_child(bullet)
 #		bullet.connect("bullet_freed", self, "_on_bullet_freed")
+# warning-ignore:return_value_discarded
 		connect("free_the_bullet", bullet, "_death")
 		ammo -= 1
 		#Hubert
@@ -153,6 +159,7 @@ func _input(event):
 	if Input.is_key_pressed(KEY_F4):
 		set_collision_mask_bit(0, 1)
 
+# warning-ignore:unused_argument
 func _process(delta):
 	_hub_input()
 	if forward_slowdown == 1:
@@ -213,22 +220,22 @@ func _physics_process(delta):
 			GUI_FuelIndicator.position = Vector2.UP * lerp(-217.5, 0, fuel * 0.01)
 
 func _death():
-
 	var explosionInstance = explosion.instance()
 	if (explosionInstance):
 		add_child(explosionInstance)
 		explosionInstance._init_explosion(0, global_position)
-	
+	$Sprite.hide()
 	$CollisionShape2D.disabled = true
-
 	fuel = 100
 	full_stop = 0
 	refill = 1
 	yield(get_tree().create_timer(3), "timeout")
 	position = current_mapslice.position + Vector2(960, 8500)
 	$CollisionShape2D.disabled = false
+	$Sprite.show()
 	emit_signal("player_died")
 	if hp == 0:
+# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://scenes/Menu.tscn")
 	hp -= 1
 	HP_t.text = "Lives: " + str(hp)
@@ -270,6 +277,7 @@ func _current_mapslice_changed(node):
 	disconnect("player_died", current_mapslice, "_reset")
 	
 	current_mapslice = node
+# warning-ignore:return_value_discarded
 	connect("player_died", current_mapslice, "_reset")
 	
 func _hit_a_node(node):
@@ -335,6 +343,7 @@ func _hub_input():
 		bullet.scale = Vector2(4, 4)
 		add_child(bullet)
 
+# warning-ignore:return_value_discarded
 		connect("free_the_bullet", bullet, "_death")
 		
 		ammo -= 1

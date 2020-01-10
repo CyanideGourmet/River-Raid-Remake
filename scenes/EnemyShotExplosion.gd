@@ -15,6 +15,7 @@ var is_set_one_shot = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#print (str(get_owner()) + " initialized, lifetime: " + str(lifetime))
+# warning-ignore:unused_variable
 	var timer = 0
 	_find_explosions_recursive(self)
 	
@@ -82,6 +83,7 @@ func _set_one_shot():
 
 func _exit_tree():
 	return
+# warning-ignore:unreachable_code
 	if (timer < lifetime ):
 		if(identifier != ""):
 			print (identifier + "'s explosion deleted prematurely after: " + str(timer))

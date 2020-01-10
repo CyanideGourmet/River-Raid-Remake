@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+# warning-ignore:unused_class_variable
 export var point_value = 0
 export var movement_speed = 0
 export var wreckage_speed_multiplier = 0
@@ -18,8 +19,11 @@ signal clear_node
 func _ready():
 	add_to_group("enemy")
 	player_node = get_tree().get_root().get_node("Main").get_node("Player")
+# warning-ignore:return_value_discarded
 	connect("destroyed", player_node, "_hit_a_node")
+# warning-ignore:return_value_discarded
 	connect("destroyed", get_parent(), "_node_destroyed")
+# warning-ignore:return_value_discarded
 	connect("clear_node", get_parent(), "_node_destroyed")
 	set_collision_mask_bit(-21, 1)
 	yield(get_tree().create_timer(1), "timeout")
