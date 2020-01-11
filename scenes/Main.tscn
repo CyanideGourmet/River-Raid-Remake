@@ -78,6 +78,7 @@ collision_mask = 5
 def_forward_speed = 400
 max_forward_speed = 600
 acceleration_speed = 50
+score_multiplier = 4
 
 [node name="UI" parent="." instance=ExtResource( 6 )]
 

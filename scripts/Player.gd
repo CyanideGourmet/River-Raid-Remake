@@ -240,11 +240,13 @@ func _death():
 		explosionInstance._init_explosion(0, global_position)
 	$Sprite.hide()
 	ammo = 0
+	$player_check.position += Vector2(100, 100)
 	$CollisionShape2D.disabled = true
 	fuel = 100
 	full_stop = 0
 	refill = 1
 	yield(get_tree().create_timer(3), "timeout")
+	$player_check.position -= Vector2(100, 100)
 	position = current_mapslice.position + Vector2(960, 8500)
 	$CollisionShape2D.disabled = false
 	$Sprite.show()

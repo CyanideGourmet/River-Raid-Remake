@@ -63,6 +63,7 @@ volume_db = -25.0
 
 [node name="LiveUp" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 6 )
+volume_db = 12.0
 attenuation = 0.000311178
 
 [node name="RefillSound" type="AudioStreamPlayer2D" parent="."]
