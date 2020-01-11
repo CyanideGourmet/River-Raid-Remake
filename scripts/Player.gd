@@ -51,6 +51,7 @@ var GUI_FuelIndicator
 var GUI_Lives = []
 # warning-ignore:unused_class_variable
 onready var GUI_default_fuel_color = Color(200.0/255.0, 1.0, 1.0, 1.0)
+var globals
 #/Hubert
 
 # warning-ignore:unused_signal
@@ -58,6 +59,12 @@ signal free_the_bullet
 signal player_died
 
 func _ready():
+	var root = get_tree().get_root()
+	for i in range (0, root.get_child_count()):
+		print ("%s child of root = %s"%[i, root.get_child(i).name])
+		
+	globals  = root.get_child(0)
+	print ("Globals found! %s( %s)"%[globals, globals.name])
 	camera_pos = $Camera.position
 	current_mapslice = get_parent().get_node("MapSlice")
 	UI = get_tree().get_root().get_node("Main").get_node("UI")
@@ -77,7 +84,7 @@ func _ready():
 		if GUI_Score:
 			GUI_Score.text = "0"
 		if GUI_HiScore:
-			GUI_HiScore.text = "0"
+			GUI_HiScore.text = str(globals.high_score)
 		var lives_group = GUI.find_node("LivesGroup")
 		if lives_group:
 			for i in range(0, lives_group.get_child_count()):
@@ -300,10 +307,10 @@ func _hit_a_node(node):
 	if node.is_in_group("enemy") or node.is_in_group("fuel"):
 		#points += node.point_value
 		points += node.point_value * score_multiplier
-		if points > global.high_score:
-			global.high_score = points
+		if points > globals.high_score:
+			globals.high_score = points
 			if GUI_HiScore:
-				GUI_HiScore.text = str(points)
+				GUI_HiScore.text = str(globals.high_score)
 		if points >= 10000*(hpgained+1) and hp < 9:
 			#Hubert
 			GUI_Lives[hp].visible = true
