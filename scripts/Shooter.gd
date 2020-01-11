@@ -1,7 +1,7 @@
 extends "res://scripts/Classes/Destructible.gd"
 
 var BulletScene = preload("res://scenes/EnemyBullet.tscn")
-
+onready var gun = $Gun
 func _ready():
 	explosion = preload("res://scenes/Chopper_Explosion.tscn")
 	point_value = 150
@@ -27,5 +27,8 @@ func _on_PlayerDetectionArea_body_entered(body):
 
 func _reload():
 	var bullet = BulletScene.instance()
+	if (gun):
+		gun.play(0)
+		
 	call_deferred("add_child", bullet)
 	bullet.add_collision_exception_with(self)

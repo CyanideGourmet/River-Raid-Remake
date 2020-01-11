@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Tank_Explosion.ogg-f17ab97f7bc3b86b62f25af39c2475bb.oggstr"
+
+[deps]
+
+source_file="res://assets/RRSounds/Tank_Explosion.ogg"
+dest_files=[ "res://.import/Tank_Explosion.ogg-f17ab97f7bc3b86b62f25af39c2475bb.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

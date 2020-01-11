@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Rifle.ogg-a566236f2ab91384644bde392e8c8dd5.oggstr"
+
+[deps]
+
+source_file="res://assets/RRSounds/Rifle.ogg"
+dest_files=[ "res://.import/Rifle.ogg-a566236f2ab91384644bde392e8c8dd5.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

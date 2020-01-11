@@ -28,6 +28,7 @@ func _reload():
 	var bullet = BulletScene.instance()
 	add_child(bullet)
 	bullet.bullet_range = ranges
+	$Tank_Gun.play(0)
 
 func _clear():
 	emit_signal("clear_node", self)

@@ -19,11 +19,17 @@ func _physics_process(delta):
 
 func _explode():
 	velocity = Vector2(0, 0)
+	if $ExplosionArea/Explosion.visible && $ExplosionArea/Explosion.frame == 0:
+		$ExplosionArea/Boom.play(0)
+		print ("Played explosion sound")
+		
+		
 	$Body.hide()
 	$ExplosionArea/Explosion.speed_scale = 8/explosion_length
 	$ExplosionArea/Explosion.show()
 	$ExplosionArea/Explosion.play()
 	$ExplosionArea.set_collision_layer_bit(-21, 1)
+	
 
 func _kill(node):
 	if node.is_in_group("player") or node.is_in_group("enemy"):

@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/Shooter.gd" type="Script" id=1]
 [ext_resource path="res://assets/Images/Sprites/body czop-1.png" type="Texture" id=2]
 [ext_resource path="res://assets/Images/Sprites/smiglo kopia 2.png" type="Texture" id=3]
 [ext_resource path="res://assets/Images/Sprites/Rotor.anim" type="Animation" id=4]
+[ext_resource path="res://assets/RRSounds/Rifle.ogg" type="AudioStream" id=5]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 47.6833
@@ -41,4 +42,10 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionArea"]
 shape = SubResource( 2 )
+
+[node name="Gun" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+volume_db = -10.0
+pitch_scale = 0.55
+max_distance = 1000.0
 [connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_PlayerDetectionArea_body_entered"]

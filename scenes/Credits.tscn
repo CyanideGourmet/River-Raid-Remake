@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scenes/CreditsParent.gd" type="Script" id=1]
 [ext_resource path="res://assets/Fonts/AC_Line_Credits_Marek_Bold.tres" type="DynamicFont" id=2]
 [ext_resource path="res://assets/Fonts/AC_Line_Credits_Marek_Regular.tres" type="DynamicFont" id=3]
-[ext_resource path="res://scenes/MusicPlayer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/Images/Menus/Marek_Logo.png" type="Texture" id=4]
+[ext_resource path="res://scenes/MusicPlayer.tscn" type="PackedScene" id=5]
 
 [node name="Credits" type="CanvasLayer"]
 
@@ -15,20 +16,25 @@ color = Color( 0.0509804, 0.0588235, 0.0627451, 1 )
 [node name="CreditsParent" type="Node2D" parent="."]
 position = Vector2( 0, 1080 )
 script = ExtResource( 1 )
-credits_speed = 100.0
+credits_speed = 150.0
 
 [node name="ActualCredits" type="RichTextLabel" parent="CreditsParent"]
-margin_left = 300.0
-margin_right = 1620.0
-margin_bottom = 10000.0
+margin_left = 100.0
+margin_right = 1820.0
+margin_bottom = 15000.0
 custom_fonts/bold_font = ExtResource( 2 )
 custom_fonts/normal_font = ExtResource( 3 )
 bbcode_enabled = true
 bbcode_text = "[center]
 Thank you for playing
 
-[b]Predator[/b]
-path of the chosen
+
+
+
+
+
+
+
 
 
 
@@ -101,6 +107,27 @@ by
 Elan \"Argitoth\" Hickler
 
 
+Machine Gun
+by
+Jard \"JarAxe\" Gronas.
+
+
+Tanks Shooting.flac
+by
+Iwan 'qubodup' Gabovitch
+
+
+Artillery Explosion (Close) (Mixed)
+by
+EFlexMusic
+
+
+Heartbeat, Regular, Single, 01-01, LOOP.wav
+by
+Jonathan \"InspectorJ\" Shaw
+
+
+
 
 [b]Sound Effects (Youtube.com)[/b]
 
@@ -111,15 +138,39 @@ Grant Evans
 (Youtube: ThatSFXGuy)
 
 
+Predator sound effects (free)
+[hissing sound]
+by
+Syd's Room
+https://www.youtube.com/watch?v=1SGJDrVJzMI
+
+
+
+[b]Powered by:[/b]
+
+Godot
+
+Adobe Photoshop
+
+Audacity
+
+GitLab
+
+Discord
+
+Trello
+
+Google Docs
 
 
 
 
 [b]PREDATOR[/b] 
-trademark 
-is a property 
-of 	
-[b]The Walt Disney Company
+
+trademark is a property of 	
+
+[b]
+The Walt Disney Company
 (via 20th Century Fox)[/b]
 
 
@@ -131,6 +182,7 @@ This game was based on
 
 a video game created 
 by
+
 [b]Carol Shaw - Activision[/b]
 1982-1983
 
@@ -145,7 +197,10 @@ by
 
 
 
-No Aliens were hurt during development.
+
+
+
+No Aliens were hurt during development
 
 
 
@@ -154,8 +209,13 @@ No Aliens were hurt during development.
 text = "
 Thank you for playing
 
-Predator
-path of the chosen
+
+
+
+
+
+
+
 
 
 
@@ -228,6 +288,27 @@ by
 Elan \"Argitoth\" Hickler
 
 
+Machine Gun
+by
+Jard \"JarAxe\" Gronas.
+
+
+Tanks Shooting.flac
+by
+Iwan 'qubodup' Gabovitch
+
+
+Artillery Explosion (Close) (Mixed)
+by
+EFlexMusic
+
+
+Heartbeat, Regular, Single, 01-01, LOOP.wav
+by
+Jonathan \"InspectorJ\" Shaw
+
+
+
 
 Sound Effects (Youtube.com)
 
@@ -238,14 +319,38 @@ Grant Evans
 (Youtube: ThatSFXGuy)
 
 
+Predator sound effects (free)
+[hissing sound]
+by
+Syd's Room
+https://www.youtube.com/watch?v=1SGJDrVJzMI
+
+
+
+Powered by:
+
+Godot
+
+Adobe Photoshop
+
+Audacity
+
+GitLab
+
+Discord
+
+Trello
+
+Google Docs
 
 
 
 
 PREDATOR 
-trademark 
-is a property 
-of 	
+
+trademark is a property of 	
+
+
 The Walt Disney Company
 (via 20th Century Fox)
 
@@ -258,6 +363,7 @@ River Raid
 
 a video game created 
 by
+
 Carol Shaw - Activision
 1982-1983
 
@@ -272,13 +378,21 @@ Carol Shaw - Activision
 
 
 
-No Aliens were hurt during development.
+
+
+
+No Aliens were hurt during development
 
 
 
 
 "
 scroll_active = false
+
+[node name="Marek_Logo" type="Sprite" parent="CreditsParent/ActualCredits"]
+position = Vector2( 860, 425 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 4 )
 
 [node name="LoremIpsum" type="RichTextLabel" parent="CreditsParent"]
 visible = false
@@ -1900,13 +2014,13 @@ scroll_active = false
 
 [node name="UpperFrame" type="ColorRect" parent="."]
 margin_right = 1920.0
-margin_bottom = 200.0
+margin_bottom = 150.0
 color = Color( 0.0509804, 0.0588235, 0.0627451, 1 )
 
 [node name="LowerFrame" type="ColorRect" parent="."]
-margin_top = 880.0
+margin_top = 930.0
 margin_right = 1920.0
 margin_bottom = 1080.0
 color = Color( 0.0509804, 0.0588235, 0.0627451, 1 )
 
-[node name="MusicPlayer" parent="." instance=ExtResource( 4 )]
+[node name="MusicPlayer" parent="." instance=ExtResource( 5 )]
