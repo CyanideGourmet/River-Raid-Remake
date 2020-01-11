@@ -232,6 +232,7 @@ func _death():
 		add_child(explosionInstance)
 		explosionInstance._init_explosion(0, global_position)
 	$Sprite.hide()
+	ammo = 0
 	$CollisionShape2D.disabled = true
 	fuel = 100
 	full_stop = 0
@@ -264,6 +265,7 @@ func _death():
 	#explosion
 	set_collision_mask_bit(-21, 1)
 	get_tree().paused = true
+	ammo = 1
 	$EngineSound.play(0)
 
 func _reload():
